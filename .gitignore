@@ -1,0 +1,54 @@
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Java class files
+*.class
+
+# Build directories
+/target/
+/out/
+
+# Maven
+target/
+*.log
+
+# Gradle
+.gradle/
+/build/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# MacOS system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary files
+*.swp
+*~
+
+# IDE-specific files
+.vscode/
+.idea/
+
+# JetBrains Rider (C# and .NET support)
+.idea/.idea/
+
+# Java dependencies (can be excluded if using Maven/Gradle)
+lib/
+
+# Docker
+.docker/
+
+# Environment files
+.env
