@@ -1,5 +1,7 @@
 package htw.prog3.KTM.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import htw.prog3.KTM.model.Kunde;
 import htw.prog3.KTM.repository.KundeRepository;
 
@@ -8,6 +10,7 @@ import java.util.Optional;
 
 public class KundeService {
 
+    private static final Logger logger = LoggerFactory.getLogger(KundeService.class);
     private final KundeRepository kundeRepository;
 
     // Konstruktor für Dependency Injection
@@ -17,6 +20,7 @@ public class KundeService {
 
     // Alle Kunden abrufen
     public List<Kunde> getAllKunden() {
+        logger.info("Abrufen aller Kunden");
         return kundeRepository.findAll();
     }
 

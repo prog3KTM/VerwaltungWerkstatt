@@ -1,0 +1,29 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <!-- Konfiguration des Appenders (wie und wohin Logs geschrieben werden) -->
+    <Appenders>
+        <!-- Konfiguration für die Konsolenausgabe -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout>
+                <!-- Format für Log-Ausgaben -->
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+        </Console>
+    </Appenders>
+
+    <!-- Logger-Konfigurationen -->
+    <Loggers>
+        <!-- Logger für dein Projekt -->
+        <Logger name="htw.prog3.KTM" level="debug">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <!-- Root-Logger, um die Standard-Level und Appender zu definieren -->
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
