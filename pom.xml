@@ -115,7 +115,7 @@
                   <excludes></excludes>
                 </database>
                 <target>
-                  <packageName>test.generated</packageName>
+                  <packageName>htw.prog3.KTM.generated</packageName>
                   <directory>target/generated-sources/jooq</directory>
                 </target>
               </generator>
