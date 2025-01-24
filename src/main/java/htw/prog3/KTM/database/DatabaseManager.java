@@ -23,7 +23,14 @@ public class DatabaseManager {
     }
 
     // Stellt eine Verbindung zur SQLite-Datenbank her
-    public Connection getConnection() {
+    public static Connection getConnection() {
+        if (CONNECTION == null) {
+            try {
+                CONNECTION = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            } catch (SQLException e) {
+                throw new RuntimeException("Could not connect to database", e);
+            }
+        }
         return CONNECTION;
     }
 
