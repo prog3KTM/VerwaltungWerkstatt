@@ -2,6 +2,7 @@ package htw.prog3.KTM.repository;
 
 import htw.prog3.KTM.model.Auto.Auto;
 import htw.prog3.KTM.database.DatabaseManager;
+import htw.prog3.KTM.model.Auto.AutoStatus;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -23,7 +24,8 @@ public class AutoRepository {
                         rs.getInt("id"),
                         rs.getString("model"),
                         rs.getString("brand"),
-                        rs.getString("licensePlate")
+                        rs.getString("licensePlate"),
+                        AutoStatus.fromValue(rs.getInt("autostatus"))
                 );
                 autos.add(auto);
             }
@@ -68,7 +70,8 @@ public class AutoRepository {
                             rs.getInt("id"),
                             rs.getString("model"),
                             rs.getString("brand"),
-                            rs.getString("licensePlate")
+                            rs.getString("licensePlate"),
+                            AutoStatus.fromValue(rs.getInt("autostatus"))
                     );
                 }
             }

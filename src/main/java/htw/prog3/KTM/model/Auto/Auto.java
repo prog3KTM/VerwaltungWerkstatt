@@ -5,12 +5,14 @@ public class Auto {
     private String model;
     private String brand;
     private String licensePlate;
+    private AutoStatus autoStatus;
 
-    public Auto(int id, String model, String brand, String licensePlate) {
+    public Auto(int id, String model, String brand, String licensePlate, AutoStatus autoStatus) {
         this.id = id;
         this.model = model;
         this.brand = brand;
         this.licensePlate = licensePlate;
+        this.autoStatus = autoStatus;
     }
 
     public int getId() {
@@ -41,6 +43,14 @@ public class Auto {
         return licensePlate;
     }
 
+    public AutoStatus getAutoStatus() {
+        return autoStatus;
+    }
+
+    public void setAutoStatus(AutoStatus autoStatus) {
+        this.autoStatus = autoStatus;
+    }
+
     public void setLicensePlate(String licensePlate) {
         this.licensePlate = licensePlate;
     }
@@ -52,6 +62,7 @@ public class Auto {
                 ", model='" + model + '\'' +
                 ", brand='" + brand + '\'' +
                 ", licensePlate='" + licensePlate + '\'' +
+                ", autostatus='" + autoStatus + '\'' +
                 '}';
     }
 }
