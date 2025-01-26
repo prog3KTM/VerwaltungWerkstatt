@@ -15,6 +15,31 @@ public class Auto {
         this.autoStatus = autoStatus;
     }
 
+    public enum AutoStatus {
+        AVAILABLE(1),
+        IN_SERVICE(2),
+        SOLD(3);
+
+        private final int code;
+
+        AutoStatus(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public static AutoStatus fromCode(int code) {
+            for (AutoStatus status : values()) {
+                if (status.getCode() == code) {
+                    return status;
+                }
+            }
+            throw new IllegalArgumentException("Unknown AutoStatus code: " + code);
+        }
+    }
+
     public int getId() {
         return id;
     }

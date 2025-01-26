@@ -1,5 +1,6 @@
 package htw.prog3.KTM.controller;
 
+import htw.prog3.KTM.database.DatabaseManager;
 import htw.prog3.KTM.model.Auto.Auto;
 import htw.prog3.KTM.repository.AutoRepository;
 
@@ -8,8 +9,8 @@ import java.util.List;
 public class AutoController {
     private final AutoRepository autoRepository;
 
-    public AutoController() {
-        this.autoRepository = new AutoRepository();
+    public AutoController(DatabaseManager databaseManager) {
+        this.autoRepository = new AutoRepository(databaseManager);
     }
 
     public List<Auto> getAllAutos() {
@@ -21,7 +22,7 @@ public class AutoController {
     }
 
     public Auto getAutoById(int id) {
-        return autoRepository.findById(id);
+        return autoRepository.findById(id).orElse(null); // Return null if no car is found
     }
 
     public void deleteAutoById(int id) {
