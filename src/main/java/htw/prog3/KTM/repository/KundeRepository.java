@@ -82,7 +82,7 @@ public class KundeRepository {
         }
     }
 
-    // Einen Kunden löschen
+    // Einen Kunden lÃ¶schen
     public void delete(int id) {
         try (Connection conn = getConnection()) {
             DSLContext create = DSL.using(conn);
@@ -93,7 +93,7 @@ public class KundeRepository {
                 throw new RuntimeException("Kunde mit ID " + id + " nicht gefunden.");
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Fehler beim Löschen des Kunden", e);
+            throw new RuntimeException("Fehler beim LÃ¶schen des Kunden", e);
         }
     }
 }

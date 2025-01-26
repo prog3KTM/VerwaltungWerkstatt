@@ -13,7 +13,7 @@ public class KundeService {
     private static final Logger logger = LoggerFactory.getLogger(KundeService.class);
     private final KundeRepository kundeRepository;
 
-    // Konstruktor für Dependency Injection
+    // Konstruktor fÃ¼r Dependency Injection
     public KundeService(KundeRepository kundeRepository) {
         this.kundeRepository = kundeRepository;
     }
@@ -39,7 +39,7 @@ public class KundeService {
         kundeRepository.update(kunde);
     }
 
-    // Einen Kunden löschen
+    // Einen Kunden lÃ¶schen
     public void deleteKunde(int id) {
         kundeRepository.delete(id);
     }

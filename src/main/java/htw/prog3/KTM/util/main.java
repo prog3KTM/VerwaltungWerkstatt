@@ -32,9 +32,9 @@ public class main {
             System.out.println("\nKundenverwaltung:");
             System.out.println("1. Alle Kunden anzeigen");
             System.out.println("2. Kunden nach ID suchen");
-            System.out.println("3. Neuen Kunden hinzufügen");
+            System.out.println("3. Neuen Kunden hinzufÃ¼gen");
             System.out.println("4. Kunden aktualisieren");
-            System.out.println("5. Kunden löschen");
+            System.out.println("5. Kunden lÃ¶schen");
             System.out.println("6. Beenden");
 
             int choice = scanner.nextInt();
@@ -53,20 +53,20 @@ public class main {
                         kundeOpt.ifPresent(k -> System.out.println(k));
                         break;
                     case 3:
-                        // Benutzerabfrage für neuen Kunden
+                        // Benutzerabfrage fÃ¼r neuen Kunden
                         break;
                     case 4:
-                        // Benutzerabfrage für Kundenaktualisierung
+                        // Benutzerabfrage fÃ¼r Kundenaktualisierung
                         break;
                     case 5:
-                        // Benutzerabfrage für Kundenlöschung
+                        // Benutzerabfrage fÃ¼r KundenlÃ¶schung
                         break;
                     case 6:
                         running = false;
                         System.out.println("Beenden...");
                         break;
                     default:
-                        System.out.println("Ungültige Wahl!");
+                        System.out.println("UngÃ¼ltige Wahl!");
                 }
             } catch (SQLException e) {
                 System.out.println("Datenbankfehler: " + e.getMessage());

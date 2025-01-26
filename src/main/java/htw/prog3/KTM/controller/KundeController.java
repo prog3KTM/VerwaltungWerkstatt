@@ -36,7 +36,7 @@ public class KundeController {
         kundeService.updateKunde(kunde);
     }
 
-    // Einen Kunden löschen
+    // Einen Kunden lÃ¶schen
     public void deleteKunde(int id) throws SQLException {
         kundeService.deleteKunde(id);
     }
