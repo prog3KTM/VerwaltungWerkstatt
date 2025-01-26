@@ -9,6 +9,8 @@
 - Speicherung und Aktualisierung von Benutzerinformationen.
 - Bereitstellung von Daten, die vom Controller oder der View benötigt werden.
 
+## Simply use Records!!!
+
 ## Code-Beispiel
 ```java
 public class User {

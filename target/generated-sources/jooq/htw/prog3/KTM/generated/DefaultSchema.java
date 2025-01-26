@@ -5,6 +5,7 @@ package htw.prog3.KTM.generated;
 
 
 import htw.prog3.KTM.generated.tables.Auto;
+import htw.prog3.KTM.generated.tables.Konfigurationstabelle;
 import htw.prog3.KTM.generated.tables.Kunde;
 
 import java.util.Arrays;
@@ -34,6 +35,11 @@ public class DefaultSchema extends SchemaImpl {
     public final Auto AUTO = Auto.AUTO;
 
     /**
+     * The table <code>Konfigurationstabelle</code>.
+     */
+    public final Konfigurationstabelle KONFIGURATIONSTABELLE = Konfigurationstabelle.KONFIGURATIONSTABELLE;
+
+    /**
      * The table <code>Kunde</code>.
      */
     public final Kunde KUNDE = Kunde.KUNDE;
@@ -55,6 +61,7 @@ public class DefaultSchema extends SchemaImpl {
     public final List<Table<?>> getTables() {
         return Arrays.asList(
             Auto.AUTO,
+            Konfigurationstabelle.KONFIGURATIONSTABELLE,
             Kunde.KUNDE
         );
     }

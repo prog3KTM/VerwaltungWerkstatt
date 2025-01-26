@@ -5,6 +5,7 @@ package htw.prog3.KTM.generated;
 
 
 import htw.prog3.KTM.generated.tables.Auto;
+import htw.prog3.KTM.generated.tables.Konfigurationstabelle;
 import htw.prog3.KTM.generated.tables.Kunde;
 
 
@@ -18,6 +19,11 @@ public class Tables {
      * The table <code>Auto</code>.
      */
     public static final Auto AUTO = Auto.AUTO;
+
+    /**
+     * The table <code>Konfigurationstabelle</code>.
+     */
+    public static final Konfigurationstabelle KONFIGURATIONSTABELLE = Konfigurationstabelle.KONFIGURATIONSTABELLE;
 
     /**
      * The table <code>Kunde</code>.

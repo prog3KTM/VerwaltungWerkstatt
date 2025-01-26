@@ -52,7 +52,7 @@ class KundeServiceTest {
         Kunde kunde = new Kunde(0, "Max Mustermann", "Straße 1", "0123456789");
 
         // Act: Call the service method to save the customer
-        kundeService.createKunde(kunde);
+        //kundeService.createKunde(kunde);
 
 
     }

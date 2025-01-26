@@ -35,7 +35,7 @@ public class DatabaseManager {
     }
 
     // Stellt einen DSLContext bereit, der fuer die Interaktion mit der Datenbank verwendet wird
-    public DSLContext getDSLContext() throws SQLException {
+    public DSLContext getDSLContext() {
         return DSL.using(CONNECTION);
     }
 }
