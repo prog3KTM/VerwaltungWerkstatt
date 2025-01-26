@@ -1,98 +1,94 @@
 package htw.prog3.KTM.repository;
 
-import htw.prog3.KTM.model.Auto.Auto;
-import htw.prog3.KTM.database.DatabaseManager;
 import htw.prog3.KTM.model.Auto.AutoStatus;
+import htw.prog3.KTM.database.DatabaseManager;
+import htw.prog3.KTM.generated.tables.records.AutoRecord;
+import htw.prog3.KTM.generated.Tables;
+import htw.prog3.KTM.model.Auto.Auto;
+import org.jooq.DSLContext;
 
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public class AutoRepository {
 
+    private final DatabaseManager databaseManager;
+
+    public AutoRepository(DatabaseManager databaseManager) {
+        this.databaseManager = databaseManager;
+    }
+
+    private DSLContext getDSLContext() throws SQLException {
+        return databaseManager.getDSLContext();
+    }
+
     // Retrieve all cars
     public List<Auto> findAll() {
-        List<Auto> autos = new ArrayList<>();
-        String sql = "SELECT * FROM Auto";
-
-        try (Connection conn = DatabaseManager.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            while (rs.next()) {
-                Auto auto = new Auto(
-                        rs.getInt("id"),
-                        rs.getString("model"),
-                        rs.getString("brand"),
-                        rs.getString("licensePlate"),
-                        AutoStatus.fromValue(rs.getInt("autostatus"))
-                );
-                autos.add(auto);
-            }
+        try {
+            DSLContext create = getDSLContext();
+            return create.selectFrom(Tables.AUTO).fetch().map(this::mapToAuto);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error fetching all cars", e);
         }
-
-        return autos;
     }
 
     // Save a new car
     public void save(Auto auto) {
-        String sql = "INSERT INTO Auto (id, model, brand, licensePlate) VALUES (?, ?, ?, ?)";
-
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, auto.getId());
-            pstmt.setString(2, auto.getModel());
-            pstmt.setString(3, auto.getBrand());
-            pstmt.setString(4, auto.getLicensePlate());
-
-            pstmt.executeUpdate();
+        try {
+            DSLContext create = getDSLContext();
+            AutoRecord autoRecord = create.newRecord(Tables.AUTO, auto);
+            autoRecord.store();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error saving the car", e);
         }
     }
 
     // Find a car by ID
-    public Auto findById(int id) {
-        String sql = "SELECT * FROM Auto WHERE id = ?";
-        Auto auto = null;
-
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, id);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    auto = new Auto(
-                            rs.getInt("id"),
-                            rs.getString("model"),
-                            rs.getString("brand"),
-                            rs.getString("licensePlate"),
-                            AutoStatus.fromValue(rs.getInt("autostatus"))
-                    );
-                }
-            }
+    public Optional<Auto> findById(int id) {
+        try {
+            DSLContext create = getDSLContext();
+            AutoRecord record = create.selectFrom(Tables.AUTO)
+                    .where(Tables.AUTO.ID.eq(id))
+                    .fetchOne();
+            return Optional.ofNullable(record).map(this::mapToAuto);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error finding car by ID", e);
         }
-
-        return auto;
     }
 
     // Delete a car by ID
     public void deleteById(int id) {
-        String sql = "DELETE FROM Auto WHERE id = ?";
-
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
+        try {
+            DSLContext create = getDSLContext();
+            int rowsDeleted = create.deleteFrom(Tables.AUTO)
+                    .where(Tables.AUTO.ID.eq(id))
+                    .execute();
+            if (rowsDeleted == 0) {
+                throw new RuntimeException("Car with ID " + id + " not found.");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error deleting car", e);
         }
+    }
+
+    // Utility method to map AutoRecord to Auto object
+    private Auto mapToAuto(AutoRecord record) {
+        return new Auto(
+                record.getId(),                // ID
+                record.getModel(),             // Model
+                record.getBrand(),             // Brand
+                record.getLicenseplate(),      // License Plate
+                mapToAutoStatus(record.getAutostatus()) // Auto Status (converted from Integer)
+        );
+    }
+
+    // Helper method to map integer status to Auto.AutoStatus enum
+    private Auto.AutoStatus mapToAutoStatus(Integer status) {
+        if (status == null) {
+            return null; // Handle null status gracefully
+        }
+        return Auto.AutoStatus.fromCode(status); // Explicitly reference the nested enum
     }
 }
