@@ -1,4 +1,6 @@
-package htw.prog3.KTM.model;
+package htw.prog3.KTM.model.Kunde;
+
+import htw.prog3.KTM.model.Auto.Auto;
 
 import java.util.ArrayList;
 import java.util.List;

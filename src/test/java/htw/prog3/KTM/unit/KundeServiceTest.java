@@ -1,7 +1,7 @@
 package htw.prog3.KTM.unit;
 
 import htw.prog3.KTM.database.DatabaseManager;
-import htw.prog3.KTM.model.Kunde;
+import htw.prog3.KTM.model.Kunde.Kunde;
 import htw.prog3.KTM.repository.KundeRepository;
 import htw.prog3.KTM.service.KundeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,11 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-
-
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class KundeServiceTest {
 

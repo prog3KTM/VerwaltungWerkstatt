@@ -1,7 +1,7 @@
 package htw.prog3.KTM.repository;
 
 import htw.prog3.KTM.generated.tables.records.KundeRecord;
-import htw.prog3.KTM.model.Kunde;
+import htw.prog3.KTM.model.Kunde.Kunde;
 import htw.prog3.KTM.database.DatabaseManager;
 import org.jooq.DSLContext;
 import org.jooq.Record;

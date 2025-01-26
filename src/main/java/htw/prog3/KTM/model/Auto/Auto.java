@@ -1,4 +1,4 @@
-package htw.prog3.KTM.model;
+package htw.prog3.KTM.model.Auto;
 
 public class Auto {
     private int id;

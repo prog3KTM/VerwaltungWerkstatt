@@ -2,25 +2,14 @@ package htw.prog3.KTM.util;
 
 import htw.prog3.KTM.config.AppConfig;
 import htw.prog3.KTM.controller.KundeController;
-import htw.prog3.KTM.generated.tables.records.KundeRecord;
-import htw.prog3.KTM.model.Kunde;
-import org.jooq.DSLContext;
-import org.jooq.Record;
-import org.jooq.Result;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
+import htw.prog3.KTM.model.Kunde.Kunde;
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.logging.LogManager;
-
-import static htw.prog3.KTM.generated.Tables.KUNDE;
 
 
 public class main {

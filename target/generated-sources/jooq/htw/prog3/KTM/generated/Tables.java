@@ -4,6 +4,7 @@
 package htw.prog3.KTM.generated;
 
 
+import htw.prog3.KTM.generated.tables.Auto;
 import htw.prog3.KTM.generated.tables.Kunde;
 
 
@@ -12,6 +13,11 @@ import htw.prog3.KTM.generated.tables.Kunde;
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public class Tables {
+
+    /**
+     * The table <code>Auto</code>.
+     */
+    public static final Auto AUTO = Auto.AUTO;
 
     /**
      * The table <code>Kunde</code>.

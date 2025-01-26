@@ -1,6 +1,6 @@
 package htw.prog3.KTM.repository;
 
-import htw.prog3.KTM.model.Auto;
+import htw.prog3.KTM.model.Auto.Auto;
 import htw.prog3.KTM.database.DatabaseManager;
 
 import java.sql.*;
