@@ -1,5 +1,6 @@
 package htw.prog3.KTM.unit;
 
+import htw.prog3.KTM.database.DatabaseManager;
 import htw.prog3.KTM.model.Kunde;
 import htw.prog3.KTM.repository.KundeRepository;
 import htw.prog3.KTM.service.KundeService;
@@ -26,7 +27,7 @@ class KundeServiceTest {
     @BeforeEach
     void setUp() {
         // Mock the dependencies
-
+        kundeRepository = new KundeRepository(new DatabaseManager());
         logger = LoggerFactory.getLogger(KundeServiceTest.class);
 
         // Create an instance of KundeService with the mocked repository
