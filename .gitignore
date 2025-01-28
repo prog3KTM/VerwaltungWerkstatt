@@ -52,3 +52,6 @@ lib/
 
 # Environment files
 .env
+
+test.db
+werkstatt.db

@@ -1,6 +1,7 @@
 package htw.prog3.KTM.database;
 
 import org.jooq.DSLContext;
+import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
 import java.sql.Connection;
@@ -46,6 +47,6 @@ public class DatabaseManager {
 
     // Stellt einen DSLContext bereit, der fuer die Interaktion mit der Datenbank verwendet wird
     public DSLContext getDSLContext() {
-        return DSL.using(CONNECTION);
+        return DSL.using(CONNECTION, SQLDialect.SQLITE);
     }
 }
