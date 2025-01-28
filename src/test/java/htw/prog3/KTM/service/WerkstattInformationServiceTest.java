@@ -2,34 +2,75 @@ package htw.prog3.KTM.service;
 
 import htw.prog3.KTM.database.DatabaseManager;
 import htw.prog3.KTM.model.WerkstattInformation.WerkstattInformation;
-import htw.prog3.KTM.repository.KundeRepository;
 import htw.prog3.KTM.repository.WerkstattInformationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 class WerkstattInformationServiceTest {
 
-    private WerkstattInformationRepository werkstattInformationRepository;
     private WerkstattInformationService werkstattInformationService;
+
+    //- Testdata
+    private final String name = "WerkstattInformationServiceTest";
+    private final String email = "werkstatt@gmail.com";
+    private final String location = "location";
+    private final int phone = 49123812;
+    private final String website = "website";
+    private final String vat = "vat";
+    private final String busregnum = "busregnum";
+    private final String iban = "iban";
 
     @BeforeEach
     void setUp() {
-        // Mock the dependencies
-        werkstattInformationRepository = new WerkstattInformationRepository(new DatabaseManager());
-
-        // Create an instance of KundeService with the mocked repository
+        WerkstattInformationRepository werkstattInformationRepository = new WerkstattInformationRepository(new DatabaseManager());
         werkstattInformationService = new WerkstattInformationService(werkstattInformationRepository);
     }
 
     @Test
-    void testSave() {
-        WerkstattInformation werkstattInformation = new WerkstattInformation("Test", "Examplestr. 42", 4916322, "example@mustermann.com", "example.de", "IV12371841944", "BUS12893471234897", "DE4187964194981");
-        werkstattInformationService.save(werkstattInformation);
+    void getName() {
+        assertEquals(name, werkstattInformationService.getName());
     }
 
     @Test
-    void getWerkstattInformationName() {
-        String name = werkstattInformationService.getName();
-        System.out.println(name);
+    void getEmail() {
+        assertEquals(email, werkstattInformationService.getEmail());
     }
+
+    @Test
+    void getLocation() {
+        assertEquals(location, werkstattInformationService.getLocation());
+    }
+
+    @Test
+    void getPhone() {
+        assertEquals(phone, werkstattInformationService.getPhone());
+    }
+
+    @Test
+    void getWebsite() {
+        assertEquals(website, werkstattInformationService.getWebsite());
+    }
+
+    @Test
+    void getVat() {
+        assertEquals(vat, werkstattInformationService.getVat());
+    }
+
+    @Test
+    void getBusinessRegNumber() {
+        assertEquals(busregnum, werkstattInformationService.getBusinessRegNumber());
+    }
+
+    @Test
+    void getIban() {
+        assertEquals(iban, werkstattInformationService.getIban());
+    }
+
+    @Test
+    void save() {
+        werkstattInformationService.save(new WerkstattInformation(name, location, phone, email, website, vat, busregnum, iban));
+    }
+
+
 }
