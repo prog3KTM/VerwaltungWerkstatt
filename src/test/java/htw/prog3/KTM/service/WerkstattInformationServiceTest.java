@@ -1,15 +1,17 @@
 package htw.prog3.KTM.service;
 
 import htw.prog3.KTM.database.DatabaseManager;
+import htw.prog3.KTM.database.TableHandler;
 import htw.prog3.KTM.model.WerkstattInformation.WerkstattInformation;
 import htw.prog3.KTM.repository.WerkstattInformationRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WerkstattInformationServiceTest {
 
-    private WerkstattInformationService werkstattInformationService;
+    private static WerkstattInformationService werkstattInformationService;
 
     //- Testdata
     private final String name = "WerkstattInformationServiceTest";
@@ -21,9 +23,13 @@ class WerkstattInformationServiceTest {
     private final String busregnum = "busregnum";
     private final String iban = "iban";
 
-    @BeforeEach
-    void setUp() {
-        WerkstattInformationRepository werkstattInformationRepository = new WerkstattInformationRepository(new DatabaseManager());
+    @BeforeAll
+    static void setUp() {
+        DatabaseManager databaseManager = new DatabaseManager("test.db");
+        TableHandler tableHandler = new TableHandler(databaseManager);
+        tableHandler.dropTables();
+        tableHandler.checkTables();
+        WerkstattInformationRepository werkstattInformationRepository = new WerkstattInformationRepository(databaseManager);
         werkstattInformationService = new WerkstattInformationService(werkstattInformationRepository);
     }
 
