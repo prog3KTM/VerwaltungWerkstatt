@@ -9,12 +9,22 @@ import java.sql.SQLException;
 
 public class DatabaseManager {
 
-    private static final String URL = "jdbc:sqlite:werkstatt.db"; // SQLite-Datenbank-URL
+    private static String URL; // SQLite-Datenbank-URL
     private static final String USERNAME = ""; // Falls notwendig, Benutzername
     private static final String PASSWORD = ""; // Falls notwendig, Passwort
     private static Connection CONNECTION = null;
 
     public DatabaseManager() {
+        URL = "jdbc:sqlite:werkstatt.db";
+        connect();
+    }
+
+    public DatabaseManager(String databaseName) {
+        URL = "jdbc:sqlite:"+databaseName;
+        connect();
+    }
+
+    private void connect() {
         try {
             CONNECTION = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (SQLException e) {
