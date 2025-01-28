@@ -20,7 +20,7 @@ public class WerkstattInformationService {
     }
 
     public String getLocation() {
-        return werkstattInformationRepository.getWerkstattInformation().email();
+        return werkstattInformationRepository.getWerkstattInformation().location();
     }
 
     public Integer getPhone() {

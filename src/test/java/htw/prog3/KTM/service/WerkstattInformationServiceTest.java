@@ -28,6 +28,11 @@ class WerkstattInformationServiceTest {
     }
 
     @Test
+    void save() {
+        werkstattInformationService.save(new WerkstattInformation(name, location, phone, email, website, vat, busregnum, iban));
+    }
+
+    @Test
     void getName() {
         assertEquals(name, werkstattInformationService.getName());
     }
@@ -66,11 +71,5 @@ class WerkstattInformationServiceTest {
     void getIban() {
         assertEquals(iban, werkstattInformationService.getIban());
     }
-
-    @Test
-    void save() {
-        werkstattInformationService.save(new WerkstattInformation(name, location, phone, email, website, vat, busregnum, iban));
-    }
-
 
 }
