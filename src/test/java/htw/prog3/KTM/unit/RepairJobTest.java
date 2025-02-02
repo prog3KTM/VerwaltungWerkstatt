@@ -6,7 +6,13 @@ import htw.prog3.KTM.model.jobs.RepairJobType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
+// TODO: Test for get() and set()
+// TODO: Test with different Types and Statuses
+// TODO: Create Tables
+// TODO: Impl CRUD with JOOQ
+// TODO: Impl Repo and Services
+// TODO: Impl missing Components Class CarRepairCompany
+// TODO: Impl fluent Builders for Components
 public class RepairJobTest {
     private String jobName;
     private JobStatus status;
@@ -24,7 +30,7 @@ public class RepairJobTest {
 
     @Test
     void createRepairJob_ValidData_ObjectCreatedSuccessfully() {
-        RepairJob repairJob = new RepairJob(jobId,type,jobName,status);
+        RepairJob repairJob = new RepairJob(jobId, type, jobName, status);
 
     }
 }
