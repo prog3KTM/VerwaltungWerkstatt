@@ -4,13 +4,23 @@ import htw.prog3.KTM.model.CarRepairComponent;
 
 public class RepairJob implements CarRepairComponent {
     private String jobName;
-    private String status;
+    private JobStatus status;
     private int jobId;
+    private RepairJobType type;
 
-    public RepairJob(String jobName, String status, int jobId) {
+    public RepairJobType getType() {
+        return type;
+    }
+
+    public void setType(RepairJobType type) {
+        this.type = type;
+    }
+
+    public RepairJob(int jobId, RepairJobType typ, String jobName, JobStatus status) {
         this.jobName = jobName;
         this.status = status;
         this.jobId = jobId;
+        this.type = typ;
     }
 
     @Override
@@ -26,11 +36,11 @@ public class RepairJob implements CarRepairComponent {
         this.jobName = jobName;
     }
 
-    public String getStatus() {
+    public JobStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(JobStatus status) {
         this.status = status;
     }
 

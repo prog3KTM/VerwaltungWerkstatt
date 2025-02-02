@@ -23,3 +23,10 @@ To maintain consistency and clarity in your tests, consider the following recomm
 By following these guidelines, your test names will remain clear, structured, and easy to understand, making them an asset rather than an obstacle in software development.
 
 https://medium.com/@stefanovskyi/unit-test-naming-conventions-dd9208eadbea
+
+We prefer this Naming Convention:
+> MethodName_StateUnderTest_ExpectedBehavior
+
+cons: should be renamed if method change name
+
+example: isAdult_AgeLessThan18_False

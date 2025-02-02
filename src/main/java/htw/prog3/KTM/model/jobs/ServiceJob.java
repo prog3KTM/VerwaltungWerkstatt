@@ -3,13 +3,23 @@ package htw.prog3.KTM.model.jobs;
 import htw.prog3.KTM.model.CarRepairComponent;
 
 public class ServiceJob implements CarRepairComponent {
+    private int jobId;
     private String jobName;
     private String status;
-    private int jobId;
+    private ServiceJobType type;
 
-    public ServiceJob(String jobName, String status, int jobId) {
+    public ServiceJobType getType() {
+        return type;
+    }
+
+    public void setType(ServiceJobType type) {
+        this.type = type;
+    }
+
+    public ServiceJob(int jobId, ServiceJobType type, String jobName, String status) {
         this.jobName = jobName;
         this.status = status;
+        this.type = type;
         this.jobId = jobId;
     }
 
