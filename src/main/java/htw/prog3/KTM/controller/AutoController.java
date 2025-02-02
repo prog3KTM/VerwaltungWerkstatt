@@ -1,7 +1,7 @@
 package htw.prog3.KTM.controller;
 
 import htw.prog3.KTM.database.DatabaseManager;
-import htw.prog3.KTM.model.Auto.Auto;
+import htw.prog3.KTM.model.auto.Auto;
 import htw.prog3.KTM.repository.AutoRepository;
 
 import java.util.List;

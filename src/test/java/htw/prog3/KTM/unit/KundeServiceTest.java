@@ -1,7 +1,7 @@
 package htw.prog3.KTM.unit;
 
 import htw.prog3.KTM.database.DatabaseManager;
-import htw.prog3.KTM.model.Kunde.Kunde;
+import htw.prog3.KTM.model.kunde.Kunde;
 import htw.prog3.KTM.repository.KundeRepository;
 import htw.prog3.KTM.service.KundeService;
 import org.junit.jupiter.api.BeforeEach;

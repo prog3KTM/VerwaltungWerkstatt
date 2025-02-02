@@ -1,4 +1,4 @@
-package htw.prog3.KTM.model.Auto;
+package htw.prog3.KTM.model.auto;
 
 import htw.prog3.KTM.model.InvalidTransitionException;
 import htw.prog3.KTM.model.StateMachine;

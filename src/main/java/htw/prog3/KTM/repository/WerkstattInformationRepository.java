@@ -1,11 +1,9 @@
 package htw.prog3.KTM.repository;
 
 import htw.prog3.KTM.database.DatabaseManager;
-import htw.prog3.KTM.model.WerkstattInformation.WerkstattInformation;
-import htw.prog3.KTM.model.WerkstattInformation.WerkstattInformationStaticConfiguration;
+import htw.prog3.KTM.model.werkstattInformation.WerkstattInformation;
+import htw.prog3.KTM.model.werkstattInformation.WerkstattInformationStaticConfiguration;
 import org.jooq.DSLContext;
-import org.jooq.Record;
-import org.jooq.Result;
 
 import java.util.Optional;
 

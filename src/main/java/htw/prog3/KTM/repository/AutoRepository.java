@@ -1,13 +1,11 @@
 package htw.prog3.KTM.repository;
 
-import htw.prog3.KTM.model.Auto.AutoStatus;
 import htw.prog3.KTM.database.DatabaseManager;
 import htw.prog3.KTM.generated.tables.records.AutoRecord;
 import htw.prog3.KTM.generated.Tables;
-import htw.prog3.KTM.model.Auto.Auto;
+import htw.prog3.KTM.model.auto.Auto;
 import org.jooq.DSLContext;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;

@@ -1,11 +1,11 @@
-package htw.prog3.KTM.service;
+package htw.prog3.KTM.intecration;
 
 import htw.prog3.KTM.database.DatabaseManager;
 import htw.prog3.KTM.database.TableHandler;
-import htw.prog3.KTM.model.WerkstattInformation.WerkstattInformation;
+import htw.prog3.KTM.model.werkstattInformation.WerkstattInformation;
 import htw.prog3.KTM.repository.WerkstattInformationRepository;
+import htw.prog3.KTM.service.WerkstattInformationService;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

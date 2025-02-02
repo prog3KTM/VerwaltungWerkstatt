@@ -1,4 +1,4 @@
-package htw.prog3.KTM.model.Auto;
+package htw.prog3.KTM.model.auto;
 
 public enum AutoStatus {
     RECEIVED(0),            // Car has been dropped off at the shop

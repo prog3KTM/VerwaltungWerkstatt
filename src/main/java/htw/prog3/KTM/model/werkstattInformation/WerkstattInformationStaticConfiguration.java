@@ -1,4 +1,4 @@
-package htw.prog3.KTM.model.WerkstattInformation;
+package htw.prog3.KTM.model.werkstattInformation;
 
 public class WerkstattInformationStaticConfiguration {
 

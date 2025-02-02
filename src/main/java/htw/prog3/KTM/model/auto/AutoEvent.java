@@ -1,4 +1,4 @@
-package htw.prog3.KTM.model.Auto;
+package htw.prog3.KTM.model.auto;
 
 public enum AutoEvent {
     RECEIVE_CAR,          // Car has been received

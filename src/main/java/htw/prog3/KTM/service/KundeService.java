@@ -2,7 +2,7 @@ package htw.prog3.KTM.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import htw.prog3.KTM.model.Kunde.Kunde;
+import htw.prog3.KTM.model.kunde.Kunde;
 import htw.prog3.KTM.repository.KundeRepository;
 
 import java.util.List;

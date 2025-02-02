@@ -1,4 +1,4 @@
-package htw.prog3.KTM.model.Auto;
+package htw.prog3.KTM.model.auto;
 
 import java.util.HashMap;
 import java.util.Map;

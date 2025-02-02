@@ -1,6 +1,12 @@
-package htw.prog3.KTM.model.Auto;
+package htw.prog3.KTM.model.auto;
 
-public class Auto {
+import htw.prog3.KTM.model.CarRepairComponent;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Auto implements CarRepairComponent {
+    private final List<CarRepairComponent> jobs = new ArrayList<>();  // Cars can have multiple repair jobs or service jobs{
     private int id;
     private String model;
     private String brand;
@@ -14,6 +20,20 @@ public class Auto {
         this.licensePlate = licensePlate;
         this.autoStatus = autoStatus;
     }
+
+    public void addJob(CarRepairComponent job) {
+        jobs.add(job);
+    }
+
+    public List<CarRepairComponent> getJobs() {
+        return jobs;
+    }
+
+    @Override
+    public void printStatus() {
+
+    }
+
 
     public enum AutoStatus {
         AVAILABLE(1),

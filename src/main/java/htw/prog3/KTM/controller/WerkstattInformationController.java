@@ -1,6 +1,6 @@
 package htw.prog3.KTM.controller;
 
-import htw.prog3.KTM.model.WerkstattInformation.WerkstattInformation;
+import htw.prog3.KTM.model.werkstattInformation.WerkstattInformation;
 import htw.prog3.KTM.service.WerkstattInformationService;
 
 public class WerkstattInformationController {

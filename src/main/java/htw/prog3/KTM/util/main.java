@@ -2,7 +2,7 @@ package htw.prog3.KTM.util;
 
 import htw.prog3.KTM.config.AppConfig;
 import htw.prog3.KTM.controller.KundeController;
-import htw.prog3.KTM.model.Kunde.Kunde;
+import htw.prog3.KTM.model.kunde.Kunde;
 
 
 import java.sql.SQLException;

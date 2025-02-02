@@ -1,9 +1,9 @@
 package htw.prog3.KTM.service;
 
-import htw.prog3.KTM.model.Auto.AutoEvent;
-import htw.prog3.KTM.model.Auto.AutoStatus;
-import htw.prog3.KTM.model.Auto.AutoStateMachine;
-import htw.prog3.KTM.model.Auto.AutoStateMachineBuilder;
+import htw.prog3.KTM.model.auto.AutoEvent;
+import htw.prog3.KTM.model.auto.AutoStatus;
+import htw.prog3.KTM.model.auto.AutoStateMachine;
+import htw.prog3.KTM.model.auto.AutoStateMachineBuilder;
 import htw.prog3.KTM.model.InvalidTransitionException;
 
 public class AutoReparaturService {
@@ -28,7 +28,7 @@ public class AutoReparaturService {
         return autoStateMachine.getCurrentState();
     }
 
-    public void startAssessment() throws InvalidTransitionException, InvalidTransitionException {
+    public void startAssessment() throws InvalidTransitionException {
         autoStateMachine.transition(AutoEvent.START_ASSESSMENT);
     }
 
