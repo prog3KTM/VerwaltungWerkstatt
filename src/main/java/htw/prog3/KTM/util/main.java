@@ -13,6 +13,9 @@ import java.util.logging.LogManager;
 
 
 public class main {
+
+    private static AppConfig appConfig;
+
     public static void main(String[] args) {
         System.setProperty("org.jooq.no-logo", "true");
         // Disable jOOQ logging
@@ -22,7 +25,7 @@ public class main {
         String url = "jdbc:sqlite:werkstatt.db";
 
         // DI wird durch die AppConfig-Klasse gehandhabt
-        AppConfig appConfig = new AppConfig();
+        appConfig = new AppConfig();
         KundeController kundeController = appConfig.getKundeController();
 
         Scanner scanner = new Scanner(System.in);
@@ -74,6 +77,10 @@ public class main {
         }
 
         scanner.close();
+    }
+
+    public static AppConfig getAppConfig() {
+        return appConfig;
     }
 }
 

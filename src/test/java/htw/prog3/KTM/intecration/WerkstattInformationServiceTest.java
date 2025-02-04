@@ -1,10 +1,12 @@
 package htw.prog3.KTM.intecration;
 
+import htw.prog3.KTM.config.AppConfig;
 import htw.prog3.KTM.database.DatabaseManager;
 import htw.prog3.KTM.database.TableHandler;
 import htw.prog3.KTM.model.werkstattInformation.WerkstattInformation;
 import htw.prog3.KTM.repository.WerkstattInformationRepository;
 import htw.prog3.KTM.service.WerkstattInformationService;
+import htw.prog3.KTM.util.main;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +28,8 @@ class WerkstattInformationServiceTest {
     @BeforeAll
     static void setUp() {
         DatabaseManager databaseManager = new DatabaseManager("test.db");
-        TableHandler tableHandler = new TableHandler(databaseManager);
+        AppConfig appConfig = new AppConfig();
+        TableHandler tableHandler = appConfig.getTableHandler();
         tableHandler.dropTables();
         tableHandler.checkTables();
         WerkstattInformationRepository werkstattInformationRepository = new WerkstattInformationRepository(databaseManager);
