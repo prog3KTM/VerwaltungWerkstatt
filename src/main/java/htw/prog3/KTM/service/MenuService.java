@@ -3,8 +3,6 @@ package htw.prog3.KTM.service;
 import htw.prog3.KTM.view.MenuInteractions;
 import htw.prog3.KTM.view.TextLineInterface;
 
-import java.awt.*;
-
 public class MenuService {
 
     private static MenuService instance;
