@@ -14,15 +14,17 @@ public class AppConfig {
 
     private final KundeController kundeController;
     private final TableHandler tableHandler;
+    private final DatabaseManager databaseManager;
 
     public AppConfig() {
-        DatabaseManager databaseManager = new DatabaseManager();
+        databaseManager = new DatabaseManager();
         KundeRepository kundeRepository = new KundeRepository(databaseManager);
         KundeService kundeService = new KundeService(kundeRepository);
         tableHandler = new TableHandler(databaseManager);
-        Table table = new Table("Auto", new Column("id", VARCHAR(100)));
-        table.addColumn(new Column("model", VARCHAR(100)));
-        tableHandler.addTable(table);
+        //TableHandler example. TODO: Bitte eure Datentypen hier einfügen!!
+//        Table table = new Table("Auto", new Column("id", VARCHAR(100)));
+//        table.addColumn(new Column("model", VARCHAR(100)));
+//        tableHandler.addTable(table);
         this.kundeController = new KundeController(kundeService);
     }
 
@@ -32,5 +34,9 @@ public class AppConfig {
 
     public KundeController getKundeController() {
         return kundeController;
+    }
+
+    public DatabaseManager getDatabaseManager() {
+        return databaseManager;
     }
 }

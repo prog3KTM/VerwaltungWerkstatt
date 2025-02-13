@@ -33,7 +33,7 @@ class WerkstattInformationServiceTest {
         tableHandler.dropTables();
         tableHandler.checkTables();
         WerkstattInformationRepository werkstattInformationRepository = new WerkstattInformationRepository(databaseManager);
-        werkstattInformationService = new WerkstattInformationService(werkstattInformationRepository);
+        werkstattInformationService = WerkstattInformationService.getInstance();
     }
 
     @Test

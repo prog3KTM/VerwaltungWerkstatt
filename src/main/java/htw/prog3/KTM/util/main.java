@@ -3,6 +3,7 @@ package htw.prog3.KTM.util;
 import htw.prog3.KTM.config.AppConfig;
 import htw.prog3.KTM.controller.KundeController;
 import htw.prog3.KTM.model.kunde.Kunde;
+import htw.prog3.KTM.service.MenuService;
 
 
 import java.sql.SQLException;
@@ -28,55 +29,57 @@ public class main {
         appConfig = new AppConfig();
         KundeController kundeController = appConfig.getKundeController();
 
-        Scanner scanner = new Scanner(System.in);
-        boolean running = true;
+        MenuService.getInstance().run();
 
-        while (running) {
-            System.out.println("\nKundenverwaltung:");
-            System.out.println("1. Alle Kunden anzeigen");
-            System.out.println("2. Kunden nach ID suchen");
-            System.out.println("3. Neuen Kunden hinzufügen");
-            System.out.println("4. Kunden aktualisieren");
-            System.out.println("5. Kunden löschen");
-            System.out.println("6. Beenden");
-
-            int choice = scanner.nextInt();
-            scanner.nextLine();  // Puffer leeren
-
-            try {
-                switch (choice) {
-                    case 1:
-                        List<Kunde> kunden = kundeController.getAllKunden();
-                        kunden.forEach(k -> System.out.println(k.getId() + ": " + k.getName()));
-                        break;
-                    case 2:
-                        System.out.print("Kunden-ID eingeben: ");
-                        int id = scanner.nextInt();
-                        Optional<Kunde> kundeOpt = kundeController.getKundeById(id);
-                        kundeOpt.ifPresent(k -> System.out.println(k));
-                        break;
-                    case 3:
-                        // Benutzerabfrage für neuen Kunden
-                        break;
-                    case 4:
-                        // Benutzerabfrage für Kundenaktualisierung
-                        break;
-                    case 5:
-                        // Benutzerabfrage für Kundenlöschung
-                        break;
-                    case 6:
-                        running = false;
-                        System.out.println("Beenden...");
-                        break;
-                    default:
-                        System.out.println("Ungültige Wahl!");
-                }
-            } catch (SQLException e) {
-                System.out.println("Datenbankfehler: " + e.getMessage());
-            }
-        }
-
-        scanner.close();
+//        Scanner scanner = new Scanner(System.in);
+//        boolean running = true;
+//
+//        while (running) {
+//            System.out.println("\nKundenverwaltung:");
+//            System.out.println("1. Alle Kunden anzeigen");
+//            System.out.println("2. Kunden nach ID suchen");
+//            System.out.println("3. Neuen Kunden hinzufügen");
+//            System.out.println("4. Kunden aktualisieren");
+//            System.out.println("5. Kunden löschen");
+//            System.out.println("6. Beenden");
+//
+//            int choice = scanner.nextInt();
+//            scanner.nextLine();  // Puffer leeren
+//
+//            try {
+//                switch (choice) {
+//                    case 1:
+//                        List<Kunde> kunden = kundeController.getAllKunden();
+//                        kunden.forEach(k -> System.out.println(k.getId() + ": " + k.getName()));
+//                        break;
+//                    case 2:
+//                        System.out.print("Kunden-ID eingeben: ");
+//                        int id = scanner.nextInt();
+//                        Optional<Kunde> kundeOpt = kundeController.getKundeById(id);
+//                        kundeOpt.ifPresent(k -> System.out.println(k));
+//                        break;
+//                    case 3:
+//                        // Benutzerabfrage für neuen Kunden
+//                        break;
+//                    case 4:
+//                        // Benutzerabfrage für Kundenaktualisierung
+//                        break;
+//                    case 5:
+//                        // Benutzerabfrage für Kundenlöschung
+//                        break;
+//                    case 6:
+//                        running = false;
+//                        System.out.println("Beenden...");
+//                        break;
+//                    default:
+//                        System.out.println("Ungültige Wahl!");
+//                }
+//            } catch (SQLException e) {
+//                System.out.println("Datenbankfehler: " + e.getMessage());
+//            }
+//        }
+//
+//        scanner.close();
     }
 
     public static AppConfig getAppConfig() {

@@ -28,7 +28,7 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<AutoRecord> AUTO__PK_AUTO = Internal.createUniqueKey(Auto.AUTO, DSL.name("pk_Auto"), new TableField[] { Auto.AUTO.ID }, true);
+    public static final UniqueKey<AutoRecord> AUTO__PK_AUTO = Internal.createUniqueKey(Auto.AUTO, DSL.name("pk_auto"), new TableField[] { Auto.AUTO.ID }, true);
     public static final UniqueKey<KonfigurationstabelleRecord> KONFIGURATIONSTABELLE__PK_KONFIGURATIONSTABELLE = Internal.createUniqueKey(Konfigurationstabelle.KONFIGURATIONSTABELLE, DSL.name("pk_Konfigurationstabelle"), new TableField[] { Konfigurationstabelle.KONFIGURATIONSTABELLE.KEY }, true);
     public static final UniqueKey<KundeRecord> KUNDE__PK_KUNDE = Internal.createUniqueKey(Kunde.KUNDE, DSL.name("pk_Kunde"), new TableField[] { Kunde.KUNDE.ID }, true);
 }
