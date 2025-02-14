@@ -1,16 +1,15 @@
 package htw.prog3.KTM.service;
 
+import htw.prog3.KTM.database.DatabaseManager;
 import htw.prog3.KTM.model.werkstattInformation.WerkstattInformation;
 import htw.prog3.KTM.repository.WerkstattInformationRepository;
 import htw.prog3.KTM.util.main;
 
 public class WerkstattInformationService {
-
-    private static WerkstattInformationService instance;
     private final WerkstattInformationRepository werkstattInformationRepository;
 
-    private WerkstattInformationService() {
-        werkstattInformationRepository = new WerkstattInformationRepository(main.getAppConfig().getDatabaseManager());
+    public WerkstattInformationService(DatabaseManager databaseManager) {
+        werkstattInformationRepository = new WerkstattInformationRepository(databaseManager);
     }
 
     public String getName() {
@@ -51,11 +50,6 @@ public class WerkstattInformationService {
 
     public void save(WerkstattInformation werkstattInformation) {
         werkstattInformationRepository.save(werkstattInformation);
-    }
-
-    public static WerkstattInformationService getInstance() {
-        if (instance == null) { instance = new WerkstattInformationService(); }
-        return instance;
     }
 
 }

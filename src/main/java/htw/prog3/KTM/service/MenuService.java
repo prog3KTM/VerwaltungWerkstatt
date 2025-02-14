@@ -1,5 +1,6 @@
 package htw.prog3.KTM.service;
 
+import htw.prog3.KTM.util.main;
 import htw.prog3.KTM.view.MenuInteractions;
 import htw.prog3.KTM.view.TextLineInterface;
 
@@ -10,7 +11,7 @@ public class MenuService {
     private MenuInteractions menu;
     private boolean running;
     private MenuService() {
-        menu = new TextLineInterface();
+        menu = new TextLineInterface(main.getAppConfig().getDatabaseManager());
         running = true;
     }
 

@@ -6,7 +6,6 @@ import htw.prog3.KTM.database.TableHandler;
 import htw.prog3.KTM.model.werkstattInformation.WerkstattInformation;
 import htw.prog3.KTM.repository.WerkstattInformationRepository;
 import htw.prog3.KTM.service.WerkstattInformationService;
-import htw.prog3.KTM.util.main;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,7 +32,7 @@ class WerkstattInformationServiceTest {
         tableHandler.dropTables();
         tableHandler.checkTables();
         WerkstattInformationRepository werkstattInformationRepository = new WerkstattInformationRepository(databaseManager);
-        werkstattInformationService = WerkstattInformationService.getInstance();
+        werkstattInformationService = new WerkstattInformationService(databaseManager);
     }
 
     @Test

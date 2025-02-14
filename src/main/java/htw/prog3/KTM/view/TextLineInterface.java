@@ -1,5 +1,6 @@
 package htw.prog3.KTM.view;
 
+import htw.prog3.KTM.database.DatabaseManager;
 import htw.prog3.KTM.model.kunde.Kunde;
 import htw.prog3.KTM.model.werkstattInformation.WerkstattInformation;
 import htw.prog3.KTM.service.WerkstattInformationService;
@@ -8,7 +9,10 @@ import java.util.Scanner;
 
 public class TextLineInterface implements MenuInteractions {
 
-    public TextLineInterface() { }
+    DatabaseManager databaseManager;
+    public TextLineInterface(DatabaseManager databaseManager) {
+        this.databaseManager = databaseManager;
+    }
 
     @Override
     public void showMainMenu() {
@@ -25,7 +29,7 @@ public class TextLineInterface implements MenuInteractions {
 
     @Override
     public void showWerk() {
-        System.out.println("Werk: " + WerkstattInformationService.getInstance().getWerkstattInformation().toString());
+        System.out.println("Werk: " + new WerkstattInformationService(databaseManager).getWerkstattInformation().toString());
         getScanner().next();
     }
 
