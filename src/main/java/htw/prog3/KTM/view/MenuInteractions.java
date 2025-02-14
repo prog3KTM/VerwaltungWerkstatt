@@ -9,8 +9,11 @@ public interface MenuInteractions {
     void showKunde(Kunde kunde);
     void showWerk();
     void showKundenMenu();
+    void showAutoMenu();
+    void showServiceMenu();
     WerkstattInformation getWerkstattInformation();
     int getOption();
     void throwError(String err);
 
+    void sendMessage(String msg);
 }

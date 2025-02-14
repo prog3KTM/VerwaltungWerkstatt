@@ -157,5 +157,66 @@ public class WerkstattInformationRepository {
         return werkstattInformation;
     }
 
+    public void delete() {
+        savePhone(0);
+        saveBusregnumber("");
+        saveEmail("");
+        saveIban("");
+        saveLocation("");
+        saveName("");
+        saveVAT("");
+        saveWebsite("");
+    }
 
+    public boolean ifInformationExists() {
+        DSLContext dslContext = databaseManager.getDSLContext();
+        Optional<String> name = dslContext.select(KONFIGURATIONSTABELLE.VALUE)
+                .from(KONFIGURATIONSTABELLE)
+                .where(KONFIGURATIONSTABELLE.KEY.eq(WerkstattInformationStaticConfiguration.NAME))
+                .fetchOptional(KONFIGURATIONSTABELLE.VALUE);
+        if(!name.isPresent() || name.get().isEmpty()) return false;
+
+        Optional<String> location = dslContext.select(KONFIGURATIONSTABELLE.VALUE)
+                .from(KONFIGURATIONSTABELLE)
+                .where(KONFIGURATIONSTABELLE.KEY.eq(WerkstattInformationStaticConfiguration.LOCATION))
+                .fetchOptional(KONFIGURATIONSTABELLE.VALUE);
+        if(!location.isPresent() || location.get().isEmpty()) return false;
+
+        Optional<String> phone = dslContext.select(KONFIGURATIONSTABELLE.VALUE)
+                .from(KONFIGURATIONSTABELLE)
+                .where(KONFIGURATIONSTABELLE.KEY.eq(WerkstattInformationStaticConfiguration.PHONE))
+                .fetchOptional(KONFIGURATIONSTABELLE.VALUE);
+        if(!phone.isPresent() || phone.get().equals("0")) return false;
+
+        Optional<String> email = dslContext.select(KONFIGURATIONSTABELLE.VALUE)
+                .from(KONFIGURATIONSTABELLE)
+                .where(KONFIGURATIONSTABELLE.KEY.eq(WerkstattInformationStaticConfiguration.EMAIL))
+                .fetchOptional(KONFIGURATIONSTABELLE.VALUE);
+        if(!email.isPresent() || email.get().isEmpty()) return false;
+
+        Optional<String> website = dslContext.select(KONFIGURATIONSTABELLE.VALUE)
+                .from(KONFIGURATIONSTABELLE)
+                .where(KONFIGURATIONSTABELLE.KEY.eq(WerkstattInformationStaticConfiguration.WEBSITE))
+                .fetchOptional(KONFIGURATIONSTABELLE.VALUE);
+        if(!website.isPresent() || website.get().isEmpty()) return false;
+
+        Optional<String> vat = dslContext.select(KONFIGURATIONSTABELLE.VALUE)
+                .from(KONFIGURATIONSTABELLE)
+                .where(KONFIGURATIONSTABELLE.KEY.eq(WerkstattInformationStaticConfiguration.VAT))
+                .fetchOptional(KONFIGURATIONSTABELLE.VALUE);
+        if(!vat.isPresent() || vat.get().isEmpty()) return false;
+
+        Optional<String> busregnumber = dslContext.select(KONFIGURATIONSTABELLE.VALUE)
+                .from(KONFIGURATIONSTABELLE)
+                .where(KONFIGURATIONSTABELLE.KEY.eq(WerkstattInformationStaticConfiguration.BUSINESSREGNUMBER))
+                .fetchOptional(KONFIGURATIONSTABELLE.VALUE);
+        if(!busregnumber.isPresent() || busregnumber.get().isEmpty()) return false;
+
+        Optional<String> iban = dslContext.select(KONFIGURATIONSTABELLE.VALUE)
+                .from(KONFIGURATIONSTABELLE)
+                .where(KONFIGURATIONSTABELLE.KEY.eq(WerkstattInformationStaticConfiguration.IBAN))
+                .fetchOptional(KONFIGURATIONSTABELLE.VALUE);
+        if(!iban.isPresent() || iban.get().isEmpty()) return false;
+        return true;
+    }
 }

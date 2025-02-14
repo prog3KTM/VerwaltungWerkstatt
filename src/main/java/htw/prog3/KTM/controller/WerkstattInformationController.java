@@ -1,15 +1,15 @@
 package htw.prog3.KTM.controller;
 
+import htw.prog3.KTM.database.DatabaseManager;
 import htw.prog3.KTM.model.werkstattInformation.WerkstattInformation;
 import htw.prog3.KTM.service.WerkstattInformationService;
 
 public class WerkstattInformationController {
 
-
     private final WerkstattInformationService werkstattInformationService;
 
-    public WerkstattInformationController(WerkstattInformationService werkstattInformationService) {
-        this.werkstattInformationService = werkstattInformationService;
+    public WerkstattInformationController(DatabaseManager databaseManager) {
+        this.werkstattInformationService = new WerkstattInformationService(databaseManager);
     }
 
     public String getName() {
@@ -42,6 +42,18 @@ public class WerkstattInformationController {
 
     public String getIban() {
         return werkstattInformationService.getIban();
+    }
+
+    public WerkstattInformation getWerkstattInformation() {
+        return werkstattInformationService.getWerkstattInformation();
+    }
+
+    public void delete() {
+        werkstattInformationService.delete();
+    }
+
+    public boolean ifInformationExists() {
+        return werkstattInformationService.ifInformationExists();
     }
 
     public void save(WerkstattInformation werkstattInformation) {

@@ -52,4 +52,11 @@ public class WerkstattInformationService {
         werkstattInformationRepository.save(werkstattInformation);
     }
 
+    public boolean ifInformationExists() {
+        return werkstattInformationRepository.ifInformationExists();
+    }
+
+    public void delete() {
+        werkstattInformationRepository.delete();
+    }
 }
