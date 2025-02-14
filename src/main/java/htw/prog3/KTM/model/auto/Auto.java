@@ -1,19 +1,19 @@
 package htw.prog3.KTM.model.auto;
 
 import htw.prog3.KTM.model.CarRepairComponent;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Auto implements CarRepairComponent {
-    private final List<CarRepairComponent> jobs = new ArrayList<>();  // Cars can have multiple repair jobs or service jobs{
-    private int id;
+    private final List<CarRepairComponent> jobs = new ArrayList<>();  // Cars can have multiple repair jobs or service jobs
+    private String id;           // Changed from int to String
     private String model;
     private String brand;
     private String licensePlate;
     private AutoStatus autoStatus;
 
-    public Auto(int id, String model, String brand, String licensePlate, AutoStatus autoStatus) {
+    // Updated constructor to accept a String for the ID
+    public Auto(String id, String model, String brand, String licensePlate, AutoStatus autoStatus) {
         this.id = id;
         this.model = model;
         this.brand = brand;
@@ -31,9 +31,8 @@ public class Auto implements CarRepairComponent {
 
     @Override
     public void printStatus() {
-
+        // Implement the status printing logic here if needed
     }
-
 
     public enum AutoStatus {
         AVAILABLE(1),
@@ -60,14 +59,16 @@ public class Auto implements CarRepairComponent {
         }
     }
 
-    public int getId() {
+    // Getter and setter for id
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
+    // Getter and setter for model
     public String getModel() {
         return model;
     }
@@ -76,6 +77,7 @@ public class Auto implements CarRepairComponent {
         this.model = model;
     }
 
+    // Getter and setter for brand
     public String getBrand() {
         return brand;
     }
@@ -84,10 +86,16 @@ public class Auto implements CarRepairComponent {
         this.brand = brand;
     }
 
+    // Getter and setter for licensePlate
     public String getLicensePlate() {
         return licensePlate;
     }
 
+    public void setLicensePlate(String licensePlate) {
+        this.licensePlate = licensePlate;
+    }
+
+    // Getter and setter for autoStatus
     public AutoStatus getAutoStatus() {
         return autoStatus;
     }
@@ -96,18 +104,14 @@ public class Auto implements CarRepairComponent {
         this.autoStatus = autoStatus;
     }
 
-    public void setLicensePlate(String licensePlate) {
-        this.licensePlate = licensePlate;
-    }
-
     @Override
     public String toString() {
         return "Auto{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", model='" + model + '\'' +
                 ", brand='" + brand + '\'' +
                 ", licensePlate='" + licensePlate + '\'' +
-                ", autostatus='" + autoStatus + '\'' +
+                ", autoStatus=" + autoStatus +
                 '}';
     }
 }

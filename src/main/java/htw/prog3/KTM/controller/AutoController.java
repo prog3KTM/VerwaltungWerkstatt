@@ -21,11 +21,13 @@ public class AutoController {
         autoRepository.save(auto);
     }
 
-    public Auto getAutoById(int id) {
-        return autoRepository.findById(id).orElse(null); // Return null if no car is found
+    // Change method parameter to String
+    public Auto getAutoById(String id) {
+        return autoRepository.findById(id).orElse(null); // Returns null if no car is found
     }
 
-    public void deleteAutoById(int id) {
+    // Change method parameter to String
+    public void deleteAutoById(String id) {
         autoRepository.deleteById(id);
     }
 }

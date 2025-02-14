@@ -26,7 +26,9 @@ public class AutoRepository {
     public List<Auto> findAll() {
         try {
             DSLContext create = getDSLContext();
-            return create.selectFrom(Tables.AUTO).fetch().map(this::mapToAuto);
+            return create.selectFrom(Tables.AUTO)
+                    .fetch()
+                    .map(this::mapToAuto);
         } catch (SQLException e) {
             throw new RuntimeException("Error fetching all cars", e);
         }
@@ -43,21 +45,22 @@ public class AutoRepository {
         }
     }
 
-    // Find a car by ID
-    public Optional<Auto> findById(int id) {
+    // Find a car by ID (now accepts a String)
+    public Optional<Auto> findById(String id) {
         try {
             DSLContext create = getDSLContext();
             AutoRecord record = create.selectFrom(Tables.AUTO)
                     .where(Tables.AUTO.ID.eq(id))
                     .fetchOne();
-            return Optional.ofNullable(record).map(this::mapToAuto);
+            return Optional.ofNullable(record)
+                    .map(this::mapToAuto);
         } catch (SQLException e) {
             throw new RuntimeException("Error finding car by ID", e);
         }
     }
 
-    // Delete a car by ID
-    public void deleteById(int id) {
+    // Delete a car by ID (now accepts a String)
+    public void deleteById(String id) {
         try {
             DSLContext create = getDSLContext();
             int rowsDeleted = create.deleteFrom(Tables.AUTO)
