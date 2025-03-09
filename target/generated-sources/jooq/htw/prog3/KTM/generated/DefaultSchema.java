@@ -7,6 +7,7 @@ package htw.prog3.KTM.generated;
 import htw.prog3.KTM.generated.tables.Auto;
 import htw.prog3.KTM.generated.tables.Konfigurationstabelle;
 import htw.prog3.KTM.generated.tables.Kunde;
+import htw.prog3.KTM.generated.tables.ServiceJob;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,6 +46,11 @@ public class DefaultSchema extends SchemaImpl {
     public final Kunde KUNDE = Kunde.KUNDE;
 
     /**
+     * The table <code>SERVICE_JOB</code>.
+     */
+    public final ServiceJob SERVICE_JOB = ServiceJob.SERVICE_JOB;
+
+    /**
      * No further instances allowed
      */
     private DefaultSchema() {
@@ -62,7 +68,8 @@ public class DefaultSchema extends SchemaImpl {
         return Arrays.asList(
             Auto.AUTO,
             Konfigurationstabelle.KONFIGURATIONSTABELLE,
-            Kunde.KUNDE
+            Kunde.KUNDE,
+            ServiceJob.SERVICE_JOB
         );
     }
 }

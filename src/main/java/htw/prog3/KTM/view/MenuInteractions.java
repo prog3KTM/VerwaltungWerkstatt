@@ -16,4 +16,13 @@ public interface MenuInteractions {
     void throwError(String err);
 
     void sendMessage(String msg);
+    
+    // New methods
+    Kunde getKundeInfo();
+    String getAutoInfo();
+    String getServiceInfo();
+    
+    // Helper methods
+    String getString(String prompt);
+    int getInt(String prompt);
 }

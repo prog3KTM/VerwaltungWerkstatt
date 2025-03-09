@@ -25,7 +25,7 @@ public class ServiceJob implements CarRepairComponent {
 
     @Override
     public void printStatus() {
-
+        System.out.println(toString());
     }
 
     public String getJobName() {
@@ -50,5 +50,15 @@ public class ServiceJob implements CarRepairComponent {
 
     public void setJobId(int jobId) {
         this.jobId = jobId;
+    }
+    
+    @Override
+    public String toString() {
+        return "ServiceJob{" +
+                "jobId=" + jobId +
+                ", jobName='" + jobName + '\'' +
+                ", status='" + status + '\'' +
+                ", type=" + type +
+                '}';
     }
 }

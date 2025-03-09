@@ -27,7 +27,9 @@ public class DatabaseManager {
 
     private void connect() {
         try {
-            CONNECTION = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            if (CONNECTION == null || CONNECTION.isClosed()) {
+                CONNECTION = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            }
         } catch (SQLException e) {
             throw new RuntimeException("Could not connect to database", e);
         }
@@ -35,18 +37,30 @@ public class DatabaseManager {
 
     // Stellt eine Verbindung zur SQLite-Datenbank her
     public static Connection getConnection() {
-        if (CONNECTION == null) {
-            try {
+        try {
+            if (CONNECTION == null || CONNECTION.isClosed()) {
                 CONNECTION = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            } catch (SQLException e) {
-                throw new RuntimeException("Could not connect to database", e);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException("Could not connect to database", e);
         }
         return CONNECTION;
     }
 
     // Stellt einen DSLContext bereit, der fuer die Interaktion mit der Datenbank verwendet wird
     public DSLContext getDSLContext() {
+        connect(); // Ensure connection is open
         return DSL.using(CONNECTION, SQLDialect.SQLITE);
+    }
+    
+    // Close the connection when the application is shutting down
+    public void closeConnection() {
+        if (CONNECTION != null) {
+            try {
+                CONNECTION.close();
+            } catch (SQLException e) {
+                // Ignore
+            }
+        }
     }
 }

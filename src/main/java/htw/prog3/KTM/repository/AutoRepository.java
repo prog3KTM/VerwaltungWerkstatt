@@ -16,10 +16,34 @@ public class AutoRepository {
 
     public AutoRepository(DatabaseManager databaseManager) {
         this.databaseManager = databaseManager;
+        createTableIfNotExists();
     }
 
     private DSLContext getDSLContext() throws SQLException {
         return databaseManager.getDSLContext();
+    }
+
+    private void createTableIfNotExists() {
+        try {
+            DSLContext create = getDSLContext();
+            create.execute("CREATE TABLE IF NOT EXISTS AUTO (" +
+                    "id VARCHAR(100) PRIMARY KEY, " +
+                    "model VARCHAR(100) NOT NULL, " +
+                    "brand VARCHAR(100) NOT NULL, " +
+                    "licensePlate VARCHAR(100) NOT NULL, " +
+                    "autostatus INTEGER" +
+                    ")");
+            
+            // Check if autostatus column exists, if not add it
+            try {
+                create.select().from("AUTO").where("autostatus IS NOT NULL").limit(1).fetch();
+            } catch (Exception e) {
+                // Column doesn't exist, add it
+                create.execute("ALTER TABLE AUTO ADD COLUMN autostatus INTEGER");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error creating auto table", e);
+        }
     }
 
     // Retrieve all cars
@@ -38,7 +62,17 @@ public class AutoRepository {
     public void save(Auto auto) {
         try {
             DSLContext create = getDSLContext();
+            
+            // Ensure auto status is not null
+            if (auto.getAutoStatus() == null) {
+                auto.setAutoStatus(Auto.AutoStatus.AVAILABLE);
+            }
+            
             AutoRecord autoRecord = create.newRecord(Tables.AUTO, auto);
+            
+            // Explicitly set the autostatus field
+            autoRecord.setAutostatus(auto.getAutoStatus().getCode());
+            
             autoRecord.store();
         } catch (SQLException e) {
             throw new RuntimeException("Error saving the car", e);
@@ -88,7 +122,7 @@ public class AutoRepository {
     // Helper method to map integer status to Auto.AutoStatus enum
     private Auto.AutoStatus mapToAutoStatus(Integer status) {
         if (status == null) {
-            return null; // Handle null status gracefully
+            return Auto.AutoStatus.AVAILABLE; // Default to AVAILABLE if status is null
         }
         return Auto.AutoStatus.fromCode(status); // Explicitly reference the nested enum
     }

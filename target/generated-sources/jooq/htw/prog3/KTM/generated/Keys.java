@@ -7,10 +7,13 @@ package htw.prog3.KTM.generated;
 import htw.prog3.KTM.generated.tables.Auto;
 import htw.prog3.KTM.generated.tables.Konfigurationstabelle;
 import htw.prog3.KTM.generated.tables.Kunde;
+import htw.prog3.KTM.generated.tables.ServiceJob;
 import htw.prog3.KTM.generated.tables.records.AutoRecord;
 import htw.prog3.KTM.generated.tables.records.KonfigurationstabelleRecord;
 import htw.prog3.KTM.generated.tables.records.KundeRecord;
+import htw.prog3.KTM.generated.tables.records.ServiceJobRecord;
 
+import org.jooq.ForeignKey;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
@@ -31,4 +34,11 @@ public class Keys {
     public static final UniqueKey<AutoRecord> AUTO__PK_AUTO = Internal.createUniqueKey(Auto.AUTO, DSL.name("pk_Auto"), new TableField[] { Auto.AUTO.ID }, true);
     public static final UniqueKey<KonfigurationstabelleRecord> KONFIGURATIONSTABELLE__PK_KONFIGURATIONSTABELLE = Internal.createUniqueKey(Konfigurationstabelle.KONFIGURATIONSTABELLE, DSL.name("pk_Konfigurationstabelle"), new TableField[] { Konfigurationstabelle.KONFIGURATIONSTABELLE.KEY }, true);
     public static final UniqueKey<KundeRecord> KUNDE__PK_KUNDE = Internal.createUniqueKey(Kunde.KUNDE, DSL.name("pk_Kunde"), new TableField[] { Kunde.KUNDE.ID }, true);
+    public static final UniqueKey<ServiceJobRecord> SERVICE_JOB__PK_SERVICE_JOB = Internal.createUniqueKey(ServiceJob.SERVICE_JOB, DSL.name("pk_SERVICE_JOB"), new TableField[] { ServiceJob.SERVICE_JOB.JOB_ID }, true);
+
+    // -------------------------------------------------------------------------
+    // FOREIGN KEY definitions
+    // -------------------------------------------------------------------------
+
+    public static final ForeignKey<ServiceJobRecord, AutoRecord> SERVICE_JOB__FK_SERVICE_JOB_PK_AUTO = Internal.createForeignKey(ServiceJob.SERVICE_JOB, DSL.name("fk_SERVICE_JOB_pk_Auto"), new TableField[] { ServiceJob.SERVICE_JOB.AUTO_ID }, Keys.AUTO__PK_AUTO, new TableField[] { Auto.AUTO.ID }, true);
 }

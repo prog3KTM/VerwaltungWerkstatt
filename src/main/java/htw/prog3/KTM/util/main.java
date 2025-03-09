@@ -25,61 +25,25 @@ public class main {
         String password = "";
         String url = "jdbc:sqlite:werkstatt.db";
 
-        // DI wird durch die AppConfig-Klasse gehandhabt
-        appConfig = new AppConfig();
-        KundeController kundeController = appConfig.getKundeController();
+        try {
+            // DI wird durch die AppConfig-Klasse gehandhabt
+            appConfig = new AppConfig();
+            KundeController kundeController = appConfig.getKundeController();
 
-        MenuService.getInstance().run();
+            // Register a shutdown hook to close the database connection
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                if (appConfig != null) {
+                    appConfig.getDatabaseManager().closeConnection();
+                }
+            }));
 
-//        Scanner scanner = new Scanner(System.in);
-//        boolean running = true;
-//
-//        while (running) {
-//            System.out.println("\nKundenverwaltung:");
-//            System.out.println("1. Alle Kunden anzeigen");
-//            System.out.println("2. Kunden nach ID suchen");
-//            System.out.println("3. Neuen Kunden hinzufügen");
-//            System.out.println("4. Kunden aktualisieren");
-//            System.out.println("5. Kunden löschen");
-//            System.out.println("6. Beenden");
-//
-//            int choice = scanner.nextInt();
-//            scanner.nextLine();  // Puffer leeren
-//
-//            try {
-//                switch (choice) {
-//                    case 1:
-//                        List<Kunde> kunden = kundeController.getAllKunden();
-//                        kunden.forEach(k -> System.out.println(k.getId() + ": " + k.getName()));
-//                        break;
-//                    case 2:
-//                        System.out.print("Kunden-ID eingeben: ");
-//                        int id = scanner.nextInt();
-//                        Optional<Kunde> kundeOpt = kundeController.getKundeById(id);
-//                        kundeOpt.ifPresent(k -> System.out.println(k));
-//                        break;
-//                    case 3:
-//                        // Benutzerabfrage für neuen Kunden
-//                        break;
-//                    case 4:
-//                        // Benutzerabfrage für Kundenaktualisierung
-//                        break;
-//                    case 5:
-//                        // Benutzerabfrage für Kundenlöschung
-//                        break;
-//                    case 6:
-//                        running = false;
-//                        System.out.println("Beenden...");
-//                        break;
-//                    default:
-//                        System.out.println("Ungültige Wahl!");
-//                }
-//            } catch (SQLException e) {
-//                System.out.println("Datenbankfehler: " + e.getMessage());
-//            }
-//        }
-//
-//        scanner.close();
+            MenuService.getInstance().run();
+        } finally {
+            // Close the database connection when the application exits
+            if (appConfig != null) {
+                appConfig.getDatabaseManager().closeConnection();
+            }
+        }
     }
 
     public static AppConfig getAppConfig() {

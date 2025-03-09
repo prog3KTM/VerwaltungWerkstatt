@@ -30,4 +30,12 @@ public class AutoController {
     public void deleteAutoById(String id) {
         autoRepository.deleteById(id);
     }
+    
+    // Add a method to update an auto
+    public void updateAuto(Auto auto) {
+        // First delete the existing auto
+        deleteAutoById(auto.getId());
+        // Then add the updated auto
+        addAuto(auto);
+    }
 }

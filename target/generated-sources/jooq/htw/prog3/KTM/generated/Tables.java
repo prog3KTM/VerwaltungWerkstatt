@@ -7,6 +7,7 @@ package htw.prog3.KTM.generated;
 import htw.prog3.KTM.generated.tables.Auto;
 import htw.prog3.KTM.generated.tables.Konfigurationstabelle;
 import htw.prog3.KTM.generated.tables.Kunde;
+import htw.prog3.KTM.generated.tables.ServiceJob;
 
 
 /**
@@ -29,4 +30,9 @@ public class Tables {
      * The table <code>Kunde</code>.
      */
     public static final Kunde KUNDE = Kunde.KUNDE;
+
+    /**
+     * The table <code>SERVICE_JOB</code>.
+     */
+    public static final ServiceJob SERVICE_JOB = ServiceJob.SERVICE_JOB;
 }
