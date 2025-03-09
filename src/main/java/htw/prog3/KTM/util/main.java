@@ -28,7 +28,6 @@ public class main {
         try {
             // DI wird durch die AppConfig-Klasse gehandhabt
             appConfig = new AppConfig();
-            KundeController kundeController = appConfig.getKundeController();
 
             // Register a shutdown hook to close the database connection
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
