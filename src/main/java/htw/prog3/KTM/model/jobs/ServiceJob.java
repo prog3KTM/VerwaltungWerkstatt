@@ -3,10 +3,10 @@ package htw.prog3.KTM.model.jobs;
 import htw.prog3.KTM.model.CarRepairComponent;
 
 public class ServiceJob implements CarRepairComponent {
-    private int jobId;
-    private String jobName;
-    private String status;
+    private int id;
+    private String name;
     private ServiceJobType type;
+    private JobStatus status;
 
     public ServiceJobType getType() {
         return type;
@@ -16,11 +16,11 @@ public class ServiceJob implements CarRepairComponent {
         this.type = type;
     }
 
-    public ServiceJob(int jobId, ServiceJobType type, String jobName, String status) {
-        this.jobName = jobName;
-        this.status = status;
+    public ServiceJob(int id, ServiceJobType type, String name, String status) {
+        this.name = name;
+        this.status = JobStatus.fromString(status);
         this.type = type;
-        this.jobId = jobId;
+        this.id = id;
     }
 
     @Override
@@ -28,35 +28,35 @@ public class ServiceJob implements CarRepairComponent {
         System.out.println(toString());
     }
 
-    public String getJobName() {
-        return jobName;
+    public String getName() {
+        return name;
     }
 
-    public void setJobName(String jobName) {
-        this.jobName = jobName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getStatus() {
-        return status;
+        return JobStatus.toString(status);
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.status = JobStatus.fromString(status);
     }
 
-    public int getJobId() {
-        return jobId;
+    public int getId() {
+        return id;
     }
 
-    public void setJobId(int jobId) {
-        this.jobId = jobId;
+    public void setId(int id) {
+        this.id = id;
     }
     
     @Override
     public String toString() {
         return "ServiceJob{" +
-                "jobId=" + jobId +
-                ", jobName='" + jobName + '\'' +
+                "jobId=" + id +
+                ", jobName='" + name + '\'' +
                 ", status='" + status + '\'' +
                 ", type=" + type +
                 '}';

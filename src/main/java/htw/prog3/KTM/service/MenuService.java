@@ -1,16 +1,15 @@
 package htw.prog3.KTM.service;
 
-import htw.prog3.KTM.controller.AutoController;
-import htw.prog3.KTM.controller.KundeController;
-import htw.prog3.KTM.controller.WerkstattInformationController;
+import htw.prog3.KTM.controller.CarController;
+import htw.prog3.KTM.controller.CustomerController;
+import htw.prog3.KTM.controller.WorkshopInformationController;
 import htw.prog3.KTM.controller.ServiceJobController;
-import htw.prog3.KTM.model.CarRepairComponent;
-import htw.prog3.KTM.model.auto.Auto;
-import htw.prog3.KTM.model.auto.Auto.AutoStatus;
+import htw.prog3.KTM.model.car.Car;
+import htw.prog3.KTM.model.car.Car.CarStatus;
 import htw.prog3.KTM.model.jobs.ServiceJob;
 import htw.prog3.KTM.model.jobs.ServiceJobType;
-import htw.prog3.KTM.model.kunde.Kunde;
-import htw.prog3.KTM.model.werkstattInformation.WerkstattInformation;
+import htw.prog3.KTM.model.kunde.Customer;
+import htw.prog3.KTM.model.workshopinformation.WorkshopInformation;
 import htw.prog3.KTM.util.main;
 import htw.prog3.KTM.view.MenuInteractions;
 import htw.prog3.KTM.view.TextLineInterface;
@@ -25,15 +24,15 @@ public class MenuService {
 
     private MenuInteractions menu;
     private boolean running;
-    private KundeController kundeController;
-    private AutoController autoController;
+    private CustomerController customerController;
+    private CarController carController;
     private ServiceJobController serviceJobController;
     
     private MenuService() {
         menu = new TextLineInterface(main.getAppConfig().getDatabaseManager());
         running = true;
-        kundeController = main.getAppConfig().getKundeController();
-        autoController = main.getAppConfig().getAutoController();
+        customerController = main.getAppConfig().getCustomerController();
+        carController = main.getAppConfig().getCarController();
         serviceJobController = main.getAppConfig().getServiceJobController();
     }
 
@@ -98,11 +97,11 @@ public class MenuService {
             
             if (serviceJobOpt.isPresent()) {
                 ServiceJob serviceJob = serviceJobOpt.get();
-                String autoId = serviceJobController.getAutoIdForServiceJob(serviceId);
-                Auto auto = autoController.getAutoById(autoId);
+                int carId = serviceJobController.getAutoIdForServiceJob(serviceId);
+                Car car = carController.getCarById(carId);
                 
-                if (auto != null) {
-                    menu.sendMessage("Auto: " + auto.getBrand() + " " + auto.getModel() + " (Fahrzeug-Status: " + auto.getAutoStatus() + ")");
+                if (car != null) {
+                    menu.sendMessage("Auto: " + car.getBrand() + " " + car.getModel() + " (Fahrzeug-Status: " + car.getCarStatus() + ")");
                     menu.sendMessage("Aktueller Bearbeitungs-Status des Services: " + serviceJob.getStatus());
                     menu.sendMessage("Neuen Bearbeitungs-Status wählen:");
                     menu.sendMessage("1. PENDING (Ausstehend)");
@@ -139,15 +138,15 @@ public class MenuService {
                     }
                     
                     if (allServicesCompleted && !autoServices.isEmpty()) {
-                        auto.setAutoStatus(AutoStatus.AVAILABLE);
-                        autoController.updateAuto(auto);
+                        car.setCarStatus(CarStatus.AVAILABLE);
+                        carController.updateCar(car);
                         menu.sendMessage("Alle Services für dieses Auto sind abgeschlossen oder storniert.");
                         menu.sendMessage("Fahrzeug-Status wurde auf AVAILABLE gesetzt.");
                     } else {
                         // Make sure the auto is marked as in service
-                        if (auto.getAutoStatus() != AutoStatus.IN_SERVICE) {
-                            auto.setAutoStatus(AutoStatus.IN_SERVICE);
-                            autoController.updateAuto(auto);
+                        if (car.getCarStatus() != CarStatus.IN_SERVICE) {
+                            car.setCarStatus(CarStatus.IN_SERVICE);
+                            carController.updateCar(car);
                             menu.sendMessage("Fahrzeug-Status wurde auf IN_SERVICE gesetzt.");
                         }
                     }
@@ -176,15 +175,15 @@ public class MenuService {
             
             if (serviceJobOpt.isPresent()) {
                 ServiceJob serviceJob = serviceJobOpt.get();
-                String autoId = serviceJobController.getAutoIdForServiceJob(serviceId);
-                Auto auto = autoController.getAutoById(autoId);
+                int carId = serviceJobController.getCarIdForServiceJob(serviceId);
+                Car car = carController.getCarById(carId);
                 
-                if (auto != null) {
-                    menu.sendMessage("Service gefunden für Auto: " + auto.getBrand() + " " + auto.getModel());
-                    menu.sendMessage("Fahrzeug-Status: " + auto.getAutoStatus());
-                    menu.sendMessage("Service ID: " + serviceJob.getJobId());
+                if (car != null) {
+                    menu.sendMessage("Service gefunden für Auto: " + car.getBrand() + " " + car.getModel());
+                    menu.sendMessage("Fahrzeug-Status: " + car.getCarStatus());
+                    menu.sendMessage("Service ID: " + serviceJob.getId());
                     menu.sendMessage("Typ: " + serviceJob.getType());
-                    menu.sendMessage("Name: " + serviceJob.getJobName());
+                    menu.sendMessage("Name: " + serviceJob.getName());
                     menu.sendMessage("Bearbeitungs-Status: " + serviceJob.getStatus());
                 } else {
                     menu.throwError("Auto für diesen Service nicht gefunden.");
@@ -203,9 +202,9 @@ public class MenuService {
 
     private void showAllServices() {
         try {
-            List<Auto> autos = autoController.getAllAutos();
+            List<Car> cars = carController.getAllCars();
             
-            if (autos.isEmpty()) {
+            if (cars.isEmpty()) {
                 menu.sendMessage("Es sind keine Autos vorhanden.");
                 return;
             }
@@ -213,16 +212,16 @@ public class MenuService {
             menu.sendMessage("Alle Services:");
             boolean foundServices = false;
             
-            for (Auto auto : autos) {
-                List<ServiceJob> serviceJobs = serviceJobController.getServiceJobsByAutoId(auto.getId());
+            for (Car car : cars) {
+                List<ServiceJob> serviceJobs = serviceJobController.getServiceJobsByAutoId(car.getId());
                 
                 if (!serviceJobs.isEmpty()) {
-                    menu.sendMessage("Auto: " + auto.getBrand() + " " + auto.getModel() + " (ID: " + auto.getId() + ", Fahrzeug-Status: " + auto.getAutoStatus() + ")");
+                    menu.sendMessage("Auto: " + car.getBrand() + " " + car.getModel() + " (ID: " + car.getId() + ", Fahrzeug-Status: " + car.getCarStatus() + ")");
                     
                     for (ServiceJob serviceJob : serviceJobs) {
-                        menu.sendMessage("  - Service ID: " + serviceJob.getJobId() + 
+                        menu.sendMessage("  - Service ID: " + serviceJob.getId() +
                                        ", Typ: " + serviceJob.getType() + 
-                                       ", Name: " + serviceJob.getJobName() + 
+                                       ", Name: " + serviceJob.getName() +
                                        ", Bearbeitungs-Status: " + serviceJob.getStatus());
                         foundServices = true;
                     }
@@ -243,25 +242,25 @@ public class MenuService {
         try {
             // First, get the car to add the service to
             menu.sendMessage("Für welches Auto soll der Service hinzugefügt werden?");
-            List<Auto> autos = autoController.getAllAutos();
+            List<Car> cars = carController.getAllCars();
             
-            if (autos.isEmpty()) {
+            if (cars.isEmpty()) {
                 menu.sendMessage("Es sind keine Autos vorhanden. Bitte fügen Sie zuerst ein Auto hinzu.");
                 return;
             }
             
-            for (int i = 0; i < autos.size(); i++) {
-                Auto auto = autos.get(i);
-                menu.sendMessage((i + 1) + ". " + auto.getBrand() + " " + auto.getModel() + " (ID: " + auto.getId() + ", Fahrzeug-Status: " + auto.getAutoStatus() + ")");
+            for (int i = 0; i < cars.size(); i++) {
+                Car car = cars.get(i);
+                menu.sendMessage((i + 1) + ". " + car.getBrand() + " " + car.getModel() + " (ID: " + car.getId() + ", Fahrzeug-Status: " + car.getCarStatus() + ")");
             }
             
             int autoIndex = menu.getInt("Auto auswählen (Nummer eingeben):") - 1;
-            if (autoIndex < 0 || autoIndex >= autos.size()) {
+            if (autoIndex < 0 || autoIndex >= cars.size()) {
                 menu.throwError("Ungültige Auswahl.");
                 return;
             }
             
-            Auto selectedAuto = autos.get(autoIndex);
+            Car selectedCar = cars.get(autoIndex);
             
             // Now get the service details
             String serviceInfo = menu.getServiceInfo();
@@ -298,14 +297,14 @@ public class MenuService {
             ServiceJob serviceJob = new ServiceJob(jobId, type, jobName, "PENDING");
             
             // Add the service job to the auto object in memory
-            selectedAuto.addJob(serviceJob);
-            selectedAuto.setAutoStatus(AutoStatus.IN_SERVICE);
+            selectedCar.addJob(serviceJob);
+            selectedCar.setCarStatus(CarStatus.IN_SERVICE);
             
             // Save the service job to the database
-            serviceJobController.addServiceJob(serviceJob, selectedAuto.getId());
+            serviceJobController.addServiceJob(serviceJob, selectedCar.getId());
             
             // Update the auto in the database
-            autoController.updateAuto(selectedAuto);
+            carController.updateCar(selectedCar);
             
             menu.sendMessage("Service wurde erfolgreich hinzugefügt.");
             menu.sendMessage("Bearbeitungs-Status des Services wurde auf PENDING gesetzt.");
@@ -349,8 +348,8 @@ public class MenuService {
 
     private void deleteAuto() {
         try {
-            String autoId = menu.getString("Auto-ID eingeben:");
-            autoController.deleteAutoById(autoId);
+            String CarId = menu.getString("Auto-ID eingeben:");
+            carController.deleteCarById(CarId);
             menu.sendMessage("Auto wurde erfolgreich gelöscht.");
         } catch (Exception e) {
             menu.throwError("Fehler beim Löschen des Autos: " + e.getMessage());
@@ -360,17 +359,17 @@ public class MenuService {
     private void findAutoById() {
         try {
             String autoId = menu.getString("Auto-ID eingeben:");
-            Auto auto = autoController.getAutoById(autoId);
-            if (auto != null) {
+            Car car = carController.getAutoById(autoId);
+            if (car != null) {
                 menu.sendMessage("Auto gefunden:");
-                menu.sendMessage("ID: " + auto.getId());
-                menu.sendMessage("Marke: " + auto.getBrand());
-                menu.sendMessage("Modell: " + auto.getModel());
-                menu.sendMessage("Kennzeichen: " + auto.getLicensePlate());
-                menu.sendMessage("Fahrzeug-Status: " + auto.getAutoStatus());
+                menu.sendMessage("ID: " + car.getId());
+                menu.sendMessage("Marke: " + car.getBrand());
+                menu.sendMessage("Modell: " + car.getModel());
+                menu.sendMessage("Kennzeichen: " + car.getLicensePlate());
+                menu.sendMessage("Fahrzeug-Status: " + car.getCarStatus());
                 
                 // Display associated services if any
-                List<ServiceJob> services = serviceJobController.getServiceJobsByAutoId(auto.getId());
+                List<ServiceJob> services = serviceJobController.getServiceJobsByAutoId(car.getId());
                 if (!services.isEmpty()) {
                     menu.sendMessage("\nServices für dieses Auto:");
                     for (ServiceJob service : services) {
@@ -393,20 +392,20 @@ public class MenuService {
 
     private void showAllAutos() {
         try {
-            List<Auto> autos = autoController.getAllAutos();
-            if (autos.isEmpty()) {
+            List<Car> cars = carController.getAllCars();
+            if (cars.isEmpty()) {
                 menu.sendMessage("Es sind keine Autos vorhanden.");
             } else {
                 menu.sendMessage("Alle Autos:");
-                for (Auto auto : autos) {
-                    menu.sendMessage("ID: " + auto.getId() + 
-                                   ", Marke: " + auto.getBrand() + 
-                                   ", Modell: " + auto.getModel() + 
-                                   ", Kennzeichen: " + auto.getLicensePlate() + 
-                                   ", Fahrzeug-Status: " + auto.getAutoStatus());
+                for (Car car : cars) {
+                    menu.sendMessage("ID: " + car.getId() +
+                                   ", Marke: " + car.getBrand() +
+                                   ", Modell: " + car.getModel() +
+                                   ", Kennzeichen: " + car.getLicensePlate() +
+                                   ", Fahrzeug-Status: " + car.getCarStatus());
                     
                     // Display associated services if any
-                    List<ServiceJob> services = serviceJobController.getServiceJobsByAutoId(auto.getId());
+                    List<ServiceJob> services = serviceJobController.getServiceJobsByAutoId(car.getId());
                     if (!services.isEmpty()) {
                         menu.sendMessage("  Services:");
                         for (ServiceJob service : services) {
@@ -429,7 +428,7 @@ public class MenuService {
         try {
             // First, get the customer to add the car to
             menu.sendMessage("Für welchen Kunden soll das Auto hinzugefügt werden?");
-            List<Kunde> kunden = kundeController.getAllKunden();
+            List<Customer> kunden = customerController.getAllCustomers();
             
             if (kunden.isEmpty()) {
                 menu.sendMessage("Es sind keine Kunden vorhanden. Bitte fügen Sie zuerst einen Kunden hinzu.");
@@ -446,7 +445,7 @@ public class MenuService {
                 return;
             }
             
-            Kunde selectedKunde = kunden.get(kundeIndex);
+            Customer selectedCustomer = kunden.get(kundeIndex);
             
             // Now get the car details
             String autoInfo = menu.getAutoInfo();
@@ -457,14 +456,14 @@ public class MenuService {
             String model = parts[2];
             String licensePlate = parts[3];
             
-            Auto auto = new Auto(id, model, brand, licensePlate, AutoStatus.AVAILABLE);
+            Car car = new Car(id, model, brand, licensePlate,CarStatus.AVAILABLE);
             
             // Add the car to the customer and update in the database
-            selectedKunde.addAuto(auto);
-            kundeController.updateKunde(selectedKunde);
+            selectedCustomer.addAuto(car);
+            customerController.updateCustomer(selectedCustomer);
             
             // Also add the car to the auto repository
-            autoController.addAuto(auto);
+            carController.addCar(car);
             
             menu.sendMessage("Auto wurde erfolgreich hinzugefügt.");
         } catch (SQLException e) {
@@ -505,7 +504,7 @@ public class MenuService {
     private void deleteKunde() {
         try {
             int kundeId = menu.getInt("Kunden-ID eingeben:");
-            kundeController.deleteKunde(kundeId);
+            customerController.deleteCustomer(kundeId);
             menu.sendMessage("Kunde wurde erfolgreich gelöscht.");
         } catch (SQLException e) {
             menu.throwError("Datenbankfehler: " + e.getMessage());
@@ -515,23 +514,23 @@ public class MenuService {
     private void updateKunde() {
         try {
             int kundeId = menu.getInt("Kunden-ID eingeben:");
-            Optional<Kunde> kundeOpt = kundeController.getKundeById(kundeId);
+            Optional<Customer> kundeOpt = customerController.getCustomerById(kundeId);
             
             if (kundeOpt.isPresent()) {
-                Kunde kunde = kundeOpt.get();
+                Customer customer = kundeOpt.get();
                 menu.sendMessage("Aktuelle Daten:");
-                menu.showKunde(kunde);
+                menu.showKunde(customer);
                 
                 // Get updated information
-                Kunde updatedKunde = menu.getKundeInfo();
-                updatedKunde.setId(kundeId); // Keep the same ID
+                Customer updatedCustomer = menu.getKundeInfo();
+                updatedCustomer.setId(kundeId); // Keep the same ID
                 
                 // Keep the same cars
-                for (Auto auto : kunde.getAutos()) {
-                    updatedKunde.addAuto(auto);
+                for (Car car : customer.getAutos()) {
+                    updatedCustomer.addAuto(car);
                 }
                 
-                kundeController.updateKunde(updatedKunde);
+                customerController.updateCustomer(updatedCustomer);
                 menu.sendMessage("Kunde wurde erfolgreich aktualisiert.");
             } else {
                 menu.sendMessage("Kunde mit ID " + kundeId + " nicht gefunden.");
@@ -543,8 +542,8 @@ public class MenuService {
 
     private void addNewKunde() {
         try {
-            Kunde kunde = menu.getKundeInfo();
-            kundeController.createKunde(kunde);
+            Customer customer = menu.getKundeInfo();
+            customerController.createCustomer(customer);
             menu.sendMessage("Kunde wurde erfolgreich hinzugefügt.");
         } catch (SQLException e) {
             menu.throwError("Datenbankfehler: " + e.getMessage());
@@ -554,7 +553,7 @@ public class MenuService {
     private void findKundeById() {
         try {
             int kundeId = menu.getInt("Kunden-ID eingeben:");
-            Optional<Kunde> kundeOpt = kundeController.getKundeById(kundeId);
+            Optional<Customer> kundeOpt = customerController.getCustomerById(kundeId);
             
             if (kundeOpt.isPresent()) {
                 menu.showKunde(kundeOpt.get());
@@ -568,13 +567,13 @@ public class MenuService {
 
     private void showAllKunden() {
         try {
-            List<Kunde> kunden = kundeController.getAllKunden();
+            List<Customer> kunden = customerController.getAllCustomers();
             if (kunden.isEmpty()) {
                 menu.sendMessage("Es sind keine Kunden vorhanden.");
             } else {
                 menu.sendMessage("Alle Kunden:");
-                for (Kunde kunde : kunden) {
-                    menu.showKunde(kunde);
+                for (Customer customer : kunden) {
+                    menu.showKunde(customer);
                     menu.sendMessage("------------------------");
                 }
             }
@@ -584,10 +583,10 @@ public class MenuService {
     }
 
     private void checkForWerkstattInformation() {
-        WerkstattInformationController werkstattInformationController = new WerkstattInformationController(main.getAppConfig().getDatabaseManager());
-        if(!werkstattInformationController.ifInformationExists()) {
-            WerkstattInformation werkstattInformation = menu.getWerkstattInformation();
-            werkstattInformationController.save(werkstattInformation);
+        WorkshopInformationController workshopInformationController = new WorkshopInformationController(main.getAppConfig().getDatabaseManager());
+        if(!workshopInformationController.ifInformationExists()) {
+            WorkshopInformation workshopInformation = menu.getWerkstattInformation();
+            workshopInformationController.save(workshopInformation);
             menu.sendMessage("Werkstatt-Information wurde gespeichert!");
         }
     }
@@ -595,15 +594,15 @@ public class MenuService {
     private void updateAutoStatus() {
         try {
             String autoId = menu.getString("Auto-ID eingeben:");
-            Auto auto = autoController.getAutoById(autoId);
+            Car car = carController.getAutoById(autoId);
             
-            if (auto == null) {
+            if (car == null) {
                 menu.sendMessage("Auto mit ID " + autoId + " nicht gefunden.");
                 return;
             }
             
-            menu.sendMessage("Auto gefunden: " + auto.getBrand() + " " + auto.getModel());
-            menu.sendMessage("Aktueller Fahrzeug-Status: " + auto.getAutoStatus());
+            menu.sendMessage("Auto gefunden: " + car.getBrand() + " " + car.getModel());
+            menu.sendMessage("Aktueller Fahrzeug-Status: " + car.getCarStatus());
             
             // Check if the auto has any active services
             List<ServiceJob> serviceJobs = serviceJobController.getServiceJobsByAutoId(autoId);
@@ -628,19 +627,19 @@ public class MenuService {
             menu.sendMessage("3. SOLD (Verkauft)");
             
             int statusChoice = menu.getInt("Auswahl:");
-            AutoStatus newStatus;
+            CarStatus newStatus;
             
             switch (statusChoice) {
-                case 1: newStatus = AutoStatus.AVAILABLE; break;
-                case 2: newStatus = AutoStatus.IN_SERVICE; break;
-                case 3: newStatus = AutoStatus.SOLD; break;
+                case 1: newStatus = CarStatus.AVAILABLE; break;
+                case 2: newStatus = CarStatus.IN_SERVICE; break;
+                case 3: newStatus = CarStatus.SOLD; break;
                 default:
                     menu.throwError("Ungültige Auswahl.");
                     return;
             }
             
-            auto.setAutoStatus(newStatus);
-            autoController.updateAuto(auto);
+            car.setCarStatus(newStatus);
+            carController.updateAuto(car);
             
             menu.sendMessage("Fahrzeug-Status wurde auf " + newStatus + " aktualisiert.");
         } catch (NumberFormatException e) {

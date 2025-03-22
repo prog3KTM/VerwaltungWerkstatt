@@ -1,6 +1,6 @@
-package htw.prog3.KTM.model.werkstattInformation;
+package htw.prog3.KTM.model.workshopinformation;
 
-public class WerkstattInformationStaticConfiguration {
+public class WorkshopInformationStaticConfiguration {
 
     public static final String NAME = "werkstatt-name";
     public static final String LOCATION = "werkstatt-location";

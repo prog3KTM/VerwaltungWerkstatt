@@ -6,5 +6,19 @@ public enum ServiceJobType {
     SOFTWARE_UPDATE,  // Example for IT jobs
     BRAKE_REPAIR,
     ENGINE_DIAGNOSTIC,
-    GENERAL_MAINTENANCE
+    GENERAL_MAINTENANCE;
+
+    public static ServiceJobType fromString(String status) {
+        try {
+            return ServiceJobType.valueOf(status.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Unknown ServiceJobType: " + status);
+        }
+    }
+
+    // Convert from enum to String
+    public static String toString(ServiceJobType status) {
+        return status.name();
+    }
+
 }

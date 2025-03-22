@@ -1,6 +1,6 @@
-package htw.prog3.KTM.model.auto;
+package htw.prog3.KTM.model.car;
 
-public enum AutoEvent {
+public enum CarEvent {
     RECEIVE_CAR,          // Car has been received
     START_ASSESSMENT,     // Assessment starts for the car
     START_REPAIR,         // Repair work officially starts

@@ -3,16 +3,16 @@ package htw.prog3.KTM.intecration;
 import htw.prog3.KTM.config.AppConfig;
 import htw.prog3.KTM.database.DatabaseManager;
 import htw.prog3.KTM.database.TableHandler;
-import htw.prog3.KTM.model.werkstattInformation.WerkstattInformation;
-import htw.prog3.KTM.repository.WerkstattInformationRepository;
-import htw.prog3.KTM.service.WerkstattInformationService;
+import htw.prog3.KTM.model.workshopinformation.WorkshopInformation;
+import htw.prog3.KTM.repository.WorkshopInformationRepository;
+import htw.prog3.KTM.service.WorkshopinformationService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class WerkstattInformationServiceTest {
+class WorkshopInformationServiceTest {
 
-    private static WerkstattInformationService werkstattInformationService;
+    private static WorkshopinformationService workshopinformationService;
 
     //- Testdata
     private final String name = "WerkstattInformationServiceTest";
@@ -31,53 +31,53 @@ class WerkstattInformationServiceTest {
         TableHandler tableHandler = appConfig.getTableHandler();
         tableHandler.dropTables();
         tableHandler.checkTables();
-        WerkstattInformationRepository werkstattInformationRepository = new WerkstattInformationRepository(databaseManager);
-        werkstattInformationService = new WerkstattInformationService(databaseManager);
+        WorkshopInformationRepository workshopInformationRepository = new WorkshopInformationRepository(databaseManager);
+        workshopinformationService = new WorkshopinformationService(databaseManager);
     }
 
     @Test
     void save() {
-        werkstattInformationService.save(new WerkstattInformation(name, location, phone, email, website, vat, busregnum, iban));
+        workshopinformationService.save(new WorkshopInformation(name, location, phone, email, website, vat, busregnum, iban));
     }
 
     @Test
     void getName() {
-        assertEquals(name, werkstattInformationService.getName());
+        assertEquals(name, workshopinformationService.getName());
     }
 
     @Test
     void getEmail() {
-        assertEquals(email, werkstattInformationService.getEmail());
+        assertEquals(email, workshopinformationService.getEmail());
     }
 
     @Test
     void getLocation() {
-        assertEquals(location, werkstattInformationService.getLocation());
+        assertEquals(location, workshopinformationService.getLocation());
     }
 
     @Test
     void getPhone() {
-        assertEquals(phone, werkstattInformationService.getPhone());
+        assertEquals(phone, workshopinformationService.getPhone());
     }
 
     @Test
     void getWebsite() {
-        assertEquals(website, werkstattInformationService.getWebsite());
+        assertEquals(website, workshopinformationService.getWebsite());
     }
 
     @Test
     void getVat() {
-        assertEquals(vat, werkstattInformationService.getVat());
+        assertEquals(vat, workshopinformationService.getVat());
     }
 
     @Test
     void getBusinessRegNumber() {
-        assertEquals(busregnum, werkstattInformationService.getBusinessRegNumber());
+        assertEquals(busregnum, workshopinformationService.getBusinessRegNumber());
     }
 
     @Test
     void getIban() {
-        assertEquals(iban, werkstattInformationService.getIban());
+        assertEquals(iban, workshopinformationService.getIban());
     }
 
 }

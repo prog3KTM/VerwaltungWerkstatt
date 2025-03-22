@@ -1,26 +1,26 @@
-package htw.prog3.KTM.model.auto;
+package htw.prog3.KTM.model.car;
 
 import java.util.HashMap;
 import java.util.Map;
 
 // Fluent Builder for CarStateMachine
-public class AutoStateMachineBuilder {
+public class CarStateMachineBuilder {
 
-    private AutoStatus initialState;
-    private final Map<AutoStatus, Map<AutoEvent, AutoStatus>> transitions;
+    private CarStatus initialState;
+    private final Map<CarStatus, Map<CarEvent, CarStatus>> transitions;
 
-    public AutoStateMachineBuilder() {
+    public CarStateMachineBuilder() {
         this.transitions = new HashMap<>();
     }
 
     // Set the initial state of the car
-    public AutoStateMachineBuilder withInitialState(AutoStatus state) {
+    public CarStateMachineBuilder withInitialState(CarStatus state) {
         this.initialState = state;
         return this;
     }
 
     // Add a state transition (fromState -> event -> toState)
-    public AutoStateMachineBuilder addTransition(AutoStatus fromState, AutoEvent event, AutoStatus toState) {
+    public CarStateMachineBuilder addTransition(CarStatus fromState, CarEvent event, CarStatus toState) {
         this.transitions
                 .computeIfAbsent(fromState, k -> new HashMap<>())
                 .put(event, toState);
@@ -28,10 +28,10 @@ public class AutoStateMachineBuilder {
     }
 
     // Build and return the CarStateMachine
-    public AutoStateMachine build() {
+    public CarStateMachine build() {
         if (initialState == null) {
             throw new IllegalStateException("Initial state must be defined.");
         }
-        return new AutoStateMachine(initialState, transitions);
+        return new CarStateMachine(initialState, transitions);
     }
 }

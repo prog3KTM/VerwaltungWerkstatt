@@ -4,10 +4,11 @@
 package htw.prog3.KTM.generated;
 
 
-import htw.prog3.KTM.generated.tables.Auto;
+import htw.prog3.KTM.generated.tables.Car;
+import htw.prog3.KTM.generated.tables.Customer;
 import htw.prog3.KTM.generated.tables.Konfigurationstabelle;
-import htw.prog3.KTM.generated.tables.Kunde;
-import htw.prog3.KTM.generated.tables.ServiceJob;
+import htw.prog3.KTM.generated.tables.Repairjob;
+import htw.prog3.KTM.generated.tables.Servicejob;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,9 +32,14 @@ public class DefaultSchema extends SchemaImpl {
     public static final DefaultSchema DEFAULT_SCHEMA = new DefaultSchema();
 
     /**
-     * The table <code>Auto</code>.
+     * The table <code>Car</code>.
      */
-    public final Auto AUTO = Auto.AUTO;
+    public final Car CAR = Car.CAR;
+
+    /**
+     * The table <code>Customer</code>.
+     */
+    public final Customer CUSTOMER = Customer.CUSTOMER;
 
     /**
      * The table <code>Konfigurationstabelle</code>.
@@ -41,14 +47,14 @@ public class DefaultSchema extends SchemaImpl {
     public final Konfigurationstabelle KONFIGURATIONSTABELLE = Konfigurationstabelle.KONFIGURATIONSTABELLE;
 
     /**
-     * The table <code>Kunde</code>.
+     * The table <code>RepairJob</code>.
      */
-    public final Kunde KUNDE = Kunde.KUNDE;
+    public final Repairjob REPAIRJOB = Repairjob.REPAIRJOB;
 
     /**
-     * The table <code>SERVICE_JOB</code>.
+     * The table <code>ServiceJob</code>.
      */
-    public final ServiceJob SERVICE_JOB = ServiceJob.SERVICE_JOB;
+    public final Servicejob SERVICEJOB = Servicejob.SERVICEJOB;
 
     /**
      * No further instances allowed
@@ -66,10 +72,11 @@ public class DefaultSchema extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
-            Auto.AUTO,
+            Car.CAR,
+            Customer.CUSTOMER,
             Konfigurationstabelle.KONFIGURATIONSTABELLE,
-            Kunde.KUNDE,
-            ServiceJob.SERVICE_JOB
+            Repairjob.REPAIRJOB,
+            Servicejob.SERVICEJOB
         );
     }
 }

@@ -41,7 +41,7 @@ public class ServiceJobRepository {
                     COL_JOB_NAME + " TEXT NOT NULL, " +
                     COL_STATUS + " TEXT NOT NULL, " +
                     COL_TYPE + " INTEGER NOT NULL, " +
-                    "FOREIGN KEY (" + COL_AUTO_ID + ") REFERENCES AUTO(ID)" +
+                    "FOREIGN KEY (" + COL_AUTO_ID + ") REFERENCES CAR(ID)" +
                     ")");
         } catch (SQLException e) {
             throw new RuntimeException("Error creating service job table", e);
@@ -49,23 +49,23 @@ public class ServiceJobRepository {
     }
 
     // Save a service job
-    public void save(ServiceJob serviceJob, String autoId) {
+    public void save(ServiceJob serviceJob, int carId) {
         try {
             DSLContext create = getDSLContext();
             
             // Check if the service job already exists
             Result<Record> existingRecord = create.select()
                     .from(TABLE_NAME)
-                    .where(DSL.field(COL_JOB_ID).eq(serviceJob.getJobId()))
+                    .where(DSL.field(COL_JOB_ID).eq(serviceJob.getId()))
                     .fetch();
             
             if (existingRecord.isNotEmpty()) {
                 // Update existing record
                 create.update(DSL.table(TABLE_NAME))
-                        .set(DSL.field(COL_JOB_NAME), serviceJob.getJobName())
+                        .set(DSL.field(COL_JOB_NAME), serviceJob.getName())
                         .set(DSL.field(COL_STATUS), serviceJob.getStatus())
                         .set(DSL.field(COL_TYPE), serviceJob.getType().ordinal())
-                        .where(DSL.field(COL_JOB_ID).eq(serviceJob.getJobId()))
+                        .where(DSL.field(COL_JOB_ID).eq(serviceJob.getId()))
                         .execute();
             } else {
                 // Insert new record
@@ -78,9 +78,9 @@ public class ServiceJobRepository {
                                 DSL.field(COL_TYPE)
                         )
                         .values(
-                                serviceJob.getJobId(),
-                                autoId,
-                                serviceJob.getJobName(),
+                                serviceJob.getId(),
+                                carId,
+                                serviceJob.getName(),
                                 serviceJob.getStatus(),
                                 serviceJob.getType().ordinal()
                         )

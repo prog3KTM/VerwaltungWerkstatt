@@ -1,24 +1,26 @@
-package htw.prog3.KTM.model.auto;
+package htw.prog3.KTM.model.car;
 
 import htw.prog3.KTM.model.CarRepairComponent;
+import htw.prog3.KTM.model.jobs.JobStatus;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Auto implements CarRepairComponent {
-    private final List<CarRepairComponent> jobs = new ArrayList<>();  // Cars can have multiple repair jobs or service jobs
+public class Car implements CarRepairComponent {
+    private final List<CarRepairComponent> jobs = new ArrayList<>();  // Cars can have multiple repair or service jobs
     private String id;           // Changed from int to String
     private String model;
     private String brand;
     private String licensePlate;
-    private AutoStatus autoStatus;
+    private CarStatus carStatus;
 
     // Updated constructor to accept a String for the ID
-    public Auto(String id, String model, String brand, String licensePlate, AutoStatus autoStatus) {
+    public Car(String id, String model, String brand, String licensePlate,String carStatus) {
         this.id = id;
         this.model = model;
         this.brand = brand;
         this.licensePlate = licensePlate;
-        this.autoStatus = autoStatus;
+        this.carStatus = Car.CarStatus.fromString(carStatus);
     }
 
     public void addJob(CarRepairComponent job) {
@@ -34,28 +36,22 @@ public class Auto implements CarRepairComponent {
         // Implement the status printing logic here if needed
     }
 
-    public enum AutoStatus {
-        AVAILABLE(1),
-        IN_SERVICE(2),
-        SOLD(3);
+    public enum CarStatus {
+        AVAILABLE,
+        IN_SERVICE,
+        SOLD;
 
-        private final int code;
-
-        AutoStatus(int code) {
-            this.code = code;
-        }
-
-        public int getCode() {
-            return code;
-        }
-
-        public static AutoStatus fromCode(int code) {
-            for (AutoStatus status : values()) {
-                if (status.getCode() == code) {
-                    return status;
-                }
+        public static CarStatus fromString(String status) {
+            try {
+                return CarStatus.valueOf(status.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Unknown JobStatus: " + status);
             }
-            throw new IllegalArgumentException("Unknown AutoStatus code: " + code);
+        }
+
+        // Convert from enum to String
+        public static String toString(CarStatus status) {
+            return status.name();
         }
     }
 
@@ -95,23 +91,23 @@ public class Auto implements CarRepairComponent {
         this.licensePlate = licensePlate;
     }
 
-    // Getter and setter for autoStatus
-    public AutoStatus getAutoStatus() {
-        return autoStatus;
+    // Getter and setter for carStatus
+    public CarStatus getCarStatus() {
+        return  carStatus;
     }
 
-    public void setAutoStatus(AutoStatus autoStatus) {
-        this.autoStatus = autoStatus;
+    public void setCarStatus(CarStatus carStatus) {
+        this.carStatus = carStatus;
     }
 
     @Override
     public String toString() {
-        return "Auto{" +
+        return "Car{" +
                 "id='" + id + '\'' +
                 ", model='" + model + '\'' +
                 ", brand='" + brand + '\'' +
                 ", licensePlate='" + licensePlate + '\'' +
-                ", autoStatus=" + autoStatus +
+                ", carStatus=" + carStatus +
                 '}';
     }
 }

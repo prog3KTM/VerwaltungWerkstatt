@@ -1,9 +1,9 @@
 package htw.prog3.KTM.unit;
 
 import htw.prog3.KTM.database.DatabaseManager;
-import htw.prog3.KTM.model.kunde.Kunde;
-import htw.prog3.KTM.repository.KundeRepository;
-import htw.prog3.KTM.service.KundeService;
+import htw.prog3.KTM.model.kunde.Customer;
+import htw.prog3.KTM.repository.CustomerRepository;
+import htw.prog3.KTM.service.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,28 +13,28 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 import java.util.List;
 
-class KundeServiceTest {
+class CustomerServiceTest {
 
-    private KundeRepository kundeRepository;
-    private KundeService kundeService;
+    private CustomerRepository customerRepository;
+    private CustomerService customerService;
     private Logger logger;
 
     @BeforeEach
     void setUp() {
         // Mock the dependencies
-        kundeRepository = new KundeRepository(new DatabaseManager());
-        logger = LoggerFactory.getLogger(KundeServiceTest.class);
+        customerRepository = new CustomerRepository(new DatabaseManager());
+        logger = LoggerFactory.getLogger(CustomerServiceTest.class);
 
         // Create an instance of KundeService with the mocked repository
-        kundeService = new KundeService(kundeRepository);
+        customerService = new CustomerService(customerRepository);
     }
 
     @Test
     void testFindAll() {
         // Arrange: Set up the mock to return a list of customers
-        Kunde kunde1 = new Kunde(1, "Max Mustermann", "Straße 1", "0123456789");
-        Kunde kunde2 = new Kunde(2, "Erika Mustermann", "Straße 2", "0987654321");
-        List<Kunde> expectedKunden = Arrays.asList(kunde1, kunde2);
+        Customer customer1 = new Customer(1, "Max Mustermann", "Straße 1", "0123456789");
+        Customer customer2 = new Customer(2, "Erika Mustermann", "Straße 2", "0987654321");
+        List<Customer> expectedKunden = Arrays.asList(customer1, customer2);
 
 
     }
@@ -42,14 +42,14 @@ class KundeServiceTest {
     @Test
     void testFindById() {
         // Arrange: Set up the mock to return a customer for ID 1
-        Kunde kunde = new Kunde(1, "Max Mustermann", "Straße 1", "0123456789");
+        Customer customer = new Customer(1, "Max Mustermann", "Straße 1", "0123456789");
 
     }
 
     @Test
     void testSave() {
         // Arrange: Create a customer object to save
-        Kunde kunde = new Kunde(0, "Max Mustermann", "Straße 1", "0123456789");
+        Customer customer = new Customer(0, "Max Mustermann", "Straße 1", "0123456789");
 
         // Act: Call the service method to save the customer
         //kundeService.createKunde(kunde);

@@ -1,9 +1,9 @@
 package htw.prog3.KTM.view;
 
-import htw.prog3.KTM.controller.WerkstattInformationController;
+import htw.prog3.KTM.controller.WorkshopInformationController;
 import htw.prog3.KTM.database.DatabaseManager;
-import htw.prog3.KTM.model.kunde.Kunde;
-import htw.prog3.KTM.model.werkstattInformation.WerkstattInformation;
+import htw.prog3.KTM.model.kunde.Customer;
+import htw.prog3.KTM.model.workshopinformation.WorkshopInformation;
 
 import java.util.Scanner;
 
@@ -28,20 +28,20 @@ public class TextLineInterface implements MenuInteractions {
     }
 
     @Override
-    public void showKunde(Kunde kunde) {
-        System.out.println("Kunde: " + kunde.getName());
-        System.out.println("ID: " + kunde.getId());
-        System.out.println("Adresse: " + kunde.getAddress());
-        System.out.println("Telefon: " + kunde.getPhone());
-        if (!kunde.getAutos().isEmpty()) {
+    public void showKunde(Customer customer) {
+        System.out.println("Kunde: " + customer.getName());
+        System.out.println("ID: " + customer.getId());
+        System.out.println("Adresse: " + customer.getAddress());
+        System.out.println("Telefon: " + customer.getPhone());
+        if (!customer.getAutos().isEmpty()) {
             System.out.println("Autos:");
-            kunde.getAutos().forEach(auto -> System.out.println("  - " + auto.toString()));
+            customer.getAutos().forEach(auto -> System.out.println("  - " + auto.toString()));
         }
     }
 
     @Override
     public void showWerk() {
-        System.out.println("Werk: " + new WerkstattInformationController(databaseManager).getWerkstattInformation().toString());
+        System.out.println("Werk: " + new WorkshopInformationController(databaseManager).getWerkstattInformation().toString());
         scanner.nextLine();
     }
 
@@ -78,7 +78,7 @@ public class TextLineInterface implements MenuInteractions {
     }
 
     @Override
-    public WerkstattInformation getWerkstattInformation() {
+    public WorkshopInformation getWerkstattInformation() {
         String namen = "";
         String location = "";
         int phone = 0;
@@ -97,7 +97,7 @@ public class TextLineInterface implements MenuInteractions {
         busregnumber = getString("Bitte gib die Businessregistrationnumber deiner Werkstatt an:");
         iban = getString("Bitte gib den IBAN deiner Werkstatt an:");
 
-        return new WerkstattInformation(namen, location, phone, email, website, vat, busregnumber, iban);
+        return new WorkshopInformation(namen, location, phone, email, website, vat, busregnumber, iban);
     }
 
     @Override
@@ -145,14 +145,14 @@ public class TextLineInterface implements MenuInteractions {
     }
     
     // Methods to get customer information
-    public Kunde getKundeInfo() {
+    public Customer getKundeInfo() {
         System.out.println("=== Neuen Kunden anlegen ===");
         int id = getInt("Kunden-ID eingeben:");
         String name = getString("Name eingeben:");
         String address = getString("Adresse eingeben:");
         String phone = getString("Telefonnummer eingeben:");
         
-        return new Kunde(id, name, address, phone);
+        return new Customer(id, name, address, phone);
     }
     
     // Methods to get car information

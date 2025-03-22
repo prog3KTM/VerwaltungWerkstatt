@@ -2,14 +2,9 @@ package htw.prog3.KTM.util;
 
 import htw.prog3.KTM.config.AppConfig;
 import htw.prog3.KTM.controller.KundeController;
-import htw.prog3.KTM.model.kunde.Kunde;
 import htw.prog3.KTM.service.MenuService;
 
 
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
 import java.util.logging.LogManager;
 
 

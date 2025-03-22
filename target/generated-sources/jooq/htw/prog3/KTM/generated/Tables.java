@@ -4,10 +4,11 @@
 package htw.prog3.KTM.generated;
 
 
-import htw.prog3.KTM.generated.tables.Auto;
+import htw.prog3.KTM.generated.tables.Car;
+import htw.prog3.KTM.generated.tables.Customer;
 import htw.prog3.KTM.generated.tables.Konfigurationstabelle;
-import htw.prog3.KTM.generated.tables.Kunde;
-import htw.prog3.KTM.generated.tables.ServiceJob;
+import htw.prog3.KTM.generated.tables.Repairjob;
+import htw.prog3.KTM.generated.tables.Servicejob;
 
 
 /**
@@ -17,9 +18,14 @@ import htw.prog3.KTM.generated.tables.ServiceJob;
 public class Tables {
 
     /**
-     * The table <code>Auto</code>.
+     * The table <code>Car</code>.
      */
-    public static final Auto AUTO = Auto.AUTO;
+    public static final Car CAR = Car.CAR;
+
+    /**
+     * The table <code>Customer</code>.
+     */
+    public static final Customer CUSTOMER = Customer.CUSTOMER;
 
     /**
      * The table <code>Konfigurationstabelle</code>.
@@ -27,12 +33,12 @@ public class Tables {
     public static final Konfigurationstabelle KONFIGURATIONSTABELLE = Konfigurationstabelle.KONFIGURATIONSTABELLE;
 
     /**
-     * The table <code>Kunde</code>.
+     * The table <code>RepairJob</code>.
      */
-    public static final Kunde KUNDE = Kunde.KUNDE;
+    public static final Repairjob REPAIRJOB = Repairjob.REPAIRJOB;
 
     /**
-     * The table <code>SERVICE_JOB</code>.
+     * The table <code>ServiceJob</code>.
      */
-    public static final ServiceJob SERVICE_JOB = ServiceJob.SERVICE_JOB;
+    public static final Servicejob SERVICEJOB = Servicejob.SERVICEJOB;
 }

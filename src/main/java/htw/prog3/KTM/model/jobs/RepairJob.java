@@ -3,10 +3,10 @@ package htw.prog3.KTM.model.jobs;
 import htw.prog3.KTM.model.CarRepairComponent;
 
 public class RepairJob implements CarRepairComponent {
-    private String jobName;
-    private JobStatus status;
-    private int jobId;
+    private int id;
+    private String name;
     private RepairJobType type;
+    private JobStatus status;
 
     public RepairJobType getType() {
         return type;
@@ -16,10 +16,10 @@ public class RepairJob implements CarRepairComponent {
         this.type = type;
     }
 
-    public RepairJob(int jobId, RepairJobType typ, String jobName, JobStatus status) {
-        this.jobName = jobName;
-        this.status = status;
-        this.jobId = jobId;
+    public RepairJob(int id, RepairJobType typ, String name, String status) {
+        this.name = name;
+        this.status = JobStatus.fromString(status);
+        this.id = id;
         this.type = typ;
     }
 
@@ -28,12 +28,12 @@ public class RepairJob implements CarRepairComponent {
 
     }
 
-    public String getJobName() {
-        return jobName;
+    public String getName() {
+        return name;
     }
 
-    public void setJobName(String jobName) {
-        this.jobName = jobName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public JobStatus getStatus() {
@@ -44,11 +44,11 @@ public class RepairJob implements CarRepairComponent {
         this.status = status;
     }
 
-    public int getJobId() {
-        return jobId;
+    public int getId() {
+        return id;
     }
 
-    public void setJobId(int jobId) {
-        this.jobId = jobId;
+    public void setId(int id) {
+        this.id = id;
     }
 }
