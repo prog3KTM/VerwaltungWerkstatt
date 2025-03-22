@@ -124,11 +124,11 @@ public class MenuService {
                     
                     // Update the service job status
                     serviceJob.setStatus(newStatus);
-                    serviceJobController.updateServiceJob(serviceJob, autoId);
+                    serviceJobController.updateServiceJob(serviceJob, carId);
                     
                     // Update the auto status if needed
                     boolean allServicesCompleted = true;
-                    List<ServiceJob> autoServices = serviceJobController.getServiceJobsByAutoId(autoId);
+                    List<ServiceJob> autoServices = serviceJobController.getServiceJobsByAutoId(carId);
                     
                     for (ServiceJob job : autoServices) {
                         if (!job.getStatus().equals("COMPLETED") && !job.getStatus().equals("CANCELLED")) {
@@ -359,7 +359,7 @@ public class MenuService {
     private void findAutoById() {
         try {
             String autoId = menu.getString("Auto-ID eingeben:");
-            Car car = carController.getAutoById(autoId);
+            Car car = carController.getCarById(autoId);
             if (car != null) {
                 menu.sendMessage("Auto gefunden:");
                 menu.sendMessage("ID: " + car.getId());
@@ -373,9 +373,9 @@ public class MenuService {
                 if (!services.isEmpty()) {
                     menu.sendMessage("\nServices für dieses Auto:");
                     for (ServiceJob service : services) {
-                        menu.sendMessage("  - ID: " + service.getJobId() + 
+                        menu.sendMessage("  - ID: " + service.getId() +
                                        ", Typ: " + service.getType() + 
-                                       ", Name: " + service.getJobName() + 
+                                       ", Name: " + service.getName() +
                                        ", Bearbeitungs-Status: " + service.getStatus());
                     }
                 } else {
@@ -409,9 +409,9 @@ public class MenuService {
                     if (!services.isEmpty()) {
                         menu.sendMessage("  Services:");
                         for (ServiceJob service : services) {
-                            menu.sendMessage("    - ID: " + service.getJobId() + 
+                            menu.sendMessage("    - ID: " + service.getId() +
                                            ", Typ: " + service.getType() + 
-                                           ", Name: " + service.getJobName() + 
+                                           ", Name: " + service.getName() +
                                            ", Bearbeitungs-Status: " + service.getStatus());
                         }
                     }
@@ -593,11 +593,11 @@ public class MenuService {
 
     private void updateAutoStatus() {
         try {
-            String autoId = menu.getString("Auto-ID eingeben:");
-            Car car = carController.getAutoById(autoId);
+            String carId = menu.getString("Auto-ID eingeben:");
+            Car car = carController.getCarById(carId);
             
             if (car == null) {
-                menu.sendMessage("Auto mit ID " + autoId + " nicht gefunden.");
+                menu.sendMessage("Auto mit ID " + carId + " nicht gefunden.");
                 return;
             }
             
@@ -605,7 +605,7 @@ public class MenuService {
             menu.sendMessage("Aktueller Fahrzeug-Status: " + car.getCarStatus());
             
             // Check if the auto has any active services
-            List<ServiceJob> serviceJobs = serviceJobController.getServiceJobsByAutoId(autoId);
+            List<ServiceJob> serviceJobs = serviceJobController.getServiceJobsByAutoId(carId);
             boolean hasActiveServices = false;
             
             for (ServiceJob job : serviceJobs) {
@@ -639,7 +639,7 @@ public class MenuService {
             }
             
             car.setCarStatus(newStatus);
-            carController.updateAuto(car);
+            carController.updateCar(car);
             
             menu.sendMessage("Fahrzeug-Status wurde auf " + newStatus + " aktualisiert.");
         } catch (NumberFormatException e) {
