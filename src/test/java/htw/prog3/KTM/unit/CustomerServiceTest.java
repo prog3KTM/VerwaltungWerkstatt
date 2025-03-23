@@ -12,6 +12,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.Mockito.*;
 
 class CustomerServiceTest {
 
@@ -58,13 +62,22 @@ class CustomerServiceTest {
     }
 
     @Test
-    void testDelete() {
 
+    void testDelete() {
+        customerService.deleteCustomer(5);
+        verify(customerRepository, times(1)).delete(5);
     }
 
     @Test
     void testFindByIdNotFound() {
         // Arrange: Set up the mock to return an empty Optional for a non-existent customer
+        when(customerRepository.findById(42)).thenReturn(Optional.empty());
 
+        // Act: Call the service method
+        Optional<Customer> result = customerService.getCustomerById(42);
+
+        // Assert: Verify that the result is empty
+        assertFalse(result.isPresent());
+        verify(customerRepository, times(1)).findById(42);
     }
 }

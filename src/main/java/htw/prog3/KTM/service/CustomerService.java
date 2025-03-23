@@ -19,28 +19,28 @@ public class CustomerService {
     }
 
     // Alle Kunden abrufen
-    public List<Customer> getAllKunden() {
+    public List<Customer> getAllCustomer() {
         logger.info("Abrufen aller Kunden");
         return customerRepository.findAll();
     }
 
     // Einen Kunden nach ID abrufen
-    public Optional<Customer> getKundeById(int id) {
+    public Optional<Customer> getCustomerById(int id) {
         return customerRepository.findById(id);
     }
 
     // Einen neuen Kunden speichern
-    public void createKunde(Customer customer) {
+    public void createCustomer(Customer customer) {
         customerRepository.save(customer);
     }
 
     // Einen Kunden aktualisieren
-    public void updateKunde(Customer customer) {
+    public void updateCustomer(Customer customer) {
         customerRepository.update(customer);
     }
 
     // Einen Kunden löschen
-    public void deleteKunde(int id) {
+    public void deleteCustomer(int id) {
         customerRepository.delete(id);
     }
 }
