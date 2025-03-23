@@ -1,6 +1,6 @@
 package htw.prog3.KTM.view;
 
-import htw.prog3.KTM.model.kunde.Customer;
+import htw.prog3.KTM.model.customer.Customer;
 import htw.prog3.KTM.model.workshopinformation.WorkshopInformation;
 
 public interface MenuInteractions {

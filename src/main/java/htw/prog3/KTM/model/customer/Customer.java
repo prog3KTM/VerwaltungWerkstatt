@@ -1,4 +1,4 @@
-package htw.prog3.KTM.model.kunde;
+package htw.prog3.KTM.model.customer;
 
 import htw.prog3.KTM.model.car.Car;
 

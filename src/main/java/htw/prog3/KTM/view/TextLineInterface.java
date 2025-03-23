@@ -2,7 +2,7 @@ package htw.prog3.KTM.view;
 
 import htw.prog3.KTM.controller.WorkshopInformationController;
 import htw.prog3.KTM.database.DatabaseManager;
-import htw.prog3.KTM.model.kunde.Customer;
+import htw.prog3.KTM.model.customer.Customer;
 import htw.prog3.KTM.model.workshopinformation.WorkshopInformation;
 
 import java.util.Scanner;

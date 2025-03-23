@@ -8,7 +8,7 @@ import htw.prog3.KTM.model.car.Car;
 import htw.prog3.KTM.model.car.Car.CarStatus;
 import htw.prog3.KTM.model.jobs.ServiceJob;
 import htw.prog3.KTM.model.jobs.ServiceJobType;
-import htw.prog3.KTM.model.kunde.Customer;
+import htw.prog3.KTM.model.customer.Customer;
 import htw.prog3.KTM.model.workshopinformation.WorkshopInformation;
 import htw.prog3.KTM.util.main;
 import htw.prog3.KTM.view.MenuInteractions;

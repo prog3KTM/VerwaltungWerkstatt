@@ -1,7 +1,7 @@
 package htw.prog3.KTM.controller;
 
 import htw.prog3.KTM.service.CustomerService;
-import htw.prog3.KTM.model.kunde.Customer;
+import htw.prog3.KTM.model.customer.Customer;
 
 import java.sql.SQLException;
 import java.util.List;
