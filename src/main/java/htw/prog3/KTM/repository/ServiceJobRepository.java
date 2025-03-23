@@ -18,7 +18,7 @@ public class ServiceJobRepository {
     private final DatabaseManager databaseManager;
     private static final String TABLE_NAME = "SERVICE_JOB";
     private static final String COL_JOB_ID = "JOB_ID";
-    private static final String COL_AUTO_ID = "AUTO_ID";
+    private static final String COL_CAR_ID = "CAR_ID";
     private static final String COL_JOB_NAME = "JOB_NAME";
     private static final String COL_STATUS = "STATUS";
     private static final String COL_TYPE = "TYPE";
@@ -37,11 +37,11 @@ public class ServiceJobRepository {
             DSLContext create = getDSLContext();
             create.execute("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
                     COL_JOB_ID + " INTEGER PRIMARY KEY, " +
-                    COL_AUTO_ID + " TEXT NOT NULL, " +
+                    COL_CAR_ID + " INTEGER NOT NULL, " +
                     COL_JOB_NAME + " TEXT NOT NULL, " +
                     COL_STATUS + " TEXT NOT NULL, " +
                     COL_TYPE + " INTEGER NOT NULL, " +
-                    "FOREIGN KEY (" + COL_AUTO_ID + ") REFERENCES CAR(ID)" +
+                    "FOREIGN KEY (" + COL_CAR_ID + ") REFERENCES CAR(ID)" +
                     ")");
         } catch (SQLException e) {
             throw new RuntimeException("Error creating service job table", e);
@@ -72,7 +72,7 @@ public class ServiceJobRepository {
                 create.insertInto(DSL.table(TABLE_NAME))
                         .columns(
                                 DSL.field(COL_JOB_ID),
-                                DSL.field(COL_AUTO_ID),
+                                DSL.field(COL_CAR_ID),
                                 DSL.field(COL_JOB_NAME),
                                 DSL.field(COL_STATUS),
                                 DSL.field(COL_TYPE)
@@ -91,22 +91,24 @@ public class ServiceJobRepository {
         }
     }
 
-    // Find all service jobs for a specific auto
-    public List<ServiceJob> findByAutoId(int autoId) {
+    // Find service jobs by car id
+    public List<ServiceJob> findByCarId(int carId) {
         try {
             DSLContext create = getDSLContext();
+            
             Result<Record> result = create.select()
                     .from(TABLE_NAME)
-                    .where(DSL.field(COL_AUTO_ID).eq(autoId))
+                    .where(DSL.field(COL_CAR_ID).eq(carId))
                     .fetch();
             
             List<ServiceJob> serviceJobs = new ArrayList<>();
             for (Record record : result) {
                 serviceJobs.add(mapToServiceJob(record));
             }
+            
             return serviceJobs;
         } catch (SQLException e) {
-            throw new RuntimeException("Error finding service jobs by auto ID", e);
+            throw new RuntimeException("Error finding service jobs by car ID", e);
         }
     }
 
@@ -144,18 +146,18 @@ public class ServiceJobRepository {
         }
     }
 
-    // Get auto ID for a service job
-    public String getAutoIdForServiceJob(int jobId) {
+    // Get the car ID for a specific service job
+    public int getCarIdForServiceJob(int jobId) {
         try {
             DSLContext create = getDSLContext();
-            Record record = create.select(DSL.field(COL_AUTO_ID))
+            Record record = create.select(DSL.field(COL_CAR_ID))
                     .from(TABLE_NAME)
                     .where(DSL.field(COL_JOB_ID).eq(jobId))
                     .fetchOne();
             
-            return record != null ? record.get(DSL.field(COL_AUTO_ID, String.class)) : null;
+            return record != null ? record.get(DSL.field(COL_CAR_ID, Integer.class)) : 0;
         } catch (SQLException e) {
-            throw new RuntimeException("Error getting auto ID for service job", e);
+            throw new RuntimeException("Error getting car ID for service job", e);
         }
     }
 
@@ -171,15 +173,15 @@ public class ServiceJobRepository {
         }
     }
 
-    // Delete all service jobs for an auto
-    public void deleteByAutoId(String autoId) {
+    // Delete service jobs by car ID
+    public void deleteByCarId(int carId) {
         try {
             DSLContext create = getDSLContext();
             create.deleteFrom(DSL.table(TABLE_NAME))
-                    .where(DSL.field(COL_AUTO_ID).eq(autoId))
+                    .where(DSL.field(COL_CAR_ID).eq(carId))
                     .execute();
         } catch (SQLException e) {
-            throw new RuntimeException("Error deleting service jobs for auto", e);
+            throw new RuntimeException("Error deleting service jobs by car ID", e);
         }
     }
 

@@ -22,13 +22,13 @@ public enum CarStatus {
         return value;
     }
 
-    // Static method to get an AutoStatus from an integer
+    // Static method to get a CarStatus from an integer
     public static CarStatus fromValue(int value) {
         for (CarStatus status : CarStatus.values()) {
             if (status.value == value) {
                 return status;
             }
         }
-        throw new IllegalArgumentException("Invalid AutoStatus value: " + value);
+        throw new IllegalArgumentException("Invalid CarStatus value: " + value);
     }
 }

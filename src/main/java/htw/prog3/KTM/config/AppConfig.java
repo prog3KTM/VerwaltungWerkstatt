@@ -27,7 +27,7 @@ public class AppConfig {
         CustomerService customerService = new CustomerService(customerRepository);
         tableHandler = new TableHandler(databaseManager);
         //TableHandler example. TODO: Bitte eure Datentypen hier einfügen!!
-//        Table table = new Table("Auto", new Column("id", VARCHAR(100)));
+//        Table table = new Table("Car", new Column("id", VARCHAR(100)));
 //        table.addColumn(new Column("model", VARCHAR(100)));
 //        tableHandler.addTable(table);
         this.customerController = new CustomerController(customerService);

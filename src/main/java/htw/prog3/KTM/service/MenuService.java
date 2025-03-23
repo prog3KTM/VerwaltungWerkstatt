@@ -49,7 +49,7 @@ public class MenuService {
                     runKundenMenuLogic();
                     break;
                 case 3:
-                    runAutoMenuLogic();
+                    runCarMenuLogic();
                     break;
                 case 4:
                     runServiceMenuLogic();
@@ -258,18 +258,18 @@ public class MenuService {
                     serviceJob.setStatus(newStatus);
                     serviceJobController.updateServiceJob(serviceJob, carId);
                     
-                    // Update the auto status if needed
+                    // Update the car status if needed
                     boolean allServicesCompleted = true;
-                    List<ServiceJob> autoServices = serviceJobController.getServiceJobsByAutoId(carId);
+                    List<ServiceJob> carServices = serviceJobController.getServiceJobsByCarId(carId);
                     
-                    for (ServiceJob job : autoServices) {
+                    for (ServiceJob job : carServices) {
                         if (!job.getStatus().equals("COMPLETED") && !job.getStatus().equals("CANCELLED")) {
                             allServicesCompleted = false;
                             break;
                         }
                     }
                     
-                    if (allServicesCompleted && !autoServices.isEmpty()) {
+                    if (allServicesCompleted && !carServices.isEmpty()) {
                         car.setCarStatus(CarStatus.AVAILABLE);
                         carController.updateCar(car);
                         menu.sendMessage("Alle Services für dieses Auto sind abgeschlossen oder storniert.");
@@ -345,7 +345,7 @@ public class MenuService {
             boolean foundServices = false;
             
             for (Car car : cars) {
-                List<ServiceJob> serviceJobs = serviceJobController.getServiceJobsByAutoId(car.getId());
+                List<ServiceJob> serviceJobs = serviceJobController.getServiceJobsByCarId(car.getId());
                 
                 if (!serviceJobs.isEmpty()) {
                     menu.sendMessage("Auto: " + car.getBrand() + " " + car.getModel() + " (ID: " + car.getId() + ", Fahrzeug-Status: " + car.getCarStatus() + ")");
@@ -450,24 +450,24 @@ public class MenuService {
         }
     }
 
-    private void runAutoMenuLogic() {
-        menu.showAutoMenu();
+    private void runCarMenuLogic() {
+        menu.showCarMenu();
         int option = menu.getOption();
         switch (option) {
             case 1:
-                showAllAutos();
+                showAllCars();
                 break;
             case 2:
-                findAutoById();
+                findCarById();
                 break;
             case 3:
-                addNewAuto();
+                addNewCar();
                 break;
             case 4:
-                deleteAuto();
+                deleteCar();
                 break;
             case 5:
-                updateAutoStatus();
+                updateCarStatus();
                 break;
             case 9:
                 // Return to main menu
@@ -478,7 +478,7 @@ public class MenuService {
         }
     }
 
-    private void deleteAuto() {
+    private void deleteCar() {
         try {
             int carId = menu.getInt("Auto-ID eingeben:");
             carController.deleteCarById(carId);
@@ -488,10 +488,10 @@ public class MenuService {
         }
     }
 
-    private void findAutoById() {
+    private void findCarById() {
         try {
-            int autoId = menu.getInt("Auto-ID eingeben:");
-            Car car = carController.getCarById(autoId);
+            int carId = menu.getInt("Auto-ID eingeben:");
+            Car car = carController.getCarById(carId);
             if (car != null) {
                 menu.sendMessage("Auto gefunden:");
                 menu.sendMessage("ID: " + car.getId());
@@ -501,7 +501,7 @@ public class MenuService {
                 menu.sendMessage("Fahrzeug-Status: " + car.getCarStatus());
                 
                 // Display associated services if any
-                List<ServiceJob> services = serviceJobController.getServiceJobsByAutoId(car.getId());
+                List<ServiceJob> services = serviceJobController.getServiceJobsByCarId(car.getId());
                 if (!services.isEmpty()) {
                     menu.sendMessage("\nServices für dieses Auto:");
                     for (ServiceJob service : services) {
@@ -514,7 +514,7 @@ public class MenuService {
                     menu.sendMessage("\nKeine Services für dieses Auto vorhanden.");
                 }
             } else {
-                menu.sendMessage("Auto mit ID " + autoId + " nicht gefunden.");
+                menu.sendMessage("Auto mit ID " + carId + " nicht gefunden.");
             }
         } catch (Exception e) {
             menu.throwError("Fehler beim Suchen des Autos: " + e.getMessage());
@@ -522,7 +522,7 @@ public class MenuService {
         }
     }
 
-    private void showAllAutos() {
+    private void showAllCars() {
         try {
             List<Car> cars = carController.getAllCars();
             if (cars.isEmpty()) {
@@ -537,7 +537,7 @@ public class MenuService {
                                    ", Fahrzeug-Status: " + car.getCarStatus());
                     
                     // Display associated services if any
-                    List<ServiceJob> services = serviceJobController.getServiceJobsByAutoId(car.getId());
+                    List<ServiceJob> services = serviceJobController.getServiceJobsByCarId(car.getId());
                     if (!services.isEmpty()) {
                         menu.sendMessage("  Services:");
                         for (ServiceJob service : services) {
@@ -556,7 +556,7 @@ public class MenuService {
         }
     }
 
-    private void addNewAuto() {
+    private void addNewCar() {
         try {
             // First, get the customer to add the car to
             menu.sendMessage("Für welchen Kunden soll das Auto hinzugefügt werden?");
@@ -580,7 +580,7 @@ public class MenuService {
             Customer selectedCustomer = kunden.get(kundeIndex);
             
             // Now get the car details
-            String autoInfo = menu.getAutoInfo();
+            String autoInfo = menu.getCarInfo();
             String[] parts = autoInfo.split(",");
             
             int id = Integer.parseInt(parts[0]);
@@ -591,7 +591,7 @@ public class MenuService {
             Car car = new Car(id, model, brand, licensePlate, CarStatus.AVAILABLE.toString());
             
             // Add the car to the customer and update in the database
-            selectedCustomer.addAuto(car);
+            selectedCustomer.addCar(car);
             customerController.updateCustomer(selectedCustomer);
             
             // Also add the car to the auto repository
@@ -658,8 +658,8 @@ public class MenuService {
                 updatedCustomer.setId(kundeId); // Keep the same ID
                 
                 // Keep the same cars
-                for (Car car : customer.getAutos()) {
-                    updatedCustomer.addAuto(car);
+                for (Car car : customer.getCars()) {
+                    updatedCustomer.addCar(car);
                 }
                 
                 customerController.updateCustomer(updatedCustomer);
@@ -723,7 +723,7 @@ public class MenuService {
         }
     }
 
-    private void updateAutoStatus() {
+    private void updateCarStatus() {
         try {
             int carId = menu.getInt("Auto-ID eingeben:");
             Car car = carController.getCarById(carId);
@@ -737,7 +737,7 @@ public class MenuService {
             menu.sendMessage("Aktueller Fahrzeug-Status: " + car.getCarStatus());
             
             // Check if the auto has any active services
-            List<ServiceJob> serviceJobs = serviceJobController.getServiceJobsByAutoId(carId);
+            List<ServiceJob> serviceJobs = serviceJobController.getServiceJobsByCarId(carId);
             boolean hasActiveServices = false;
             
             for (ServiceJob job : serviceJobs) {

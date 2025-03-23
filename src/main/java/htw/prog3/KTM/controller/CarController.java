@@ -31,11 +31,11 @@ public class CarController {
         carRepository.deleteById(id);
     }
     
-    // Add a method to update an auto
+    // Add a method to update a car
     public void updateCar(Car car) {
-        // First delete the existing auto
+        // First delete the existing car
         deleteCarById(car.getId());
-        // Then add the updated auto
+        // Then add the updated car
         addCar(car);
     }
 

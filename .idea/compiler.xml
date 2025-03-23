@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="verwaltung-werkstatt" />
         <module name="verwaltung" />
+        <module name="VerwaltungWerkstatt" />
       </profile>
     </annotationProcessing>
   </component>

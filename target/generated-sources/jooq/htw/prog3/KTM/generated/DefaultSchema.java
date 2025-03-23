@@ -11,6 +11,7 @@ import htw.prog3.KTM.generated.tables.Konfigurationstabelle;
 import htw.prog3.KTM.generated.tables.Orders;
 import htw.prog3.KTM.generated.tables.Repairjob;
 import htw.prog3.KTM.generated.tables.ServiceJob;
+import htw.prog3.KTM.generated.tables.WorkshopInfo;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,12 +40,12 @@ public class DefaultSchema extends SchemaImpl {
     public final Auto AUTO = Auto.AUTO;
 
     /**
-     * The table <code>Car</code>.
+     * The table <code>CAR</code>.
      */
     public final Car CAR = Car.CAR;
 
     /**
-     * The table <code>Customer</code>.
+     * The table <code>CUSTOMER</code>.
      */
     public final Customer CUSTOMER = Customer.CUSTOMER;
 
@@ -54,7 +55,7 @@ public class DefaultSchema extends SchemaImpl {
     public final Konfigurationstabelle KONFIGURATIONSTABELLE = Konfigurationstabelle.KONFIGURATIONSTABELLE;
 
     /**
-     * The table <code>Orders</code>.
+     * The table <code>ORDERS</code>.
      */
     public final Orders ORDERS = Orders.ORDERS;
 
@@ -67,6 +68,11 @@ public class DefaultSchema extends SchemaImpl {
      * The table <code>SERVICE_JOB</code>.
      */
     public final ServiceJob SERVICE_JOB = ServiceJob.SERVICE_JOB;
+
+    /**
+     * The table <code>WORKSHOP_INFO</code>.
+     */
+    public final WorkshopInfo WORKSHOP_INFO = WorkshopInfo.WORKSHOP_INFO;
 
     /**
      * No further instances allowed
@@ -90,7 +96,8 @@ public class DefaultSchema extends SchemaImpl {
             Konfigurationstabelle.KONFIGURATIONSTABELLE,
             Orders.ORDERS,
             Repairjob.REPAIRJOB,
-            ServiceJob.SERVICE_JOB
+            ServiceJob.SERVICE_JOB,
+            WorkshopInfo.WORKSHOP_INFO
         );
     }
 }

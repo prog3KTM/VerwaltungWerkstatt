@@ -28,7 +28,7 @@ class CustomerTest {
         assertEquals("Max Mustermann", customer.getName());
         assertEquals("Musterstraße 1", customer.getAddress());
         assertEquals("0123456789", customer.getPhone());
-        assertTrue(customer.getAutos().isEmpty());
+        assertTrue(customer.getCars().isEmpty());
     }
 
     @Test
@@ -46,10 +46,10 @@ class CustomerTest {
 
     @Test
     void testAddCar() {
-        customer.addAuto(car1);
-        customer.addAuto(car2);
+        customer.addCar(car1);
+        customer.addCar(car2);
 
-        List<Car> cars = customer.getAutos();
+        List<Car> cars = customer.getCars();
         assertEquals(2, cars.size());
         assertTrue(cars.contains(car1));
         assertTrue(cars.contains(car2));
@@ -57,10 +57,10 @@ class CustomerTest {
 
     @Test
     void testAddDuplicateCar() {
-        customer.addAuto(car1);
-        customer.addAuto(car1);  // Hinzufügen des gleichen Autos erneut
+        customer.addCar(car1);
+        customer.addCar(car1);  // Hinzufügen des gleichen Autos erneut
 
-        assertEquals(2, customer.getAutos().size());  // Doppelte Autos werden trotzdem gespeichert
+        assertEquals(2, customer.getCars().size());  // Doppelte Autos werden trotzdem gespeichert
     }
 
     @Test

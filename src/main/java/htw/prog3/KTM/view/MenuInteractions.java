@@ -14,7 +14,7 @@ public interface MenuInteractions {
     void showKunde(Customer customer);
     void showWerk();
     void showKundenMenu();
-    void showAutoMenu();
+    void showCarMenu();
     void showServiceMenu();
     void showOrderMenu();
     WorkshopInformation getWerkstattInformation();
@@ -25,7 +25,7 @@ public interface MenuInteractions {
     
     // New methods
     Customer getKundeInfo();
-    String getAutoInfo();
+    String getCarInfo();
     String getServiceInfo();
     
     // Helper methods

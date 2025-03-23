@@ -19,8 +19,8 @@ public class ServiceJobController {
         return serviceJobRepository.findAll();
     }
 
-    public List<ServiceJob> getServiceJobsByAutoId(int carId) {
-        return serviceJobRepository.findByAutoId(carId);
+    public List<ServiceJob> getServiceJobsByCarId(int carId) {
+        return serviceJobRepository.findByCarId(carId);
     }
 
     public void addServiceJob(ServiceJob serviceJob, int carId) {
@@ -32,18 +32,18 @@ public class ServiceJobController {
     }
 
     public int getCarIdForServiceJob(int jobId) {
-        return 1 ;// serviceJobRepository.getAutoIdForServiceJob(jobId);
+        return 1; // serviceJobRepository.getCarIdForServiceJob(jobId);
     }
 
-    public void updateServiceJob(ServiceJob serviceJob, int autoId) {
-        serviceJobRepository.save(serviceJob, autoId);
+    public void updateServiceJob(ServiceJob serviceJob, int carId) {
+        serviceJobRepository.save(serviceJob, carId);
     }
 
     public void deleteServiceJobById(int jobId) {
         serviceJobRepository.deleteById(jobId);
     }
 
-    public void deleteServiceJobsByAutoId(String autoId) {
-        serviceJobRepository.deleteByAutoId(autoId);
+    public void deleteServiceJobsByCarId(int carId) {
+        serviceJobRepository.deleteByCarId(carId);
     }
 } 

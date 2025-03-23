@@ -22,11 +22,11 @@ public class Customer {
         this.cars = new ArrayList<>();
     }
 
-    public List<Car> getAutos() {
+    public List<Car> getCars() {
         return cars;
     }
 
-    public void addAuto(Car car) {
+    public void addCar(Car car) {
         this.cars.add(car);
     }
 

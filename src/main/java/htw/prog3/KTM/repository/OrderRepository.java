@@ -44,67 +44,123 @@ public class OrderRepository {
     }
 
     public int saveOrder(Order order) {
-        String serviceJobs = serviceIntegerstoString(order.getServicesJobIds());
-        String repairJobs = serviceIntegerstoString(order.getRepairJobIds());
-        if(order.getOrderDate() == null) {
-            order.setOrderDate(LocalDateTime.now());
-        }
-
-        var record = databaseManager.getDSLContext().insertInto(Tables.ORDERS)
-                .set(Tables.ORDERS.TOTAL, (float) order.getTotal())
-                .set(Tables.ORDERS.STATUS, order.getStatus().toString())
-                .set(Tables.ORDERS.ORDER_DATE, order.getOrderDate().toString())
-                .set(Tables.ORDERS.SERVICEJOB_LIST, serviceJobs)
-                .set(Tables.ORDERS.REPAIRJOB_LIST, repairJobs)
-                .set(Tables.ORDERS.CUSTOMER_ID, order.getCustomerId())
-                .returning(Tables.ORDERS.ID)
-                .fetchOne();
-
-        if (record != null) {
-            return record.getId();
-        }else {
+        try {
+            String serviceJobs = serviceIntegerstoString(order.getServicesJobIds());
+            String repairJobs = serviceIntegerstoString(order.getRepairJobIds());
+            if(order.getOrderDate() == null) {
+                order.setOrderDate(LocalDateTime.now());
+            }
+            
+            // Use direct SQL approach for maximum compatibility
+            String sql = "INSERT INTO orders (customer_id, total, status, order_date, serviceJob_list, repairJob_list) " +
+                      "VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
+                      
+            var result = databaseManager.getDSLContext().fetch(
+                sql, 
+                order.getCustomerId(),
+                (float) order.getTotal(),
+                order.getStatus().toString(),
+                order.getOrderDate().toString(),
+                serviceJobs,
+                repairJobs
+            );
+            
+            if (!result.isEmpty()) {
+                Object idValue = result.getValue(0, "id");
+                return idValue != null ? Integer.parseInt(idValue.toString()) : -1;
+            }
+            return -1;
+        } catch (Exception e) {
+            e.printStackTrace();
             return -1;
         }
     }
 
     private Order mapToOrder(OrdersRecord record) {
-        return new Order(
-                record.getId(),
-                getServiceIntegers(record.getServicejobList()),
-                getServiceIntegers(record.getRepairjobList()),
-                record.getTotal(),
-                getOrderStatus(record.getStatus()),
-                record.getCustomerId(),
-                getOrderDate(record.getOrderDate())
-        );
+        try {
+            // Use direct approach to extract values
+            int id = record.getValue("id", Integer.class);
+            float total = record.getValue("total", Float.class);
+            int customerId = record.getValue("customer_id", Integer.class);
+            String status = record.getValue("status", String.class);
+            
+            // Get other fields directly using SQL
+            var result = databaseManager.getDSLContext().fetch(
+                "SELECT order_date, serviceJob_list, repairJob_list FROM orders WHERE id = ?", id
+            );
+            
+            String orderDateStr = "";
+            String serviceJobListStr = "";
+            String repairJobListStr = "";
+            
+            if (!result.isEmpty()) {
+                Object orderDateObj = result.getValue(0, "order_date");
+                Object serviceJobListObj = result.getValue(0, "serviceJob_list");
+                Object repairJobListObj = result.getValue(0, "repairJob_list");
+                
+                orderDateStr = orderDateObj != null ? orderDateObj.toString() : "";
+                serviceJobListStr = serviceJobListObj != null ? serviceJobListObj.toString() : "";
+                repairJobListStr = repairJobListObj != null ? repairJobListObj.toString() : "";
+            }
+            
+            return new Order(
+                id,
+                getServiceIntegers(serviceJobListStr),
+                getServiceIntegers(repairJobListStr),
+                total,
+                getOrderStatus(status),
+                customerId,
+                getOrderDate(orderDateStr)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Order(0, new HashSet<>(), new HashSet<>(), 0, OrderStatus.PENDING, 0, LocalDateTime.now());
+        }
     }
 
     private OrderStatus getOrderStatus(String status) {
+        if (status == null || status.isEmpty()) {
+            return OrderStatus.PENDING;
+        }
+        
         for (OrderStatus orderStatus : OrderStatus.values()) {
             if (orderStatus.name().equalsIgnoreCase(status)) {
                 return orderStatus;
             }
         }
-        return null;
+        return OrderStatus.PENDING;
     }
 
     private LocalDateTime getOrderDate(String date) {
-        return LocalDateTime.parse(date);
+        if (date == null || date.isEmpty()) {
+            return LocalDateTime.now();
+        }
+        
+        try {
+            return LocalDateTime.parse(date);
+        } catch (Exception e) {
+            System.err.println("Warning: Could not parse date: " + date);
+            return LocalDateTime.now();
+        }
     }
 
     private Set<Integer> getServiceIntegers(String stringlist) {
         Set<Integer> serviceIntegers = new HashSet<>();
-        if(!stringlist.contains(",")) return serviceIntegers;
+        if(stringlist == null || stringlist.isEmpty() || !stringlist.contains(",")) return serviceIntegers;
         String[] numbers = stringlist.split(",");
         for (String number : numbers) {
-            serviceIntegers.add(Integer.parseInt(number));
+            try {
+                serviceIntegers.add(Integer.parseInt(number.trim()));
+            } catch (NumberFormatException e) {
+                System.err.println("Warning: Could not parse integer: " + number);
+            }
         }
         return serviceIntegers;
     }
 
     private String serviceIntegerstoString(Set<Integer> serviceIntegers) {
         String out = "";
-        if(serviceIntegers.isEmpty()) { return out; }
+        if(serviceIntegers == null || serviceIntegers.isEmpty()) { return out; }
         for(int i : serviceIntegers) {
             out = out + i + ",";
         }
@@ -113,20 +169,31 @@ public class OrderRepository {
     }
 
     public void updateOrder(Order order) {
-        String serviceJobs = serviceIntegerstoString(order.getServicesJobIds());
-        String repairJobs = serviceIntegerstoString(order.getRepairJobIds());
-
-        int rowsAffected = databaseManager.getDSLContext()
-                .update(Tables.ORDERS)
-                .set(Tables.ORDERS.TOTAL, (float) order.getTotal())
-                .set(Tables.ORDERS.STATUS, order.getStatus().toString())
-                .set(Tables.ORDERS.ORDER_DATE, order.getOrderDate().toString())
-                .set(Tables.ORDERS.SERVICEJOB_LIST, serviceJobs)
-                .set(Tables.ORDERS.REPAIRJOB_LIST, repairJobs)
-                .set(Tables.ORDERS.CUSTOMER_ID, order.getCustomerId())
-                .where(Tables.ORDERS.ID.eq(order.getId()))
-                .execute();
-        System.out.println("Affected: " + rowsAffected);
+        try {
+            String serviceJobs = serviceIntegerstoString(order.getServicesJobIds());
+            String repairJobs = serviceIntegerstoString(order.getRepairJobIds());
+            
+            // Use direct SQL approach for maximum compatibility
+            String sql = "UPDATE orders SET " +
+                      "customer_id = ?, total = ?, status = ?, " +
+                      "order_date = ?, serviceJob_list = ?, repairJob_list = ? " +
+                      "WHERE id = ?";
+                      
+            int rowsAffected = databaseManager.getDSLContext().execute(
+                sql, 
+                order.getCustomerId(),
+                (float) order.getTotal(),
+                order.getStatus().toString(),
+                order.getOrderDate().toString(),
+                serviceJobs,
+                repairJobs,
+                order.getId()
+            );
+            
+            System.out.println("Affected: " + rowsAffected);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void createTableIfNotExists() {
