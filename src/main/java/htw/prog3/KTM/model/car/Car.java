@@ -8,14 +8,14 @@ import java.util.List;
 
 public class Car implements CarRepairComponent {
     private final List<CarRepairComponent> jobs = new ArrayList<>();  // Cars can have multiple repair or service jobs
-    private String id;           // Changed from int to String
+    private int id;           // Changed from int to String
     private String model;
     private String brand;
     private String licensePlate;
     private CarStatus carStatus;
 
     // Updated constructor to accept a String for the ID
-    public Car(String id, String model, String brand, String licensePlate,String carStatus) {
+    public Car(int id, String model, String brand, String licensePlate, String carStatus) {
         this.id = id;
         this.model = model;
         this.brand = brand;
@@ -56,11 +56,11 @@ public class Car implements CarRepairComponent {
     }
 
     // Getter and setter for id
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

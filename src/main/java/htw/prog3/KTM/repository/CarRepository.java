@@ -84,7 +84,7 @@ public class CarRepository {
         try {
             DSLContext create = getDSLContext();
             CarRecord record = create.selectFrom(Tables.CAR)
-                    .where(Tables.CAR.ID.eq(id))
+                    .where(Tables.CAR.ID.eq(id+""))
                     .fetchOne();
             return Optional.ofNullable(record)
                     .map(this::mapToCar);
@@ -98,7 +98,7 @@ public class CarRepository {
         try {
             DSLContext create = getDSLContext();
             int rowsDeleted = create.deleteFrom(Tables.CAR)
-                    .where(Tables.CAR.ID.eq(id))
+                    .where(Tables.CAR.ID.eq(id+""))
                     .execute();
             if (rowsDeleted == 0) {
                 throw new RuntimeException("Car with ID " + id + " not found.");
@@ -111,7 +111,7 @@ public class CarRepository {
     // Utility method to map AutoRecord to Auto object
     private Car mapToCar(CarRecord record) {
         return new Car(
-                record.getId(),                // ID
+                Integer.parseInt(record.getId()),                // ID
                 record.getModel(),             // Model
                 record.getBrand(),             // Brand
                 record.getLicenseplate(),      // License Plate

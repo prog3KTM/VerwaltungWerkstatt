@@ -97,7 +97,7 @@ public class MenuService {
             
             if (serviceJobOpt.isPresent()) {
                 ServiceJob serviceJob = serviceJobOpt.get();
-                int carId = serviceJobController.getAutoIdForServiceJob(serviceId);
+                int carId = serviceJobController.getCarIdForServiceJob(serviceId);
                 Car car = carController.getCarById(carId);
                 
                 if (car != null) {
@@ -348,8 +348,8 @@ public class MenuService {
 
     private void deleteAuto() {
         try {
-            String CarId = menu.getString("Auto-ID eingeben:");
-            carController.deleteCarById(CarId);
+            int carId = menu.getInt("Auto-ID eingeben:");
+            carController.deleteCarById(carId);
             menu.sendMessage("Auto wurde erfolgreich gelöscht.");
         } catch (Exception e) {
             menu.throwError("Fehler beim Löschen des Autos: " + e.getMessage());
@@ -358,7 +358,7 @@ public class MenuService {
 
     private void findAutoById() {
         try {
-            String autoId = menu.getString("Auto-ID eingeben:");
+            int autoId = menu.getInt("Auto-ID eingeben:");
             Car car = carController.getCarById(autoId);
             if (car != null) {
                 menu.sendMessage("Auto gefunden:");
@@ -451,12 +451,12 @@ public class MenuService {
             String autoInfo = menu.getAutoInfo();
             String[] parts = autoInfo.split(",");
             
-            String id = parts[0];
+            int id = Integer.parseInt(parts[0]);
             String brand = parts[1];
             String model = parts[2];
             String licensePlate = parts[3];
             
-            Car car = new Car(id, model, brand, licensePlate,CarStatus.AVAILABLE);
+            Car car = new Car(id, model, brand, licensePlate, CarStatus.AVAILABLE.toString());
             
             // Add the car to the customer and update in the database
             selectedCustomer.addAuto(car);
@@ -593,7 +593,7 @@ public class MenuService {
 
     private void updateAutoStatus() {
         try {
-            String carId = menu.getString("Auto-ID eingeben:");
+            int carId = menu.getInt("Auto-ID eingeben:");
             Car car = carController.getCarById(carId);
             
             if (car == null) {

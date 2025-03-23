@@ -31,11 +31,11 @@ public class ServiceJobController {
         return serviceJobRepository.findById(jobId);
     }
 
-    public int getAutoIdForServiceJob(int jobId) {
+    public int getCarIdForServiceJob(int jobId) {
         return 1 ;// serviceJobRepository.getAutoIdForServiceJob(jobId);
     }
 
-    public void updateServiceJob(ServiceJob serviceJob, String autoId) {
+    public void updateServiceJob(ServiceJob serviceJob, int autoId) {
         serviceJobRepository.save(serviceJob, autoId);
     }
 

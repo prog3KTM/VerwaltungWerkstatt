@@ -92,7 +92,7 @@ public class ServiceJobRepository {
     }
 
     // Find all service jobs for a specific auto
-    public List<ServiceJob> findByAutoId(String autoId) {
+    public List<ServiceJob> findByAutoId(int autoId) {
         try {
             DSLContext create = getDSLContext();
             Result<Record> result = create.select()

@@ -30,7 +30,7 @@ public class RepairJobTest {
 
     @Test
     void createRepairJob_ValidData_ObjectCreatedSuccessfully() {
-        RepairJob repairJob = new RepairJob(jobId, type, jobName, status);
+        RepairJob repairJob = new RepairJob(jobId, type, jobName, status.toString());
 
     }
 }
