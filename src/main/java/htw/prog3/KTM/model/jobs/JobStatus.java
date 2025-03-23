@@ -13,7 +13,7 @@ public enum JobStatus {
         try {
             return JobStatus.valueOf(status.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Unknown JobStatus: " + status);
+            return JobStatus.CREATED;
         }
     }
 

@@ -9,9 +9,7 @@ import htw.prog3.KTM.util.main;
 import org.jooq.DSLContext;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class OrderRepository {
 
@@ -94,9 +92,9 @@ public class OrderRepository {
         return LocalDateTime.parse(date);
     }
 
-    private List<Integer> getServiceIntegers(String stringlist) {
-        List<Integer> serviceIntegers = new ArrayList<>();
-        if(!serviceIntegers.contains(",")) return serviceIntegers;
+    private Set<Integer> getServiceIntegers(String stringlist) {
+        Set<Integer> serviceIntegers = new HashSet<>();
+        if(!stringlist.contains(",")) return serviceIntegers;
         String[] numbers = stringlist.split(",");
         for (String number : numbers) {
             serviceIntegers.add(Integer.parseInt(number));
@@ -104,7 +102,7 @@ public class OrderRepository {
         return serviceIntegers;
     }
 
-    private String serviceIntegerstoString(List<Integer> serviceIntegers) {
+    private String serviceIntegerstoString(Set<Integer> serviceIntegers) {
         String out = "";
         if(serviceIntegers.isEmpty()) { return out; }
         for(int i : serviceIntegers) {

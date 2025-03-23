@@ -4,6 +4,7 @@
 package htw.prog3.KTM.generated;
 
 
+import htw.prog3.KTM.generated.tables.Auto;
 import htw.prog3.KTM.generated.tables.Car;
 import htw.prog3.KTM.generated.tables.Customer;
 import htw.prog3.KTM.generated.tables.Konfigurationstabelle;
@@ -31,6 +32,11 @@ public class DefaultSchema extends SchemaImpl {
      * The reference instance of <code>DEFAULT_SCHEMA</code>
      */
     public static final DefaultSchema DEFAULT_SCHEMA = new DefaultSchema();
+
+    /**
+     * The table <code>AUTO</code>.
+     */
+    public final Auto AUTO = Auto.AUTO;
 
     /**
      * The table <code>Car</code>.
@@ -78,6 +84,7 @@ public class DefaultSchema extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            Auto.AUTO,
             Car.CAR,
             Customer.CUSTOMER,
             Konfigurationstabelle.KONFIGURATIONSTABELLE,

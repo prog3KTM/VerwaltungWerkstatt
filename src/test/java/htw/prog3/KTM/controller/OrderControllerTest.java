@@ -7,10 +7,7 @@ import htw.prog3.KTM.model.order.OrderStatus;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,13 +23,13 @@ class OrderControllerTest {
         orderController.dropData();
     }
 
-    private static Order order_testdata = new Order(Arrays.asList(1, 3), Arrays.asList(1, 3, 9), 10.4, OrderStatus.PENDING, 5);
+    private static Order order_testdata = new Order(Set.of(1, 3), Set.of(1, 3, 9), 10.4, OrderStatus.PENDING, 5);
 
     @Test
     void createOrder() {
-        List<Integer> numberlistservice = new ArrayList<>();
+        Set<Integer> numberlistservice = new HashSet<>();
         numberlistservice.add(1);
-        List<Integer> numberlistrepair = new ArrayList<>();
+        Set<Integer> numberlistrepair = new HashSet<>();
         numberlistservice.add(1);
         numberlistservice.add(2);
         Order order = new Order(numberlistrepair, numberlistservice, 10.4, OrderStatus.PENDING, 5);

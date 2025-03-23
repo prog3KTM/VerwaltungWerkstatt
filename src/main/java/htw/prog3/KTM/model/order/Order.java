@@ -10,20 +10,21 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class Order {
 
     private static final double MWST = 0.19;
 
     private int id;
-    private List<Integer> servicesJobIds;
-    private List<Integer> repairJobIds;
+    private Set<Integer> servicesJobIds;
+    private Set<Integer> repairJobIds;
     private double total;
     private OrderStatus status;
     private int customerId;
     private LocalDateTime orderDate;
 
-    public Order(int id, List<Integer> servicesJobIds, List<Integer> repairJobIds, double total, OrderStatus status, int customerId, LocalDateTime orderDate) {
+    public Order(int id, Set<Integer> servicesJobIds, Set<Integer> repairJobIds, double total, OrderStatus status, int customerId, LocalDateTime orderDate) {
         this.id = id;
         this.servicesJobIds = servicesJobIds;
         this.repairJobIds = repairJobIds;
@@ -33,7 +34,7 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Order(List<Integer> servicesJobIds, List<Integer> repairJobIds, double total, OrderStatus status, int customerId) {
+    public Order(Set<Integer> servicesJobIds, Set<Integer> repairJobIds, double total, OrderStatus status, int customerId) {
         this.servicesJobIds = servicesJobIds;
         this.repairJobIds = repairJobIds;
         this.total = total;
@@ -65,16 +66,20 @@ public class Order {
         return id;
     }
 
-    public List<Integer> getRepairJobIds() {
+    public Set<Integer> getRepairJobIds() {
         return repairJobIds;
     }
 
-    public List<Integer> getServicesJobIds() {
+    public Set<Integer> getServicesJobIds() {
         return servicesJobIds;
     }
 
     public double getTotal() {
         return total;
+    }
+
+    public double getTotalWithTaxes() {
+        return total+calculateTax();
     }
 
     public OrderStatus getStatus() {
@@ -89,7 +94,7 @@ public class Order {
         this.status = status;
     }
 
-    private Optional<Customer> getCustomer() {
+    public Optional<Customer> getCustomer() {
         CustomerController customerController = main.getAppConfig().getCustomerController();
         try {
             return customerController.getCustomerById(customerId);
@@ -102,19 +107,40 @@ public class Order {
         return MWST * total;
     }
 
-    private List<Service> getServices() {
+    public List<Service> getServices() {
         List<Service> services = new ArrayList<>();
+        List<Integer> toRemove = new ArrayList<>();
+        boolean update = false;
         for(Integer serviceId : servicesJobIds) {
             main.getAppConfig().getServiceJobController()
                     .getServiceJobById(serviceId)
-                    .ifPresent(services::add);
+                    .ifPresentOrElse(services::add, () -> toRemove.add(serviceId));
         }
+        if(!toRemove.isEmpty()) {
+            this.servicesJobIds.removeAll(toRemove);
+            update = true;
+            toRemove.clear();
+        }
+
         for(Integer serviceId : repairJobIds) {
-            main.getAppConfig().getServiceJobController()
-                    .getServiceJobById(serviceId)
-                    .ifPresent(services::add);
+            //TODO: add repairjob finder
+        }
+        if(!toRemove.isEmpty()) {
+            this.repairJobIds.removeAll(toRemove);
+            update = true;
+            toRemove.clear();
+        }
+        if(update) {
+            main.getAppConfig().getOrderController().updateOrder(this);
         }
         return services;
     }
 
+    public void addRepairJob(int serviceId) {
+        this.repairJobIds.add(serviceId);
+    }
+
+    public void addServicesJob(int serviceId) {
+        this.servicesJobIds.add(serviceId);
+    }
 }

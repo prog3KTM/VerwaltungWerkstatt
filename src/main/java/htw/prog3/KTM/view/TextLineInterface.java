@@ -3,8 +3,14 @@ package htw.prog3.KTM.view;
 import htw.prog3.KTM.controller.WorkshopInformationController;
 import htw.prog3.KTM.database.DatabaseManager;
 import htw.prog3.KTM.model.customer.Customer;
+import htw.prog3.KTM.model.jobs.Service;
+import htw.prog3.KTM.model.order.Order;
+import htw.prog3.KTM.model.order.OrderStatus;
 import htw.prog3.KTM.model.workshopinformation.WorkshopInformation;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class TextLineInterface implements MenuInteractions {
@@ -24,6 +30,7 @@ public class TextLineInterface implements MenuInteractions {
         System.out.println("2.  KundenMenü ansehen.");
         System.out.println("3.  AutoMenü ansehen.");
         System.out.println("4.  ServiceMenü ansehen.");
+        System.out.println("5.  OrderMenü ansehen.");
         System.out.println("99. Programm beenden.");
     }
 
@@ -78,6 +85,18 @@ public class TextLineInterface implements MenuInteractions {
     }
 
     @Override
+    public void showOrderMenu() {
+        System.out.println("======= OrderMenu =======");
+        System.out.println("1. Neue Order für Kunden erstellen");
+        System.out.println("2. Alle Order anzeigen");
+        System.out.println("3. Order nach ID suchen");
+        System.out.println("4. Order Status aktualisieren");
+        System.out.println("5. Order-Preis bearbeiten");
+        System.out.println("6. Service zu Order hinzufügen");
+        System.out.println("9. Zurück zum Hauptmenü");
+    }
+
+    @Override
     public WorkshopInformation getWerkstattInformation() {
         String namen = "";
         String location = "";
@@ -115,6 +134,67 @@ public class TextLineInterface implements MenuInteractions {
         }else {
             System.out.println("Du musst eine Zahl angeben.");
             return getInt(prompt);
+        }
+    }
+
+    @Override
+    public void showOrder(Optional<Order> order) {
+        if(order.isPresent()) {
+            Order o = order.get();
+            System.out.println("======= Order =======");
+            System.out.println("Erstelldatum: " + o.getOrderDate().toLocalDate());
+            System.out.print("Kunde: ");
+            o.getCustomer().ifPresentOrElse(customer -> {
+                        System.out.println(customer.getName());
+                    }, () -> {
+                        System.out.println("Fehler beim laden des Kunden.");
+                    });
+            System.out.println("Status: " + o.getStatus());
+            System.out.println("Summe (Netto): " + o.getTotal());
+            System.out.println("Summe (inkl MWST): " + o.getTotalWithTaxes());
+            System.out.println("Erledigte Services: ");
+            for(Service service : o.getServices()) {
+                System.out.println(" - "+service.getName() + " ["+service.getTypeString()+"]");
+            }
+        }else {
+            System.out.println("Diese Order existiert nicht.");
+        }
+    }
+
+    @Override
+    public void showAllOrder(List<Order> orders) {
+        for(Order order : orders) {
+            System.out.println(order.getId() + ". " + order.getCustomerId() + " : " + order.getOrderDate().toLocalDate() + " ["+order.getStatus()+"]");
+        }
+    }
+
+    @Override
+    public void hold() {
+        getString("Tippe irgendwas ein um fortzufahren.");
+    }
+
+    @Override
+    public float getFloat(String prompt) {
+        System.out.println(prompt);
+        String input = scanner.nextLine();
+        if(input.matches("[0.0-9.9]+") && input.length() < 16) {
+            return Float.parseFloat(input);
+        }else {
+            System.out.println("Du musst eine Dezimalzahl angeben.");
+            return getFloat(prompt);
+        }
+    }
+
+    @Override
+    public OrderStatus getOrderStatus(String prompt) {
+        System.out.println(prompt);
+        String input = scanner.nextLine();
+        if(Arrays.stream(OrderStatus.values())
+                .anyMatch(status -> status.toString().equalsIgnoreCase(input))) {
+            return OrderStatus.valueOf(input.toUpperCase());
+        }else {
+            throwError("Dieser Status existiert nicht.");
+            return getOrderStatus(prompt);
         }
     }
 

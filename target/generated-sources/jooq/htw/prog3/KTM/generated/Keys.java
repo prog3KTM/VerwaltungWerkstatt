@@ -4,12 +4,14 @@
 package htw.prog3.KTM.generated;
 
 
+import htw.prog3.KTM.generated.tables.Auto;
 import htw.prog3.KTM.generated.tables.Car;
 import htw.prog3.KTM.generated.tables.Customer;
 import htw.prog3.KTM.generated.tables.Konfigurationstabelle;
 import htw.prog3.KTM.generated.tables.Orders;
 import htw.prog3.KTM.generated.tables.Repairjob;
 import htw.prog3.KTM.generated.tables.ServiceJob;
+import htw.prog3.KTM.generated.tables.records.AutoRecord;
 import htw.prog3.KTM.generated.tables.records.CarRecord;
 import htw.prog3.KTM.generated.tables.records.CustomerRecord;
 import htw.prog3.KTM.generated.tables.records.KonfigurationstabelleRecord;
@@ -35,6 +37,7 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<AutoRecord> AUTO__PK_AUTO = Internal.createUniqueKey(Auto.AUTO, DSL.name("pk_AUTO"), new TableField[] { Auto.AUTO.ID }, true);
     public static final UniqueKey<CarRecord> CAR__PK_CAR = Internal.createUniqueKey(Car.CAR, DSL.name("pk_Car"), new TableField[] { Car.CAR.ID }, true);
     public static final UniqueKey<CustomerRecord> CUSTOMER__PK_CUSTOMER = Internal.createUniqueKey(Customer.CUSTOMER, DSL.name("pk_Customer"), new TableField[] { Customer.CUSTOMER.ID }, true);
     public static final UniqueKey<KonfigurationstabelleRecord> KONFIGURATIONSTABELLE__PK_KONFIGURATIONSTABELLE = Internal.createUniqueKey(Konfigurationstabelle.KONFIGURATIONSTABELLE, DSL.name("pk_Konfigurationstabelle"), new TableField[] { Konfigurationstabelle.KONFIGURATIONSTABELLE.KEY }, true);

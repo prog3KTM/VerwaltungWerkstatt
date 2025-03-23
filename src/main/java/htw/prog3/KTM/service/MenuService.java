@@ -1,22 +1,20 @@
 package htw.prog3.KTM.service;
 
-import htw.prog3.KTM.controller.CarController;
-import htw.prog3.KTM.controller.CustomerController;
-import htw.prog3.KTM.controller.WorkshopInformationController;
-import htw.prog3.KTM.controller.ServiceJobController;
+import htw.prog3.KTM.controller.*;
 import htw.prog3.KTM.model.car.Car;
 import htw.prog3.KTM.model.car.Car.CarStatus;
 import htw.prog3.KTM.model.jobs.ServiceJob;
 import htw.prog3.KTM.model.jobs.ServiceJobType;
 import htw.prog3.KTM.model.customer.Customer;
+import htw.prog3.KTM.model.order.Order;
+import htw.prog3.KTM.model.order.OrderStatus;
 import htw.prog3.KTM.model.workshopinformation.WorkshopInformation;
 import htw.prog3.KTM.util.main;
 import htw.prog3.KTM.view.MenuInteractions;
 import htw.prog3.KTM.view.TextLineInterface;
 
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class MenuService {
 
@@ -26,6 +24,7 @@ public class MenuService {
     private boolean running;
     private CustomerController customerController;
     private CarController carController;
+    private OrderController orderController;
     private ServiceJobController serviceJobController;
     
     private MenuService() {
@@ -34,6 +33,7 @@ public class MenuService {
         customerController = main.getAppConfig().getCustomerController();
         carController = main.getAppConfig().getCarController();
         serviceJobController = main.getAppConfig().getServiceJobController();
+        orderController = main.getAppConfig().getOrderController();
     }
 
     public void run() {
@@ -54,6 +54,9 @@ public class MenuService {
                 case 4:
                     runServiceMenuLogic();
                     break;
+                case 5:
+                    runOrderMenuLogic();
+                    break;
                 case 99:
                     running = false;
                     break;
@@ -62,6 +65,135 @@ public class MenuService {
                     break;
             }
         }
+    }
+
+    private void runOrderMenuLogic() {
+        menu.showOrderMenu();
+        int option = menu.getOption();
+        switch (option) {
+            case 1:
+                addNewOrder();
+                break;
+            case 2:
+                showAllOrders();
+                break;
+            case 3:
+                findOrderById();
+                break;
+            case 4:
+                updateOrderStatus();
+                break;
+            case 5:
+                updateOrderPrice();
+                break;
+            case 6:
+                updateAddServiceToOrder();
+                break;
+            case 9:
+                // Return to main menu
+                break;
+            default:
+                menu.throwError("Invalid option.");
+                break;
+        }
+    }
+
+    private void updateAddServiceToOrder() {
+        int orderId = menu.getInt("Order-ID eingeben:");
+        Optional<Order> order = orderController.getOrderById(orderId);
+        if(!order.isPresent()) {
+            menu.throwError("Order konnte nicht gefunden werden.");
+            return;
+        }
+        Order orderToUpdate = order.get();
+        int serviceId = 0;
+        while (serviceId != 9999) {
+            serviceId = menu.getInt("RepairJob-ID eingeben oder aufhören mit 9999:");
+            orderToUpdate.addRepairJob(serviceId);
+        }
+
+        serviceId = 0;
+        while (serviceId != 9999) {
+            serviceId = menu.getInt("ServiceJob-ID eingeben oder aufhören mit 9999:");
+            if(serviceJobController.getServiceJobById(serviceId).isEmpty()) {
+                orderToUpdate.addServicesJob(serviceId);
+            }else {
+                if(serviceId != 9999) {
+                    menu.throwError("Diese ServiceJob existiert nicht.");
+                }
+            }
+        }
+
+        orderController.updateOrder(orderToUpdate);
+        menu.sendMessage("Order wurde geupdatet.");
+    }
+
+    private void updateOrderPrice() {
+        int id = menu.getInt("Order-ID eingeben:");
+        float price = menu.getFloat("Bitte neuen preis eingeben:");
+        Optional<Order> order = orderController.getOrderById(id);
+        order.ifPresentOrElse(order1 -> {
+            order1.setTotal(price);
+            orderController.updateOrder(order1);
+        }, () -> {
+            menu.sendMessage("Diese Order existiert nicht.");
+        });
+    }
+
+    private void updateOrderStatus() {
+        int id = menu.getInt("Order-ID eingeben:");
+        OrderStatus status = menu.getOrderStatus("Bitte neuen Status wählen:");
+        Optional<Order> order = orderController.getOrderById(id);
+        order.ifPresentOrElse(order1 -> {
+            order1.setStatus(status);
+            orderController.updateOrder(order1);
+        }, () -> {
+            menu.sendMessage("Diese Order existiert nicht.");
+        });
+    }
+
+    private void findOrderById() {
+        int id = menu.getInt("Order-ID eingeben:");
+        Optional<Order> order = orderController.getOrderById(id);
+        menu.showOrder(order);
+        menu.hold();
+    }
+
+    private void showAllOrders() {
+        List<Order> orders = orderController.getAllOrders();
+        if(orders.isEmpty()) {
+            menu.throwError("Keine Orders vorhanden.");
+            return;
+        }
+        menu.showAllOrder(orders);
+        menu.hold();
+    }
+
+    private void addNewOrder() {
+        int customerId = menu.getInt("Kunde-ID eingeben:");
+        Set<Integer> servicesRepairJob = new HashSet<>();
+        Set<Integer> servicesServiceJob = new HashSet<>();
+        int serviceId = 0;
+        while (serviceId != 9999) {
+            serviceId = menu.getInt("RepairJob-ID eingeben oder aufhören mit 9999:");
+            //check if it actually exists
+            servicesRepairJob.add(serviceId);
+        }
+        serviceId = 0;
+        while (serviceId != 9999) {
+            serviceId = menu.getInt("ServiceJob-ID eingeben oder aufhören mit 9999:");
+            if(serviceJobController.getServiceJobById(serviceId).isEmpty()) {
+                servicesServiceJob.add(serviceId);
+            }else {
+                if(serviceId != 9999) {
+                    menu.throwError("Diese ServiceJob existiert nicht.");
+                }
+            }
+        }
+        float price = menu.getFloat("Bitte Preis eingeben:");
+        Order order = new Order(servicesServiceJob, servicesRepairJob, price, OrderStatus.PENDING, customerId);
+        int id = orderController.createOrder(order);
+        menu.sendMessage("Die neue Order wurde erfolgreich erstellt und hat die ID:"+id+".");
     }
 
     private void runServiceMenuLogic() {
