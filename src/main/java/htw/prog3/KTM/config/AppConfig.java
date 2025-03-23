@@ -1,6 +1,7 @@
 package htw.prog3.KTM.config;
 
 import htw.prog3.KTM.controller.CarController;
+import htw.prog3.KTM.controller.OrderController;
 import htw.prog3.KTM.controller.ServiceJobController;
 import htw.prog3.KTM.database.DatabaseManager;
 import htw.prog3.KTM.database.TableHandler;
@@ -13,10 +14,12 @@ import static org.jooq.impl.SQLDataType.VARCHAR;
 public class AppConfig {
 
     private final CustomerController customerController;
+    private final OrderController orderController;
     private final CarController carController;
     private final ServiceJobController serviceJobController;
     private final TableHandler tableHandler;
     private final DatabaseManager databaseManager;
+    private boolean logenabled = false;
 
     public AppConfig() {
         databaseManager = new DatabaseManager();
@@ -30,6 +33,11 @@ public class AppConfig {
         this.customerController = new CustomerController(customerService);
         this.carController = new CarController(databaseManager);
         this.serviceJobController = new ServiceJobController(databaseManager);
+        this.orderController = new OrderController(databaseManager);
+    }
+
+    public OrderController getOrderController() {
+        return orderController;
     }
 
     public TableHandler getTableHandler() {
@@ -50,5 +58,13 @@ public class AppConfig {
 
     public DatabaseManager getDatabaseManager() {
         return databaseManager;
+    }
+
+    public void setLogenabled(boolean logenabled) {
+        this.logenabled = logenabled;
+    }
+
+    public boolean isLogenabled() {
+        return logenabled;
     }
 }

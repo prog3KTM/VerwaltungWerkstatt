@@ -7,8 +7,9 @@ package htw.prog3.KTM.generated;
 import htw.prog3.KTM.generated.tables.Car;
 import htw.prog3.KTM.generated.tables.Customer;
 import htw.prog3.KTM.generated.tables.Konfigurationstabelle;
+import htw.prog3.KTM.generated.tables.Orders;
 import htw.prog3.KTM.generated.tables.Repairjob;
-import htw.prog3.KTM.generated.tables.Servicejob;
+import htw.prog3.KTM.generated.tables.ServiceJob;
 
 
 /**
@@ -33,12 +34,17 @@ public class Tables {
     public static final Konfigurationstabelle KONFIGURATIONSTABELLE = Konfigurationstabelle.KONFIGURATIONSTABELLE;
 
     /**
+     * The table <code>Orders</code>.
+     */
+    public static final Orders ORDERS = Orders.ORDERS;
+
+    /**
      * The table <code>RepairJob</code>.
      */
     public static final Repairjob REPAIRJOB = Repairjob.REPAIRJOB;
 
     /**
-     * The table <code>ServiceJob</code>.
+     * The table <code>SERVICE_JOB</code>.
      */
-    public static final Servicejob SERVICEJOB = Servicejob.SERVICEJOB;
+    public static final ServiceJob SERVICE_JOB = ServiceJob.SERVICE_JOB;
 }

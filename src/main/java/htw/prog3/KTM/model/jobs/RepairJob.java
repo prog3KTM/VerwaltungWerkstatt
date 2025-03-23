@@ -2,7 +2,7 @@ package htw.prog3.KTM.model.jobs;
 
 import htw.prog3.KTM.model.CarRepairComponent;
 
-public class RepairJob implements CarRepairComponent {
+public class RepairJob extends Service implements CarRepairComponent {
     private int id;
     private String name;
     private RepairJobType type;
@@ -10,6 +10,9 @@ public class RepairJob implements CarRepairComponent {
 
     public RepairJobType getType() {
         return type;
+    }
+    public String getTypeString() {
+        return type.toString();
     }
 
     public void setType(RepairJobType type) {
@@ -38,6 +41,10 @@ public class RepairJob implements CarRepairComponent {
 
     public JobStatus getStatus() {
         return status;
+    }
+
+    public String getStatusString() {
+        return status.toString();
     }
 
     public void setStatus(JobStatus status) {

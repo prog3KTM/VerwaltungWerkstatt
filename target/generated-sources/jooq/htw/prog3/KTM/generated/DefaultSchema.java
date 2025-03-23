@@ -7,8 +7,9 @@ package htw.prog3.KTM.generated;
 import htw.prog3.KTM.generated.tables.Car;
 import htw.prog3.KTM.generated.tables.Customer;
 import htw.prog3.KTM.generated.tables.Konfigurationstabelle;
+import htw.prog3.KTM.generated.tables.Orders;
 import htw.prog3.KTM.generated.tables.Repairjob;
-import htw.prog3.KTM.generated.tables.Servicejob;
+import htw.prog3.KTM.generated.tables.ServiceJob;
 
 import java.util.Arrays;
 import java.util.List;
@@ -47,14 +48,19 @@ public class DefaultSchema extends SchemaImpl {
     public final Konfigurationstabelle KONFIGURATIONSTABELLE = Konfigurationstabelle.KONFIGURATIONSTABELLE;
 
     /**
+     * The table <code>Orders</code>.
+     */
+    public final Orders ORDERS = Orders.ORDERS;
+
+    /**
      * The table <code>RepairJob</code>.
      */
     public final Repairjob REPAIRJOB = Repairjob.REPAIRJOB;
 
     /**
-     * The table <code>ServiceJob</code>.
+     * The table <code>SERVICE_JOB</code>.
      */
-    public final Servicejob SERVICEJOB = Servicejob.SERVICEJOB;
+    public final ServiceJob SERVICE_JOB = ServiceJob.SERVICE_JOB;
 
     /**
      * No further instances allowed
@@ -75,8 +81,9 @@ public class DefaultSchema extends SchemaImpl {
             Car.CAR,
             Customer.CUSTOMER,
             Konfigurationstabelle.KONFIGURATIONSTABELLE,
+            Orders.ORDERS,
             Repairjob.REPAIRJOB,
-            Servicejob.SERVICEJOB
+            ServiceJob.SERVICE_JOB
         );
     }
 }

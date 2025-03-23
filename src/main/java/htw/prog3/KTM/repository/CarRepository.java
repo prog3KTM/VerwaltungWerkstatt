@@ -26,12 +26,13 @@ public class CarRepository {
     private void createTableIfNotExists() {
         try {
             DSLContext create = getDSLContext();
-            create.execute("CREATE TABLE IF NOT EXISTS AUTO (" +
+            create.execute("CREATE TABLE IF NOT EXISTS Car (" +
                     "id VARCHAR(100) PRIMARY KEY, " +
                     "model VARCHAR(100) NOT NULL, " +
                     "brand VARCHAR(100) NOT NULL, " +
                     "licensePlate VARCHAR(100) NOT NULL, " +
-                    "autostatus INTEGER" +
+                    "status INTEGER, " +
+                    "customer_id INTEGER" +
                     ")");
 
             // Check if autostatus column exists, if not add it
