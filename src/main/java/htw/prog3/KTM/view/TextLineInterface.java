@@ -150,8 +150,9 @@ public class TextLineInterface implements MenuInteractions {
                         System.out.println("Fehler beim laden des Kunden.");
                     });
             System.out.println("Status: " + o.getStatus());
-            System.out.println("Summe (Netto): " + o.getTotal());
-            System.out.println("Summe (inkl MWST): " + o.getTotalWithTaxes());
+            System.out.println("Summe (Netto): " + String.format("%.2f", o.getTotal()));
+            System.out.println("Summe (inkl MWST): " + String.format("%.2f", o.getTotalWithTaxes()));
+            System.out.println();
             System.out.println("Erledigte Services: ");
             for(Service service : o.getServices()) {
                 System.out.println(" - "+service.getName() + " ["+service.getTypeString()+"]");
