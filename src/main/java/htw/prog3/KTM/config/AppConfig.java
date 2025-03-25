@@ -1,11 +1,8 @@
 package htw.prog3.KTM.config;
 
-import htw.prog3.KTM.controller.CarController;
-import htw.prog3.KTM.controller.OrderController;
-import htw.prog3.KTM.controller.ServiceJobController;
+import htw.prog3.KTM.controller.*;
 import htw.prog3.KTM.database.DatabaseManager;
 import htw.prog3.KTM.database.TableHandler;
-import htw.prog3.KTM.controller.CustomerController;
 import htw.prog3.KTM.repository.CustomerRepository;
 import htw.prog3.KTM.service.CustomerService;
 
@@ -19,6 +16,7 @@ public class AppConfig {
     private final ServiceJobController serviceJobController;
     private final TableHandler tableHandler;
     private final DatabaseManager databaseManager;
+    private final WorkshopInformationController workshopInformationController;
     private boolean logenabled = false;
 
     public AppConfig() {
@@ -34,6 +32,11 @@ public class AppConfig {
         this.carController = new CarController(databaseManager);
         this.serviceJobController = new ServiceJobController(databaseManager);
         this.orderController = new OrderController(databaseManager);
+        this.workshopInformationController = new WorkshopInformationController(databaseManager);
+    }
+
+    public WorkshopInformationController getWorkshopInformationController() {
+        return workshopInformationController;
     }
 
     public OrderController getOrderController() {

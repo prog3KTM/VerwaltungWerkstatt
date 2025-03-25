@@ -4,7 +4,6 @@
 package htw.prog3.KTM.generated;
 
 
-import htw.prog3.KTM.generated.tables.Auto;
 import htw.prog3.KTM.generated.tables.Car;
 import htw.prog3.KTM.generated.tables.Customer;
 import htw.prog3.KTM.generated.tables.Konfigurationstabelle;
@@ -19,11 +18,6 @@ import htw.prog3.KTM.generated.tables.WorkshopInfo;
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public class Tables {
-
-    /**
-     * The table <code>AUTO</code>.
-     */
-    public static final Auto AUTO = Auto.AUTO;
 
     /**
      * The table <code>CAR</code>.

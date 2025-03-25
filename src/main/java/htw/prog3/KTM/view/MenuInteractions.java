@@ -12,7 +12,7 @@ public interface MenuInteractions {
 
     void showMainMenu();
     void showKunde(Customer customer);
-    void showWerk();
+    void showWerk(WorkshopInformation workshopInformation);
     void showKundenMenu();
     void showCarMenu();
     void showServiceMenu();

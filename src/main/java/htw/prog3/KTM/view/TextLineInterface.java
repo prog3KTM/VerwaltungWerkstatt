@@ -47,8 +47,8 @@ public class TextLineInterface implements MenuInteractions {
     }
 
     @Override
-    public void showWerk() {
-        System.out.println("Werk: " + new WorkshopInformationController(databaseManager).getWerkstattInformation().toString());
+    public void showWerk(WorkshopInformation workshopInformation) {
+        System.out.println("Werk: " + workshopInformation.toString());
         scanner.nextLine();
     }
 

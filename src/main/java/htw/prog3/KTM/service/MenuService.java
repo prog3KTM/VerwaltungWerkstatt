@@ -43,7 +43,7 @@ public class MenuService {
             int option = menu.getOption();
             switch (option) {
                 case 1:
-                    menu.showWerk();
+                    menu.showWerk(main.getAppConfig().getWorkshopInformationController().getWerkstattInformation());
                     break;
                 case 2:
                     runKundenMenuLogic();
@@ -715,10 +715,9 @@ public class MenuService {
     }
 
     private void checkForWerkstattInformation() {
-        WorkshopInformationController workshopInformationController = new WorkshopInformationController(main.getAppConfig().getDatabaseManager());
-        if(!workshopInformationController.ifInformationExists()) {
+        if(!main.getAppConfig().getWorkshopInformationController().ifInformationExists()) {
             WorkshopInformation workshopInformation = menu.getWerkstattInformation();
-            workshopInformationController.save(workshopInformation);
+            main.getAppConfig().getWorkshopInformationController().save(workshopInformation);
             menu.sendMessage("Werkstatt-Information wurde gespeichert!");
         }
     }
