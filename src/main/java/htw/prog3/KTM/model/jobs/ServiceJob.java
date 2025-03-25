@@ -46,6 +46,18 @@ public class ServiceJob extends Service implements CarRepairComponent {
     }
 
     @Override
+    public int getTypeOrdinal() {
+        return type.ordinal();
+    }
+
+    public static final String SERVICE_TYPE = "ServiceJob";
+
+    @Override
+    public String getServiceType() {
+        return SERVICE_TYPE;
+    }
+
+    @Override
     public String getTypeString() {
         return type.toString();
     }

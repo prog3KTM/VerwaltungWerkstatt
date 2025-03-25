@@ -172,7 +172,7 @@ public class TextLineInterface implements MenuInteractions {
     @Override
     public void showAllOrder(List<Order> orders) {
         for(Order order : orders) {
-            System.out.println(order.getId() + ". " + order.getCustomerId() + " : " + order.getOrderDate().toLocalDate() + " ["+order.getStatus()+"]");
+            System.out.println(order.getId() + ". " + order.getCustomer().get().getName() + " : " + order.getOrderDate().toLocalDate() + " ["+order.getStatus()+"]");
         }
     }
 

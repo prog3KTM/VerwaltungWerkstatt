@@ -14,6 +14,7 @@ public class AppConfig {
     private final OrderController orderController;
     private final CarController carController;
     private final ServiceJobController serviceJobController;
+    private final RepairJobController repairJobController;
     private final TableHandler tableHandler;
     private final DatabaseManager databaseManager;
     private final WorkshopInformationController workshopInformationController;
@@ -31,12 +32,17 @@ public class AppConfig {
         this.customerController = new CustomerController(customerService);
         this.carController = new CarController(databaseManager);
         this.serviceJobController = new ServiceJobController(databaseManager);
+        this.repairJobController = new RepairJobController(databaseManager);
         this.orderController = new OrderController(databaseManager);
         this.workshopInformationController = new WorkshopInformationController(databaseManager);
     }
 
     public WorkshopInformationController getWorkshopInformationController() {
         return workshopInformationController;
+    }
+
+    public RepairJobController getRepairJobController() {
+        return repairJobController;
     }
 
     public OrderController getOrderController() {

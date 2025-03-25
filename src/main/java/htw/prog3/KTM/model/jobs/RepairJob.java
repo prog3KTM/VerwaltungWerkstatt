@@ -15,6 +15,12 @@ public class RepairJob extends Service implements CarRepairComponent {
         return type.toString();
     }
 
+    public static final String SERVICE_TYPE = "RepairJob";
+    @Override
+    public String getServiceType() {
+        return SERVICE_TYPE;
+    }
+
     public void setType(RepairJobType type) {
         this.type = type;
     }
@@ -45,6 +51,11 @@ public class RepairJob extends Service implements CarRepairComponent {
 
     public String getStatusString() {
         return status.toString();
+    }
+
+    @Override
+    public int getTypeOrdinal() {
+        return type.ordinal();
     }
 
     public void setStatus(JobStatus status) {

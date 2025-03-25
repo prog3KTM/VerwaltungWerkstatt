@@ -23,6 +23,14 @@ public class Car implements CarRepairComponent {
         this.carStatus = Car.CarStatus.fromString(carStatus);
     }
 
+    public Car(int id, String model, String brand, String licensePlate, int carStatus) {
+        this.id = id;
+        this.model = model;
+        this.brand = brand;
+        this.licensePlate = licensePlate;
+        this.carStatus = Car.CarStatus.values()[carStatus];
+    }
+
     public void addJob(CarRepairComponent job) {
         jobs.add(job);
     }

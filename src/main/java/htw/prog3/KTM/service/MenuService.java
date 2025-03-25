@@ -26,6 +26,7 @@ public class MenuService {
     private CarController carController;
     private OrderController orderController;
     private ServiceJobController serviceJobController;
+    private RepairJobController repairJobController;
     
     private MenuService() {
         menu = new TextLineInterface(main.getAppConfig().getDatabaseManager());
@@ -33,6 +34,7 @@ public class MenuService {
         customerController = main.getAppConfig().getCustomerController();
         carController = main.getAppConfig().getCarController();
         serviceJobController = main.getAppConfig().getServiceJobController();
+        repairJobController = main.getAppConfig().getRepairJobController();
         orderController = main.getAppConfig().getOrderController();
     }
 
@@ -106,17 +108,13 @@ public class MenuService {
             return;
         }
         Order orderToUpdate = order.get();
+
         int serviceId = 0;
         while (serviceId != 9999) {
-            serviceId = menu.getInt("RepairJob-ID eingeben oder aufhören mit 9999:");
-            orderToUpdate.addRepairJob(serviceId);
-        }
-
-        serviceId = 0;
-        while (serviceId != 9999) {
             serviceId = menu.getInt("ServiceJob-ID eingeben oder aufhören mit 9999:");
-            if(serviceJobController.getServiceJobById(serviceId).isEmpty()) {
-                orderToUpdate.addServicesJob(serviceId);
+            if(serviceJobController.getServiceJobById(serviceId).isPresent()
+                || repairJobController.getRepairJobById(serviceId).isPresent()) {
+                orderToUpdate.addService(serviceId);
             }else {
                 if(serviceId != 9999) {
                     menu.throwError("Diese ServiceJob existiert nicht.");
@@ -170,28 +168,40 @@ public class MenuService {
     }
 
     private void addNewOrder() {
-        int customerId = menu.getInt("Kunde-ID eingeben:");
-        Set<Integer> servicesRepairJob = new HashSet<>();
-        Set<Integer> servicesServiceJob = new HashSet<>();
+        try {
+            customerController.getAllCustomers().forEach((customer -> {
+                menu.sendMessage(customer.getId()+". " + customer.getName());
+            }));
+        } catch (SQLException e) {
+            menu.sendMessage("Fehler beim laden der Kunden aufgetreten.");
+        }
+        int customerId = -1;
+        while (customerId == -1) {
+            customerId = menu.getInt("Kunde-ID eingeben:");
+            try {
+                if(customerController.getCustomerById(customerId).isEmpty()) {
+                    customerId = -1;
+                    menu.sendMessage("Kunde mit dieser ID existiert nicht.");
+                }
+            } catch (SQLException e) {
+                customerId = -1;
+            }
+        }
+        Set<Integer> services = new HashSet<>();
         int serviceId = 0;
         while (serviceId != 9999) {
-            serviceId = menu.getInt("RepairJob-ID eingeben oder aufhören mit 9999:");
-            //check if it actually exists
-            servicesRepairJob.add(serviceId);
-        }
-        serviceId = 0;
-        while (serviceId != 9999) {
-            serviceId = menu.getInt("ServiceJob-ID eingeben oder aufhören mit 9999:");
-            if(serviceJobController.getServiceJobById(serviceId).isEmpty()) {
-                servicesServiceJob.add(serviceId);
+            serviceId = menu.getInt("Service-ID eingeben oder aufhören mit 9999:");
+            if(repairJobController.getRepairJobById(serviceId).isPresent()
+                    || serviceJobController.getServiceJobById(serviceId).isPresent()) {
+                services.add(serviceId);
             }else {
                 if(serviceId != 9999) {
-                    menu.throwError("Diese ServiceJob existiert nicht.");
+                    menu.throwError("Dieser Service existiert nicht.");
                 }
             }
         }
         float price = menu.getFloat("Bitte Preis eingeben:");
-        Order order = new Order(servicesServiceJob, servicesRepairJob, price, OrderStatus.PENDING, customerId);
+        Order order = new Order(services, price, OrderStatus.PENDING, customerId);
         int id = orderController.createOrder(order);
         menu.sendMessage("Die neue Order wurde erfolgreich erstellt und hat die ID:"+id+".");
     }

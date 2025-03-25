@@ -16,11 +16,11 @@ public class ServiceJobController {
     }
 
     public List<ServiceJob> getAllServiceJobs() {
-        return serviceJobRepository.findAll();
+        return serviceJobRepository.findAllServiceJobs();
     }
 
     public List<ServiceJob> getServiceJobsByCarId(int carId) {
-        return serviceJobRepository.findByCarId(carId);
+        return serviceJobRepository.findServiceJobByCarId(carId);
     }
 
     public void addServiceJob(ServiceJob serviceJob, int carId) {
@@ -28,7 +28,7 @@ public class ServiceJobController {
     }
 
     public Optional<ServiceJob> getServiceJobById(int jobId) {
-        return serviceJobRepository.findById(jobId);
+        return serviceJobRepository.findServiceJobById(jobId);
     }
 
     public int getCarIdForServiceJob(int jobId) {

@@ -23,16 +23,14 @@ class OrderControllerTest {
         orderController.dropData();
     }
 
-    private static Order order_testdata = new Order(Set.of(1, 3), Set.of(1, 3, 9), 10.4, OrderStatus.PENDING, 5);
+    private static Order order_testdata = new Order(Set.of(1, 3, 9), 10.4, OrderStatus.PENDING, 5);
 
     @Test
     void createOrder() {
         Set<Integer> numberlistservice = new HashSet<>();
         numberlistservice.add(1);
-        Set<Integer> numberlistrepair = new HashSet<>();
-        numberlistservice.add(1);
         numberlistservice.add(2);
-        Order order = new Order(numberlistrepair, numberlistservice, 10.4, OrderStatus.PENDING, 5);
+        Order order = new Order(numberlistservice, 10.4, OrderStatus.PENDING, 5);
         orderController.createOrder(order);
     }
 

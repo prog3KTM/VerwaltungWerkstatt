@@ -17,26 +17,23 @@ public class Order {
     private static final double MWST = 0.19;
 
     private int id;
-    private Set<Integer> servicesJobIds;
-    private Set<Integer> repairJobIds;
+    private Set<Integer> services;
     private double total;
     private OrderStatus status;
     private int customerId;
     private LocalDateTime orderDate;
 
-    public Order(int id, Set<Integer> servicesJobIds, Set<Integer> repairJobIds, double total, OrderStatus status, int customerId, LocalDateTime orderDate) {
+    public Order(int id, Set<Integer> services, double total, OrderStatus status, int customerId, LocalDateTime orderDate) {
         this.id = id;
-        this.servicesJobIds = servicesJobIds;
-        this.repairJobIds = repairJobIds;
+        this.services = services;
         this.total = total;
         this.status = status;
         this.customerId = customerId;
         this.orderDate = orderDate;
     }
 
-    public Order(Set<Integer> servicesJobIds, Set<Integer> repairJobIds, double total, OrderStatus status, int customerId) {
-        this.servicesJobIds = servicesJobIds;
-        this.repairJobIds = repairJobIds;
+    public Order(Set<Integer> services, double total, OrderStatus status, int customerId) {
+        this.services = services;
         this.total = total;
         this.status = status;
         this.customerId = customerId;
@@ -66,12 +63,8 @@ public class Order {
         return id;
     }
 
-    public Set<Integer> getRepairJobIds() {
-        return repairJobIds;
-    }
-
-    public Set<Integer> getServicesJobIds() {
-        return servicesJobIds;
+    public Set<Integer> getServicesIds() {
+        return services;
     }
 
     public double getTotal() {
@@ -109,38 +102,18 @@ public class Order {
 
     public List<Service> getServices() {
         List<Service> services = new ArrayList<>();
-        List<Integer> toRemove = new ArrayList<>();
-        boolean update = false;
-        for(Integer serviceId : servicesJobIds) {
+        for(Integer serviceId : this.services) {
             main.getAppConfig().getServiceJobController()
                     .getServiceJobById(serviceId)
-                    .ifPresentOrElse(services::add, () -> toRemove.add(serviceId));
-        }
-        if(!toRemove.isEmpty()) {
-            this.servicesJobIds.removeAll(toRemove);
-            update = true;
-            toRemove.clear();
-        }
-
-        for(Integer serviceId : repairJobIds) {
-            //TODO: add repairjob finder
-        }
-        if(!toRemove.isEmpty()) {
-            this.repairJobIds.removeAll(toRemove);
-            update = true;
-            toRemove.clear();
-        }
-        if(update) {
-            main.getAppConfig().getOrderController().updateOrder(this);
+                    .ifPresent(services::add);
+            main.getAppConfig().getRepairJobController()
+                    .getRepairJobById(serviceId)
+                    .ifPresent(services::add);
         }
         return services;
     }
 
-    public void addRepairJob(int serviceId) {
-        this.repairJobIds.add(serviceId);
-    }
-
-    public void addServicesJob(int serviceId) {
-        this.servicesJobIds.add(serviceId);
+    public void addService(int serviceId) {
+        this.services.add(serviceId);
     }
 }

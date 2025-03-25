@@ -24,6 +24,7 @@ public class OrderRepository {
         OrdersRecord record = databaseManager.getDSLContext().selectFrom(Tables.ORDERS)
                 .where(Tables.ORDERS.ID.eq(id))
                 .fetchOne();
+
         return Optional.ofNullable(record)
                 .map(this::mapToOrder);
     }
@@ -45,15 +46,14 @@ public class OrderRepository {
 
     public int saveOrder(Order order) {
         try {
-            String serviceJobs = serviceIntegerstoString(order.getServicesJobIds());
-            String repairJobs = serviceIntegerstoString(order.getRepairJobIds());
+            String services = serviceIntegerstoString(order.getServicesIds());
             if(order.getOrderDate() == null) {
                 order.setOrderDate(LocalDateTime.now());
             }
             
             // Use direct SQL approach for maximum compatibility
-            String sql = "INSERT INTO orders (customer_id, total, status, order_date, serviceJob_list, repairJob_list) " +
-                      "VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
+            String sql = "INSERT INTO orders (customer_id, total, status, order_date, service_list) " +
+                      "VALUES (?, ?, ?, ?, ?) RETURNING id";
                       
             var result = databaseManager.getDSLContext().fetch(
                 sql, 
@@ -61,8 +61,7 @@ public class OrderRepository {
                 (float) order.getTotal(),
                 order.getStatus().toString(),
                 order.getOrderDate().toString(),
-                serviceJobs,
-                repairJobs
+                services
             );
             
             if (!result.isEmpty()) {
@@ -83,30 +82,23 @@ public class OrderRepository {
             float total = record.getValue("total", Float.class);
             int customerId = record.getValue("customer_id", Integer.class);
             String status = record.getValue("status", String.class);
-            
+            String serviceList = record.getValue("service_list", String.class);
             // Get other fields directly using SQL
             var result = databaseManager.getDSLContext().fetch(
-                "SELECT order_date, serviceJob_list, repairJob_list FROM orders WHERE id = ?", id
+                "SELECT order_date FROM ORDERS WHERE id = ?", id
             );
             
             String orderDateStr = "";
-            String serviceJobListStr = "";
-            String repairJobListStr = "";
             
             if (!result.isEmpty()) {
                 Object orderDateObj = result.getValue(0, "order_date");
-                Object serviceJobListObj = result.getValue(0, "serviceJob_list");
-                Object repairJobListObj = result.getValue(0, "repairJob_list");
                 
                 orderDateStr = orderDateObj != null ? orderDateObj.toString() : "";
-                serviceJobListStr = serviceJobListObj != null ? serviceJobListObj.toString() : "";
-                repairJobListStr = repairJobListObj != null ? repairJobListObj.toString() : "";
             }
             
             return new Order(
                 id,
-                getServiceIntegers(serviceJobListStr),
-                getServiceIntegers(repairJobListStr),
+                getServiceIntegers(serviceList),
                 total,
                 getOrderStatus(status),
                 customerId,
@@ -114,7 +106,7 @@ public class OrderRepository {
             );
         } catch (Exception e) {
             e.printStackTrace();
-            return new Order(0, new HashSet<>(), new HashSet<>(), 0, OrderStatus.PENDING, 0, LocalDateTime.now());
+            return new Order(0, new HashSet<>(), 0, OrderStatus.PENDING, 0, LocalDateTime.now());
         }
     }
 
@@ -146,7 +138,11 @@ public class OrderRepository {
 
     private Set<Integer> getServiceIntegers(String stringlist) {
         Set<Integer> serviceIntegers = new HashSet<>();
-        if(stringlist == null || stringlist.isEmpty() || !stringlist.contains(",")) return serviceIntegers;
+        if(stringlist == null || stringlist.isEmpty()) return serviceIntegers;
+        if(!stringlist.contains(",")) {
+            serviceIntegers.add(Integer.parseInt(stringlist));
+            return serviceIntegers;
+        }
         String[] numbers = stringlist.split(",");
         for (String number : numbers) {
             try {
@@ -170,13 +166,12 @@ public class OrderRepository {
 
     public void updateOrder(Order order) {
         try {
-            String serviceJobs = serviceIntegerstoString(order.getServicesJobIds());
-            String repairJobs = serviceIntegerstoString(order.getRepairJobIds());
+            String serviceIds = serviceIntegerstoString(order.getServicesIds());
             
             // Use direct SQL approach for maximum compatibility
-            String sql = "UPDATE orders SET " +
+            String sql = "UPDATE ORDERS SET " +
                       "customer_id = ?, total = ?, status = ?, " +
-                      "order_date = ?, serviceJob_list = ?, repairJob_list = ? " +
+                      "order_date = ?, service_list = ? " +
                       "WHERE id = ?";
                       
             int rowsAffected = databaseManager.getDSLContext().execute(
@@ -185,8 +180,7 @@ public class OrderRepository {
                 (float) order.getTotal(),
                 order.getStatus().toString(),
                 order.getOrderDate().toString(),
-                serviceJobs,
-                repairJobs,
+                serviceIds,
                 order.getId()
             );
             
@@ -198,14 +192,13 @@ public class OrderRepository {
 
     private void createTableIfNotExists() {
         DSLContext create = databaseManager.getDSLContext();
-        create.execute("CREATE TABLE IF NOT EXISTS Orders (" +
+        create.execute("CREATE TABLE IF NOT EXISTS ORDERS (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "customer_id INTEGER NOT NULL, " +
                 "total REAL NOT NULL CHECK (total >= 0), " +
                 "status TEXT NOT NULL CHECK (status IN ('PENDING', 'PROCESSING', 'COMPLETED', 'CANCELLED')), " +
                 "order_date TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, " +
-                "serviceJob_list TEXT NOT NULL, " +
-                "repairJob_list TEXT NOT NULL, " +
+                "service_list TEXT NOT NULL, " +
                 "FOREIGN KEY (customer_id) REFERENCES Customer(id) ON DELETE CASCADE " +
                 ");");
     }

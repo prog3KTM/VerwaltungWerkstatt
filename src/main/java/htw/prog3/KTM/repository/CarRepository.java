@@ -18,11 +18,11 @@ public class CarRepository {
 
     private final DatabaseManager databaseManager;
     private static final String TABLE_NAME = "CAR";
-    private static final String COL_ID = "id";
-    private static final String COL_MODEL = "model";
-    private static final String COL_BRAND = "brand";
-    private static final String COL_LICENSE_PLATE = "licenseplate";
-    private static final String COL_CAR_STATUS = "carstatus";
+    private static final String COL_ID = "ID";
+    private static final String COL_MODEL = "MODEL";
+    private static final String COL_BRAND = "BRAND";
+    private static final String COL_LICENSE_PLATE = "LICENSEPLATE";
+    private static final String COL_CAR_STATUS = "CARSTATUS";
 
     public CarRepository(DatabaseManager databaseManager) {
         this.databaseManager = databaseManager;
@@ -143,11 +143,11 @@ public class CarRepository {
     private Car mapToCar(CarRecord record) {
         try {
             return new Car(
-                Integer.parseInt(record.getValue(COL_ID).toString()),
-                record.getValue(COL_MODEL).toString(),
-                record.getValue(COL_BRAND).toString(),
-                record.getValue(COL_LICENSE_PLATE).toString(),
-                record.getValue(COL_CAR_STATUS) != null ? record.getValue(COL_CAR_STATUS).toString() : "0"
+                record.getId(),
+                record.getModel(),
+                record.getBrand(),
+                record.getLicenseplate(),
+                record.getCarstatus()
             );
         } catch (Exception e) {
             throw new RuntimeException("Error mapping record to Car: " + e.getMessage(), e);

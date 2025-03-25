@@ -8,15 +8,13 @@ import htw.prog3.KTM.generated.tables.Car;
 import htw.prog3.KTM.generated.tables.Customer;
 import htw.prog3.KTM.generated.tables.Konfigurationstabelle;
 import htw.prog3.KTM.generated.tables.Orders;
-import htw.prog3.KTM.generated.tables.Repairjob;
-import htw.prog3.KTM.generated.tables.ServiceJob;
+import htw.prog3.KTM.generated.tables.Service;
 import htw.prog3.KTM.generated.tables.WorkshopInfo;
 import htw.prog3.KTM.generated.tables.records.CarRecord;
 import htw.prog3.KTM.generated.tables.records.CustomerRecord;
 import htw.prog3.KTM.generated.tables.records.KonfigurationstabelleRecord;
 import htw.prog3.KTM.generated.tables.records.OrdersRecord;
-import htw.prog3.KTM.generated.tables.records.RepairjobRecord;
-import htw.prog3.KTM.generated.tables.records.ServiceJobRecord;
+import htw.prog3.KTM.generated.tables.records.ServiceRecord;
 import htw.prog3.KTM.generated.tables.records.WorkshopInfoRecord;
 
 import org.jooq.ForeignKey;
@@ -41,8 +39,7 @@ public class Keys {
     public static final UniqueKey<CustomerRecord> CUSTOMER__PK_CUSTOMER = Internal.createUniqueKey(Customer.CUSTOMER, DSL.name("pk_CUSTOMER"), new TableField[] { Customer.CUSTOMER.ID }, true);
     public static final UniqueKey<KonfigurationstabelleRecord> KONFIGURATIONSTABELLE__PK_KONFIGURATIONSTABELLE = Internal.createUniqueKey(Konfigurationstabelle.KONFIGURATIONSTABELLE, DSL.name("pk_Konfigurationstabelle"), new TableField[] { Konfigurationstabelle.KONFIGURATIONSTABELLE.KEY }, true);
     public static final UniqueKey<OrdersRecord> ORDERS__PK_ORDERS = Internal.createUniqueKey(Orders.ORDERS, DSL.name("pk_ORDERS"), new TableField[] { Orders.ORDERS.ID }, true);
-    public static final UniqueKey<RepairjobRecord> REPAIRJOB__PK_REPAIRJOB = Internal.createUniqueKey(Repairjob.REPAIRJOB, DSL.name("pk_RepairJob"), new TableField[] { Repairjob.REPAIRJOB.ID }, true);
-    public static final UniqueKey<ServiceJobRecord> SERVICE_JOB__PK_SERVICE_JOB = Internal.createUniqueKey(ServiceJob.SERVICE_JOB, DSL.name("pk_SERVICE_JOB"), new TableField[] { ServiceJob.SERVICE_JOB.JOB_ID }, true);
+    public static final UniqueKey<ServiceRecord> SERVICE__PK_SERVICE = Internal.createUniqueKey(Service.SERVICE, DSL.name("pk_Service"), new TableField[] { Service.SERVICE.JOB_ID }, true);
     public static final UniqueKey<WorkshopInfoRecord> WORKSHOP_INFO__PK_WORKSHOP_INFO = Internal.createUniqueKey(WorkshopInfo.WORKSHOP_INFO, DSL.name("pk_WORKSHOP_INFO"), new TableField[] { WorkshopInfo.WORKSHOP_INFO.ID }, true);
 
     // -------------------------------------------------------------------------
@@ -51,5 +48,5 @@ public class Keys {
 
     public static final ForeignKey<CarRecord, CustomerRecord> CAR__FK_CAR_PK_CUSTOMER = Internal.createForeignKey(Car.CAR, DSL.name("fk_CAR_pk_CUSTOMER"), new TableField[] { Car.CAR.CUSTOMER_ID }, Keys.CUSTOMER__PK_CUSTOMER, new TableField[] { Customer.CUSTOMER.ID }, true);
     public static final ForeignKey<OrdersRecord, CustomerRecord> ORDERS__FK_ORDERS_PK_CUSTOMER = Internal.createForeignKey(Orders.ORDERS, DSL.name("fk_ORDERS_pk_CUSTOMER"), new TableField[] { Orders.ORDERS.CUSTOMER_ID }, Keys.CUSTOMER__PK_CUSTOMER, new TableField[] { Customer.CUSTOMER.ID }, true);
-    public static final ForeignKey<ServiceJobRecord, CarRecord> SERVICE_JOB__FK_SERVICE_JOB_PK_CAR = Internal.createForeignKey(ServiceJob.SERVICE_JOB, DSL.name("fk_SERVICE_JOB_pk_CAR"), new TableField[] { ServiceJob.SERVICE_JOB.CAR_ID }, Keys.CAR__PK_CAR, new TableField[] { Car.CAR.ID }, true);
+    public static final ForeignKey<ServiceRecord, CarRecord> SERVICE__FK_SERVICE_PK_CAR = Internal.createForeignKey(Service.SERVICE, DSL.name("fk_Service_pk_CAR"), new TableField[] { Service.SERVICE.CAR_ID }, Keys.CAR__PK_CAR, new TableField[] { Car.CAR.ID }, true);
 }
