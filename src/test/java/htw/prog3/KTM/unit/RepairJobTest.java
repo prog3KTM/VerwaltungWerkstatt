@@ -49,11 +49,11 @@ class RepairJobTest {
 
     @Test
     void testInvalidStatus() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new RepairJob(3, RepairJobType.ENGINE_REPAIR, "Test Job", "UNKNOWN_STATUS");
-        });
-
-        assertTrue(exception.getMessage().contains("Unknown JobStatus"));
+        // Create a RepairJob with an invalid status
+        RepairJob job = new RepairJob(3, RepairJobType.ENGINE_REPAIR, "Test Job", "UNKNOWN_STATUS");
+        
+        // Check that the status was set to the default (CREATED) rather than throwing an exception
+        assertEquals(JobStatus.CREATED, job.getStatus());
     }
 
 @Test

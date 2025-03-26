@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Car implements CarRepairComponent {
-    private final List<CarRepairComponent> jobs = new ArrayList<>();  // Cars can have multiple repair or service jobs
-    private int id;           // Changed from int to String
+    private final List<CarRepairComponent> jobs = new ArrayList<>();  
+    private int id;           
     private String model;
     private String brand;
     private String licensePlate;
     private CarStatus carStatus;
 
-    // Updated constructor to accept a String for the ID
+
     public Car(int id, String model, String brand, String licensePlate, String carStatus) {
         this.id = id;
         this.model = model;
@@ -57,13 +57,13 @@ public class Car implements CarRepairComponent {
             }
         }
 
-        // Convert from enum to String
+
         public static String toString(CarStatus status) {
             return status.name();
         }
     }
 
-    // Getter and setter for id
+
     public int getId() {
         return id;
     }
@@ -72,7 +72,7 @@ public class Car implements CarRepairComponent {
         this.id = id;
     }
 
-    // Getter and setter for model
+
     public String getModel() {
         return model;
     }
@@ -81,7 +81,7 @@ public class Car implements CarRepairComponent {
         this.model = model;
     }
 
-    // Getter and setter for brand
+
     public String getBrand() {
         return brand;
     }
@@ -90,7 +90,7 @@ public class Car implements CarRepairComponent {
         this.brand = brand;
     }
 
-    // Getter and setter for licensePlate
+
     public String getLicensePlate() {
         return licensePlate;
     }
@@ -99,7 +99,7 @@ public class Car implements CarRepairComponent {
         this.licensePlate = licensePlate;
     }
 
-    // Getter and setter for carStatus
+
     public CarStatus getCarStatus() {
         return  carStatus;
     }

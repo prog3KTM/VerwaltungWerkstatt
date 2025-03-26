@@ -10,19 +10,19 @@ public enum CarStatus {
     ON_HOLD(6),             // Repair process is paused
     CANCELLED(7);     // Repair process canceled
 
-    private final int value; // Field to hold the integer value
+    private final int value; 
 
-    // Constructor to set the value
+
     CarStatus(int value) {
         this.value = value;
     }
 
-    // Getter to retrieve the value
+
     public int getValue() {
         return value;
     }
 
-    // Static method to get a CarStatus from an integer
+
     public static CarStatus fromValue(int value) {
         for (CarStatus status : CarStatus.values()) {
             if (status.value == value) {

@@ -211,10 +211,10 @@ public class TextLineInterface implements MenuInteractions {
         System.out.println("Bitte wähle eine Option: ");
         if(scanner.hasNextInt()) {
             int option = scanner.nextInt();
-            scanner.nextLine(); // Clear the buffer
+            scanner.nextLine(); 
             return option;
         }
-        scanner.nextLine(); // Clear the buffer
+        scanner.nextLine(); 
         return 0;
     }
 

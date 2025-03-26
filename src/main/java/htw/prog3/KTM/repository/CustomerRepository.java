@@ -24,12 +24,12 @@ public class CustomerRepository {
         this.databaseManager = databaseManager;
     }
 
-    // Holen Sie sich eine Verbindung zur SQLite-Datenbank
+
     private Connection getConnection() throws SQLException {
         return databaseManager.getConnection();
     }
 
-    // Alle Kunden abrufen
+
     public List<Customer> findAll() {
         try (Connection conn = getConnection()) {
             DSLContext create = DSL.using(conn);
@@ -47,7 +47,7 @@ public class CustomerRepository {
         }
     }
 
-    // Einen Kunden nach ID abrufen
+
     public Optional<Customer> findById(int id) {
         try (Connection conn = getConnection()) {
             DSLContext create = DSL.using(conn);
@@ -60,7 +60,7 @@ public class CustomerRepository {
         }
     }
 
-    // Einen neuen Kunden erstellen
+
     public void save(Customer customer) {
         try (Connection conn = getConnection()) {
             DSLContext create = DSL.using(conn);
@@ -71,7 +71,7 @@ public class CustomerRepository {
         }
     }
 
-    // Einen Kunden aktualisieren
+
     public void update(Customer customer) {
         try (Connection conn = getConnection()) {
             DSLContext create = DSL.using(conn);
@@ -82,7 +82,7 @@ public class CustomerRepository {
         }
     }
 
-    // Einen Kunden löschen
+
     public void delete(int id) {
         try (Connection conn = getConnection()) {
             DSLContext create = DSL.using(conn);

@@ -74,12 +74,10 @@ public class CarRepository {
         try {
             DSLContext create = getDSLContext();
 
-            // Ensure car status is not null
             if (car.getCarStatus() == null) {
                 car.setCarStatus(Car.CarStatus.AVAILABLE);
             }
 
-            // Using jOOQ DSL style with fallback to SQL for compatibility
             create.insertInto(DSL.table(TABLE_NAME))
                 .set(DSL.field(COL_ID), car.getId())
                 .set(DSL.field(COL_MODEL), car.getModel())
@@ -93,7 +91,7 @@ public class CarRepository {
         }
     }
 
-    // Find a car by ID
+
     public Optional<Car> findById(int id) {
         try {
             DSLContext create = getDSLContext();
@@ -122,7 +120,7 @@ public class CarRepository {
         }
     }
 
-    // Delete a car by ID
+
     public void deleteById(int id) {
         try {
             DSLContext create = getDSLContext();
@@ -139,7 +137,7 @@ public class CarRepository {
         }
     }
 
-    // Utility method to map CarRecord to Car object - kept for compatibility
+
     private Car mapToCar(CarRecord record) {
         try {
             return new Car(
@@ -154,11 +152,11 @@ public class CarRepository {
         }
     }
 
-    // Helper method to map integer status to Car.CarStatus enum
+
     private Car.CarStatus mapToCarStatus(String status) {
         if (status == null) {
-            return Car.CarStatus.AVAILABLE; // Default to AVAILABLE if status is null
+            return Car.CarStatus.AVAILABLE; 
         }
-        return Car.CarStatus.fromString(status); // Explicitly reference the nested enum
+        return Car.CarStatus.fromString(status); 
     }
 }

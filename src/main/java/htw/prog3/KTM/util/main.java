@@ -13,17 +13,14 @@ public class main {
 
     public static void main(String[] args) {
         System.setProperty("org.jooq.no-logo", "true");
-        // Disable jOOQ logging
         LogManager.getLogManager().reset();
         String userName = "";
         String password = "";
         String url = "jdbc:sqlite:werkstatt.db";
 
         try {
-            // DI wird durch die AppConfig-Klasse gehandhabt
             appConfig = new AppConfig();
 
-            // Register a shutdown hook to close the database connection
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 if (appConfig != null) {
                     appConfig.getDatabaseManager().closeConnection();
@@ -32,7 +29,6 @@ public class main {
 
             MenuService.getInstance().run();
         } finally {
-            // Close the database connection when the application exits
             if (appConfig != null) {
                 appConfig.getDatabaseManager().closeConnection();
             }

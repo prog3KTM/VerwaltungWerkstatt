@@ -5,13 +5,13 @@ import htw.prog3.KTM.model.StateMachine;
 
 import java.util.Map;
 
-// CarStateMachine using the fluent builder configuration
+
 public class CarStateMachine implements StateMachine<CarStatus, CarEvent> {
 
     private CarStatus currentState;
     private final Map<CarStatus, Map<CarEvent, CarStatus>> transitions;
 
-    // Constructor with initial state and transitions from the builder
+
     public CarStateMachine(CarStatus initialState, Map<CarStatus, Map<CarEvent, CarStatus>> transitions) {
         this.currentState = initialState;
         this.transitions = transitions;
