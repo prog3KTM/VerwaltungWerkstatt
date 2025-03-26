@@ -31,10 +31,9 @@ Maven: *Version 3.8.1*
 2. Dependencies installieren & Bauen
    > cd VerwaltungsWerkstatt  
    > mvn clean package
-   > java -jar .\target\verwaltung-werkstatt-1.0-SNAPSHOT.jar
    
 3. Anwendung ausführen
-   > java -jar (PATH_EINFÜGEN)
+   > java -jar .\target\verwaltung-werkstatt-1.0-SNAPSHOT.jar
 
 4. Nun sollte eine Abfrage von Daten beginnen. Wenn keine Informationen über die Werkstatt bekannt ist, wird diese erst einmal abgefragt. Wenn du die Daten eingegeben hast oder sie bereits existieren, sollte sich das Hauptmenü öffnen. Nun kannst du über die Kommandozeile die Zahl eigeben, dessen Option du auswählen möchtest.
 
