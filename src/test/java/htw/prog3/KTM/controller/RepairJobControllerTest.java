@@ -20,7 +20,7 @@ class RepairJobControllerTest {
     private static RepairJobController repairJobController;
     private static CarController carController;
     private static AppConfig appConfig;
-    private static int testCarId;
+    private static String testCarId;
 
     @BeforeAll
     static void setUp() {
@@ -45,7 +45,7 @@ class RepairJobControllerTest {
         // Create a test car with a unique model name and license plate
         // Use string literals for car status
         String uniqueId = String.valueOf(System.currentTimeMillis());
-        Car testCar = new Car(0, "Test Car Model " + uniqueId, 
+        Car testCar = new Car(uniqueId, "Test Car Model " + uniqueId, 
                               "Test Brand", 
                               "TEST-" + uniqueId.substring(uniqueId.length() - 4), 
                               "AVAILABLE");
@@ -53,9 +53,9 @@ class RepairJobControllerTest {
         carController.addCar(testCar);
         
         // Find the car to get its ID
-        List<Car> cars = carController.getAllCars();
+        List<Car> createdCars = carController.getAllCars();
         Car created = null;
-        for (Car car : cars) {
+        for (Car car : createdCars) {
             if (car.getModel() != null && car.getModel().equals(testCar.getModel()) && 
                 car.getLicensePlate() != null && car.getLicensePlate().equals(testCar.getLicensePlate())) {
                 created = car;
@@ -253,20 +253,19 @@ class RepairJobControllerTest {
     @Test
     void getCarIdForRepairJob_ExistingJobId_ReturnsCorrectCarId() {
         // Create and add a repair job
-        RepairJob repairJob = new RepairJob(0, RepairJobType.ENGINE_REPAIR, "Test Engine Job for Car ID", "CREATED");
+        RepairJob repairJob = new RepairJob(0, RepairJobType.BRAKE_REPLACEMENT, "Test Brake Repair", "CREATED");
         repairJobController.addRepairJob(repairJob, testCarId);
         
         // Get the job to find its ID
         List<RepairJob> repairJobs = repairJobController.getRepairJobsByCarId(testCarId);
-        RepairJob added = repairJobs.stream()
-                .filter(j -> j.getName().equals("Test Engine Job for Car ID"))
-                .findFirst()
-                .orElseThrow();
+        if (repairJobs.isEmpty()) {
+            fail("No repair jobs found");
+        }
         
-        // Get car ID for the job
-        int carId = repairJobController.getCarIdForRepairJob(added.getId());
+        RepairJob added = repairJobs.get(0);
         
-        // Verify correct car ID is returned
+        // Get the car ID for the job
+        String carId = repairJobController.getCarIdForRepairJob(added.getId());
         assertEquals(testCarId, carId);
         
         // Clean up

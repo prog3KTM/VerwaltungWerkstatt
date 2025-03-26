@@ -10,10 +10,10 @@ class BasicTest {
     @Test
     void testCarCreation() {
         // Create a car using the string status constructor
-        Car car = new Car(1, "Test Model", "Test Brand", "ABC-123", "AVAILABLE");
+        Car car = new Car("1", "Test Model", "Test Brand", "ABC-123", "AVAILABLE");
         
         // Basic assertions
-        assertEquals(1, car.getId());
+        assertEquals("1", car.getId());
         assertEquals("Test Model", car.getModel());
         assertEquals("Test Brand", car.getBrand());
         assertEquals("ABC-123", car.getLicensePlate());

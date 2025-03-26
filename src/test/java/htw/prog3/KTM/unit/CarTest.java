@@ -12,12 +12,12 @@ class CarTest {
 
     @BeforeEach
     void setUp() {
-        car = new Car(1, "Model S", "Tesla", "ABC-123", "AVAILABLE");
+        car = new Car("1", "Model S", "Tesla", "ABC-123", "AVAILABLE");
     }
 
     @Test
     void testCarCreation() {
-        assertEquals(1, car.getId());
+        assertEquals("1", car.getId());
         assertEquals("Model S", car.getModel());
         assertEquals("Tesla", car.getBrand());
         assertEquals("ABC-123", car.getLicensePlate());
@@ -26,13 +26,13 @@ class CarTest {
 
     @Test
     void testSettersAndGetters() {
-        car.setId(2);
+        car.setId("2");
         car.setModel("Model 3");
         car.setBrand("Tesla");
         car.setLicensePlate("XYZ-789");
         car.setCarStatus(Car.CarStatus.IN_SERVICE);
 
-        assertEquals(2, car.getId());
+        assertEquals("2", car.getId());
         assertEquals("Model 3", car.getModel());
         assertEquals("Tesla", car.getBrand());
         assertEquals("XYZ-789", car.getLicensePlate());
@@ -51,7 +51,7 @@ class CarTest {
     @Test
     void testInvalidCarStatus() {
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                new Car(1, "Model S", "Tesla", "ABC-123", "INVALID_STATUS"));
+                new Car("1", "Model S", "Tesla", "ABC-123", "INVALID_STATUS"));
         assertTrue(exception.getMessage().contains("Unknown JobStatus"));
     }
 
