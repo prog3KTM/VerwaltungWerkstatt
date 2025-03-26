@@ -30,7 +30,8 @@ Maven: *Version 3.8.1*
 
 2. Dependencies installieren & Bauen
    > cd VerwaltungsWerkstatt  
-   > mvn install
+   > mvn clean package
+   > java -jar .\target\verwaltung-werkstatt-1.0-SNAPSHOT.jar
    
 3. Anwendung ausführen
    > java -jar (PATH_EINFÜGEN)
