@@ -62,6 +62,10 @@ public class RepairJob extends Service implements CarRepairComponent {
         this.status = status;
     }
 
+    public void setStatus(String status) {
+        this.status = JobStatus.fromString(status);
+    }
+
     public int getId() {
         return id;
     }

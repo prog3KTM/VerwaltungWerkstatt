@@ -35,7 +35,7 @@ public class RepairJobController {
         return serviceJobRepository.getCarIdForServiceJob(jobId);
     }
 
-    public void updateRepairJob(ServiceJob serviceJob, String carId) {
+    public void updateRepairJob(RepairJob serviceJob, String carId) {
         serviceJobRepository.save(serviceJob, carId);
     }
 

@@ -3,6 +3,7 @@ package htw.prog3.KTM.view;
 import htw.prog3.KTM.controller.WorkshopInformationController;
 import htw.prog3.KTM.database.DatabaseManager;
 import htw.prog3.KTM.model.customer.Customer;
+import htw.prog3.KTM.model.jobs.RepairJobType;
 import htw.prog3.KTM.model.jobs.Service;
 import htw.prog3.KTM.model.order.Order;
 import htw.prog3.KTM.model.order.OrderStatus;
@@ -27,10 +28,13 @@ public class TextLineInterface implements MenuInteractions {
     public void showMainMenu() {
         System.out.println("======= HauptMenü =======");
         System.out.println("1.  WerkstattInformationen ansehen.");
-        System.out.println("2.  KundenMenÜ ansehen.");
+        System.out.println("2.  WerkstattInformationen neu setzen.");
         System.out.println("3.  AutoMenü ansehen.");
         System.out.println("4.  ServiceMenü ansehen.");
         System.out.println("5.  OrderMenü ansehen.");
+        System.out.println("6.  KundenMenü ansehen.");
+        System.out.println("7.  RepairMenü ansehen.");
+        System.out.println("8.  Lösche alle Daten.");
         System.out.println("99. Programm beenden.");
     }
 
@@ -92,6 +96,16 @@ public class TextLineInterface implements MenuInteractions {
     }
 
     @Override
+    public void showRepairServiceMenu() {
+        System.out.println("======= RepairMenu =======");
+        System.out.println("1. Neue Reperatur für Auto hinzufügen");
+        System.out.println("2. Alle Reperaturen anzeigen");
+        System.out.println("3. Reperatur nach ID suchen");
+        System.out.println("4. Reperaturstatus aktualisieren");
+        System.out.println("9. Zurück zum Hauptmenü");
+    }
+
+    @Override
     public void showOrderMenu() {
         System.out.println("======= OrderMenu =======");
         System.out.println("1. Neue Order für Kunden erstellen");
@@ -115,7 +129,7 @@ public class TextLineInterface implements MenuInteractions {
         String iban = "";
 
         namen = getString("Bitte gib den Namen deiner Werkstatt an:");
-        location = getString("Bitte gib den Location deiner Werkstatt an:");
+        location = getString("Bitte gib die Location deiner Werkstatt an:");
         phone = getInt("Bitte gib die Telefonnummer deiner Werkstatt an:");
         email = getString("Bitte gib den Email deiner Werkstatt an:");
         website = getString("Bitte gib den Website deiner Werkstatt an:");
@@ -172,7 +186,11 @@ public class TextLineInterface implements MenuInteractions {
     @Override
     public void showAllOrder(List<Order> orders) {
         for(Order order : orders) {
-            System.out.println(order.getId() + ". " + order.getCustomer().get().getName() + " : " + order.getOrderDate().toLocalDate() + " ["+order.getStatus()+"]");
+            order.getCustomer().ifPresentOrElse(customer -> {
+                System.out.println(order.getId() + ". " + order.getCustomer().get().getName() + " : " + order.getOrderDate().toLocalDate() + " ["+order.getStatus()+"]");
+            }, () -> {
+                System.out.println("Fehler beim laden des Kunden.");
+            });
         }
     }
 
@@ -274,6 +292,30 @@ public class TextLineInterface implements MenuInteractions {
         
         String jobName = getString("Beschreibung eingeben:");
         
+        return jobId + "," + typeChoice + "," + jobName;
+    }
+
+    public String getRepairServiceInfo() {
+        System.out.println("=== Neuen Repairservice anlegen ===");
+        int jobId = getInt("Reapairservice-ID eingeben:");
+
+        System.out.println("Verfügbare Service-Typen:");
+        System.out.println("1. Enginereperatur (ENGINE_REPAIR)");
+        System.out.println("2. ElektronikReperatur (ELECTRICAL_REPAIR)");
+        System.out.println("3. Suspensionreperatur (SUSPENSION_REPAIR)");
+        System.out.println("4. Kühlungsreperatur (COOLING_SYSTEM_REPAIR)");
+        System.out.println("5. Bremsreperatur (BRAKE_REPAIR)");
+        System.out.println("6. Transmissionwartung (TRANSMISSION_FIX)");
+        System.out.println("7. Auspuffsystemwartung (EXHAUST_SYSTEM_FIX)");
+
+        int typeChoice = getInt("Service-Typ wählen (1-7):");
+        if (typeChoice < 1 || typeChoice > 7) {
+            System.out.println("Ungültige Auswahl. Verwende Enginereperatur als Standard.");
+            typeChoice = 1;
+        }
+
+        String jobName = getString("Beschreibung eingeben:");
+
         return jobId + "," + typeChoice + "," + jobName;
     }
 }

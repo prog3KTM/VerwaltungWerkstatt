@@ -9,7 +9,6 @@ import htw.prog3.KTM.generated.tables.Customer;
 import htw.prog3.KTM.generated.tables.Konfigurationstabelle;
 import htw.prog3.KTM.generated.tables.Orders;
 import htw.prog3.KTM.generated.tables.Service;
-import htw.prog3.KTM.generated.tables.WorkshopInfo;
 
 
 /**
@@ -42,9 +41,4 @@ public class Tables {
      * The table <code>Service</code>.
      */
     public static final Service SERVICE = Service.SERVICE;
-
-    /**
-     * The table <code>WORKSHOP_INFO</code>.
-     */
-    public static final WorkshopInfo WORKSHOP_INFO = WorkshopInfo.WORKSHOP_INFO;
 }

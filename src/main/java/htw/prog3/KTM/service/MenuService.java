@@ -1,8 +1,11 @@
 package htw.prog3.KTM.service;
 
 import htw.prog3.KTM.controller.*;
+import htw.prog3.KTM.generated.Tables;
 import htw.prog3.KTM.model.car.Car;
 import htw.prog3.KTM.model.car.Car.CarStatus;
+import htw.prog3.KTM.model.jobs.RepairJob;
+import htw.prog3.KTM.model.jobs.RepairJobType;
 import htw.prog3.KTM.model.jobs.ServiceJob;
 import htw.prog3.KTM.model.jobs.ServiceJobType;
 import htw.prog3.KTM.model.customer.Customer;
@@ -12,6 +15,7 @@ import htw.prog3.KTM.model.workshopinformation.WorkshopInformation;
 import htw.prog3.KTM.util.main;
 import htw.prog3.KTM.view.MenuInteractions;
 import htw.prog3.KTM.view.TextLineInterface;
+import org.jooq.DSLContext;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -48,7 +52,7 @@ public class MenuService {
                     menu.showWerk(main.getAppConfig().getWorkshopInformationController().getWerkstattInformation());
                     break;
                 case 2:
-                    runKundenMenuLogic();
+                    updateWorkshopInformation();
                     break;
                 case 3:
                     runCarMenuLogic();
@@ -59,6 +63,15 @@ public class MenuService {
                 case 5:
                     runOrderMenuLogic();
                     break;
+                case 6:
+                    runKundenMenuLogic();
+                    break;
+                case 7:
+                    runRepairMenuLogic();
+                    break;
+                case 8:
+                    deleteAllData();
+                    break;
                 case 99:
                     running = false;
                     break;
@@ -67,6 +80,21 @@ public class MenuService {
                     break;
             }
         }
+    }
+
+    private void updateWorkshopInformation() {
+        main.getAppConfig().getDatabaseManager().getDSLContext().deleteFrom(Tables.KONFIGURATIONSTABELLE);
+        WorkshopInformation workshopInformation = menu.getWerkstattInformation();
+        main.getAppConfig().getWorkshopInformationController().save(workshopInformation);
+        menu.sendMessage("Werkstatt-Information wurde gespeichert!");
+    }
+
+    private void deleteAllData() {
+        DSLContext dsl = main.getAppConfig().getDatabaseManager().getDSLContext();
+        dsl.delete(Tables.CUSTOMER).execute();
+        dsl.delete(Tables.ORDERS).execute();
+        dsl.delete(Tables.SERVICE).execute();
+        dsl.delete(Tables.CAR).execute();
     }
 
     private void runOrderMenuLogic() {
@@ -206,6 +234,112 @@ public class MenuService {
         menu.sendMessage("Die neue Order wurde erfolgreich erstellt und hat die ID:"+id+".");
     }
 
+    private void runRepairMenuLogic() {
+        menu.showRepairServiceMenu();
+        int option = menu.getOption();
+        switch (option) {
+            case 1:
+                addNewRepairService();
+                break;
+            case 2:
+                showAllRepairServices();
+                break;
+            case 3:
+                findRepairServiceById();
+                break;
+            case 4:
+                updateRepairServiceStatus();
+                break;
+            case 9:
+                // Return to main menu
+                break;
+            default:
+                menu.throwError("Invalid option.");
+                break;
+        }
+    }
+
+    private void addNewRepairService() {
+        try {
+            // First, get the car to add the service to
+            menu.sendMessage("Für welches Auto soll der Repair-Service hinzugefügt werden?");
+            List<Car> cars = carController.getAllCars();
+
+            if (cars.isEmpty()) {
+                menu.sendMessage("Es sind keine Autos vorhanden. Bitte fügen Sie zuerst ein Auto hinzu.");
+                return;
+            }
+
+            for (int i = 0; i < cars.size(); i++) {
+                Car car = cars.get(i);
+                menu.sendMessage((i + 1) + ". " + car.getBrand() + " " + car.getModel() + " (ID: " + car.getId() + ", Fahrzeug-Status: " + car.getCarStatus() + ")");
+            }
+
+            int carIndex = menu.getInt("Auto auswählen (Nummer eingeben):") - 1;
+            if (carIndex < 0 || carIndex >= cars.size()) {
+                menu.throwError("Ungültige Auswahl.");
+                return;
+            }
+
+            Car selectedCar = cars.get(carIndex);
+
+            // Now get the service details
+            String serviceInfo = menu.getRepairServiceInfo();
+            String[] parts = serviceInfo.split(",");
+
+            if (parts.length < 3) {
+                menu.throwError("Ungültige Service-Informationen. Format: ID,Typ,Name");
+                return;
+            }
+
+            int jobId = Integer.parseInt(parts[0]);
+            int typeChoice = Integer.parseInt(parts[1]);
+            String jobName = parts[2];
+
+            // Check if a service with this ID already exists
+            if (repairJobController.getRepairJobById(jobId).isPresent()) {
+                menu.throwError("Ein Repair-Service mit der ID " + jobId + " existiert bereits. Bitte wählen Sie eine andere ID.");
+                return;
+            }
+
+            RepairJobType type;
+            switch (typeChoice) {
+                case 1: type = RepairJobType.ENGINE_REPAIR; break;
+                case 2: type = RepairJobType.ELECTRICAL_REPAIR; break;
+                case 3: type = RepairJobType.SUSPENSION_REPAIR; break;
+                case 4: type = RepairJobType.COOLING_SYSTEM_REPAIR; break;
+                case 5: type = RepairJobType.BRAKE_REPLACEMENT; break;
+                case 6: type = RepairJobType.TRANSMISSION_FIX; break;
+                case 7: type = RepairJobType.EXHAUST_SYSTEM_FIX; break;
+                default:
+                    menu.throwError("Ungültiger Repair-Typ.");
+                    return;
+            }
+
+            RepairJob serviceJob = new RepairJob(jobId, type, jobName, "PENDING");
+
+            // Add the service job to the auto object in memory
+            selectedCar.addJob(serviceJob);
+            selectedCar.setCarStatus(CarStatus.IN_SERVICE);
+
+            // Save the service job to the database
+            repairJobController.addRepairJob(serviceJob, selectedCar.getId());
+
+            // Update the auto in the database
+            carController.updateCar(selectedCar);
+
+            menu.sendMessage("Service wurde erfolgreich hinzugefügt.");
+            menu.sendMessage("Bearbeitungs-Status des Services wurde auf PENDING gesetzt.");
+            menu.sendMessage("Fahrzeug-Status wurde auf IN_SERVICE gesetzt.");
+        } catch (NumberFormatException e) {
+            menu.throwError("Ungültige Nummer: " + e.getMessage());
+            e.printStackTrace(); // Print the stack trace for debugging
+        } catch (Exception e) {
+            menu.throwError("Fehler beim Hinzufügen des Services: " + e.getMessage());
+            e.printStackTrace(); // Print the stack trace for debugging
+        }
+    }
+
     private void runServiceMenuLogic() {
         menu.showServiceMenu();
         int option = menu.getOption();
@@ -309,6 +443,84 @@ public class MenuService {
         }
     }
 
+    private void updateRepairServiceStatus() {
+        try {
+            int serviceId = menu.getInt("Service-ID eingeben:");
+
+            Optional<RepairJob> serviceJobOpt = repairJobController.getRepairJobById(serviceId);
+
+            if (serviceJobOpt.isPresent()) {
+                RepairJob serviceJob = serviceJobOpt.get();
+                String carId = repairJobController.getCarIdForRepairJob(serviceId);
+                Car car = carController.getCarById(carId);
+
+                if (car != null) {
+                    menu.sendMessage("Auto: " + car.getBrand() + " " + car.getModel() + " (Fahrzeug-Status: " + car.getCarStatus() + ")");
+                    menu.sendMessage("Aktueller Bearbeitungs-Status des Services: " + serviceJob.getStatus());
+                    menu.sendMessage("Neuen Bearbeitungs-Status wählen:");
+                    menu.sendMessage("1. PENDING (Ausstehend)");
+                    menu.sendMessage("2. IN_PROGRESS (In Bearbeitung)");
+                    menu.sendMessage("3. COMPLETED (Abgeschlossen)");
+                    menu.sendMessage("4. CANCELLED (Storniert)");
+
+                    int statusChoice = menu.getInt("Auswahl:");
+                    String newStatus;
+
+                    switch (statusChoice) {
+                        case 1: newStatus = "PENDING"; break;
+                        case 2: newStatus = "IN_PROGRESS"; break;
+                        case 3: newStatus = "COMPLETED"; break;
+                        case 4: newStatus = "CANCELLED"; break;
+                        default:
+                            menu.throwError("Ungültige Auswahl.");
+                            return;
+                    }
+
+                    // Update the service job status
+                    serviceJob.setStatus(newStatus);
+                    repairJobController.updateRepairJob(serviceJob, carId);
+
+                    // Update the car status if needed
+                    boolean allServicesCompleted = true;
+                    List<RepairJob> carServices = repairJobController.getRepairJobsByCarId(carId);
+
+                    for (RepairJob job : carServices) {
+                        if (!job.getStatus().equals("COMPLETED") && !job.getStatus().equals("CANCELLED")) {
+                            allServicesCompleted = false;
+                            break;
+                        }
+                    }
+
+                    if (allServicesCompleted && !carServices.isEmpty()) {
+                        car.setCarStatus(CarStatus.AVAILABLE);
+                        carController.updateCar(car);
+                        menu.sendMessage("Alle Services für dieses Auto sind abgeschlossen oder storniert.");
+                        menu.sendMessage("Fahrzeug-Status wurde auf AVAILABLE gesetzt.");
+                    } else {
+                        // Make sure the auto is marked as in service
+                        if (car.getCarStatus() != CarStatus.IN_SERVICE) {
+                            car.setCarStatus(CarStatus.IN_SERVICE);
+                            carController.updateCar(car);
+                            menu.sendMessage("Fahrzeug-Status wurde auf IN_SERVICE gesetzt.");
+                        }
+                    }
+
+                    menu.sendMessage("Bearbeitungs-Status des Services wurde auf " + newStatus + " aktualisiert.");
+                } else {
+                    menu.throwError("Auto für diesen Service nicht gefunden.");
+                }
+            } else {
+                menu.throwError("Service mit ID " + serviceId + " nicht gefunden.");
+            }
+        } catch (NumberFormatException e) {
+            menu.throwError("Ungültige Service-ID: " + e.getMessage());
+            e.printStackTrace(); // Print the stack trace for debugging
+        } catch (Exception e) {
+            menu.throwError("Fehler beim Aktualisieren des Service-Status: " + e.getMessage());
+            e.printStackTrace(); // Print the stack trace for debugging
+        }
+    }
+
     private void findServiceById() {
         try {
             int serviceId = menu.getInt("Service-ID eingeben:");
@@ -332,6 +544,39 @@ public class MenuService {
                 }
             } else {
                 menu.throwError("Service mit ID " + serviceId + " nicht gefunden.");
+            }
+        } catch (NumberFormatException e) {
+            menu.throwError("Ungültige Service-ID: " + e.getMessage());
+            e.printStackTrace(); // Print the stack trace for debugging
+        } catch (Exception e) {
+            menu.throwError("Fehler beim Suchen des Services: " + e.getMessage());
+            e.printStackTrace(); // Print the stack trace for debugging
+        }
+    }
+
+    private void findRepairServiceById() {
+        try {
+            int serviceId = menu.getInt("Service-ID eingeben:");
+
+            Optional<RepairJob> serviceJobOpt = repairJobController.getRepairJobById(serviceId);
+
+            if (serviceJobOpt.isPresent()) {
+                RepairJob serviceJob = serviceJobOpt.get();
+                String carId = repairJobController.getCarIdForRepairJob(serviceId);
+                Car car = carController.getCarById(carId);
+
+                if (car != null) {
+                    menu.sendMessage("Service gefunden für Auto: " + car.getBrand() + " " + car.getModel());
+                    menu.sendMessage("Fahrzeug-Status: " + car.getCarStatus());
+                    menu.sendMessage("Service ID: " + serviceJob.getId());
+                    menu.sendMessage("Typ: " + serviceJob.getType());
+                    menu.sendMessage("Name: " + serviceJob.getName());
+                    menu.sendMessage("Bearbeitungs-Status: " + serviceJob.getStatus());
+                } else {
+                    menu.throwError("Auto für diesen Service nicht gefunden.");
+                }
+            } else {
+                menu.throwError("Reparatur mit ID " + serviceId + " nicht gefunden.");
             }
         } catch (NumberFormatException e) {
             menu.throwError("Ungültige Service-ID: " + e.getMessage());
@@ -373,6 +618,44 @@ public class MenuService {
             
             if (!foundServices) {
                 menu.sendMessage("Es wurden keine Services gefunden.");
+            }
+        } catch (Exception e) {
+            menu.throwError("Fehler beim Anzeigen der Services: " + e.getMessage());
+            e.printStackTrace(); // Print the stack trace for debugging
+        }
+    }
+
+    private void showAllRepairServices() {
+        try {
+            List<Car> cars = carController.getAllCars();
+
+            if (cars.isEmpty()) {
+                menu.sendMessage("Es sind keine Autos vorhanden.");
+                return;
+            }
+
+            menu.sendMessage("Alle Services:");
+            boolean foundServices = false;
+
+            for (Car car : cars) {
+                List<RepairJob> serviceJobs = repairJobController.getRepairJobsByCarId(car.getId());
+
+                if (!serviceJobs.isEmpty()) {
+                    menu.sendMessage("Auto: " + car.getBrand() + " " + car.getModel() + " (ID: " + car.getId() + ", Fahrzeug-Status: " + car.getCarStatus() + ")");
+
+                    for (RepairJob serviceJob : serviceJobs) {
+                        menu.sendMessage("  - Service ID: " + serviceJob.getId() +
+                                ", Typ: " + serviceJob.getType() +
+                                ", Name: " + serviceJob.getName() +
+                                ", Bearbeitungs-Status: " + serviceJob.getStatus());
+                        foundServices = true;
+                    }
+                    menu.sendMessage("------------------------");
+                }
+            }
+
+            if (!foundServices) {
+                menu.sendMessage("Es wurden keine Reparaturen gefunden.");
             }
         } catch (Exception e) {
             menu.throwError("Fehler beim Anzeigen der Services: " + e.getMessage());

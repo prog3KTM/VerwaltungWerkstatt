@@ -42,4 +42,8 @@ public interface MenuInteractions {
     OrderStatus getOrderStatus(String prompt);
 
     void hold();
+
+    void showRepairServiceMenu();
+
+    String getRepairServiceInfo();
 }

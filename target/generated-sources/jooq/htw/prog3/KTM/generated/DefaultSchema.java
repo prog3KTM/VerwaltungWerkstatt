@@ -9,7 +9,6 @@ import htw.prog3.KTM.generated.tables.Customer;
 import htw.prog3.KTM.generated.tables.Konfigurationstabelle;
 import htw.prog3.KTM.generated.tables.Orders;
 import htw.prog3.KTM.generated.tables.Service;
-import htw.prog3.KTM.generated.tables.WorkshopInfo;
 
 import java.util.Arrays;
 import java.util.List;
@@ -58,11 +57,6 @@ public class DefaultSchema extends SchemaImpl {
     public final Service SERVICE = Service.SERVICE;
 
     /**
-     * The table <code>WORKSHOP_INFO</code>.
-     */
-    public final WorkshopInfo WORKSHOP_INFO = WorkshopInfo.WORKSHOP_INFO;
-
-    /**
      * No further instances allowed
      */
     private DefaultSchema() {
@@ -82,8 +76,7 @@ public class DefaultSchema extends SchemaImpl {
             Customer.CUSTOMER,
             Konfigurationstabelle.KONFIGURATIONSTABELLE,
             Orders.ORDERS,
-            Service.SERVICE,
-            WorkshopInfo.WORKSHOP_INFO
+            Service.SERVICE
         );
     }
 }
