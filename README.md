@@ -29,6 +29,7 @@ Maven: *Version 3.8.1*
    > git clone https://github.com/prog3KTM/VerwaltungWerkstatt.git
 
 2. Dependencies installieren & Bauen
+   > git checkout submission  
    > cd VerwaltungWerkstatt  
    > mvn clean package
    
