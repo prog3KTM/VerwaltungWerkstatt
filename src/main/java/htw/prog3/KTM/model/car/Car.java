@@ -8,14 +8,14 @@ import java.util.List;
 
 public class Car implements CarRepairComponent {
     private final List<CarRepairComponent> jobs = new ArrayList<>();  
-    private int id;           
+    private String id;
     private String model;
     private String brand;
     private String licensePlate;
     private CarStatus carStatus;
 
 
-    public Car(int id, String model, String brand, String licensePlate, String carStatus) {
+    public Car(String id, String model, String brand, String licensePlate, String carStatus) {
         this.id = id;
         this.model = model;
         this.brand = brand;
@@ -23,7 +23,7 @@ public class Car implements CarRepairComponent {
         this.carStatus = Car.CarStatus.fromString(carStatus);
     }
 
-    public Car(int id, String model, String brand, String licensePlate, int carStatus) {
+    public Car(String id, String model, String brand, String licensePlate, int carStatus) {
         this.id = id;
         this.model = model;
         this.brand = brand;
@@ -64,11 +64,11 @@ public class Car implements CarRepairComponent {
     }
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

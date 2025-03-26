@@ -19,11 +19,11 @@ public class RepairJobController {
         return serviceJobRepository.findAllRepairJobs();
     }
 
-    public List<RepairJob> getRepairJobsByCarId(int carId) {
+    public List<RepairJob> getRepairJobsByCarId(String carId) {
         return serviceJobRepository.findRepairJobByCarId(carId);
     }
 
-    public void addRepairJob(RepairJob repairJob, int carId) {
+    public void addRepairJob(RepairJob repairJob, String carId) {
         serviceJobRepository.save(repairJob, carId);
     }
 
@@ -31,11 +31,11 @@ public class RepairJobController {
         return serviceJobRepository.findRepairJobById(jobId);
     }
 
-    public int getCarIdForRepairJob(int jobId) {
+    public String getCarIdForRepairJob(int jobId) {
         return serviceJobRepository.getCarIdForServiceJob(jobId);
     }
 
-    public void updateRepairJob(ServiceJob serviceJob, int carId) {
+    public void updateRepairJob(ServiceJob serviceJob, String carId) {
         serviceJobRepository.save(serviceJob, carId);
     }
 
@@ -43,7 +43,7 @@ public class RepairJobController {
         serviceJobRepository.deleteById(jobId);
     }
 
-    public void deleteRepairJobsByCarId(int carId) {
+    public void deleteRepairJobsByCarId(String carId) {
         serviceJobRepository.deleteByCarId(carId);
     }
 } 

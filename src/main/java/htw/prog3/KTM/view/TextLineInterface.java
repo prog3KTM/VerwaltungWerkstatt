@@ -27,8 +27,8 @@ public class TextLineInterface implements MenuInteractions {
     public void showMainMenu() {
         System.out.println("======= HauptMenü =======");
         System.out.println("1.  WerkstattInformationen ansehen.");
-        System.out.println("2.  KundenMenu ansehen.");
-        System.out.println("3.  CarMenü ansehen.");
+        System.out.println("2.  KundenMenÜ ansehen.");
+        System.out.println("3.  AutoMenü ansehen.");
         System.out.println("4.  ServiceMenü ansehen.");
         System.out.println("5.  OrderMenü ansehen.");
         System.out.println("99. Programm beenden.");

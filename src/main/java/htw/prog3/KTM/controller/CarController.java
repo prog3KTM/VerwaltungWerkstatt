@@ -22,12 +22,12 @@ public class CarController {
     }
 
     // Change method parameter to String
-    public Car getCarById(int id) {
+    public Car getCarById(String id) {
         return carRepository.findById(id).orElse(null); // Returns null if no car is found
     }
 
     // Change method parameter to String
-    public void deleteCarById(int id) {
+    public void deleteCarById(String id) {
         carRepository.deleteById(id);
     }
     

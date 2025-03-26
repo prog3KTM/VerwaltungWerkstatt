@@ -47,6 +47,5 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final ForeignKey<CarRecord, CustomerRecord> CAR__FK_CAR_PK_CUSTOMER = Internal.createForeignKey(Car.CAR, DSL.name("fk_CAR_pk_CUSTOMER"), new TableField[] { Car.CAR.CUSTOMER_ID }, Keys.CUSTOMER__PK_CUSTOMER, new TableField[] { Customer.CUSTOMER.ID }, true);
-    public static final ForeignKey<OrdersRecord, CustomerRecord> ORDERS__FK_ORDERS_PK_CUSTOMER = Internal.createForeignKey(Orders.ORDERS, DSL.name("fk_ORDERS_pk_CUSTOMER"), new TableField[] { Orders.ORDERS.CUSTOMER_ID }, Keys.CUSTOMER__PK_CUSTOMER, new TableField[] { Customer.CUSTOMER.ID }, true);
     public static final ForeignKey<ServiceRecord, CarRecord> SERVICE__FK_SERVICE_PK_CAR = Internal.createForeignKey(Service.SERVICE, DSL.name("fk_Service_pk_CAR"), new TableField[] { Service.SERVICE.CAR_ID }, Keys.CAR__PK_CAR, new TableField[] { Car.CAR.ID }, true);
 }

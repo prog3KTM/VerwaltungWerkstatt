@@ -239,7 +239,7 @@ public class MenuService {
             
             if (serviceJobOpt.isPresent()) {
                 ServiceJob serviceJob = serviceJobOpt.get();
-                int carId = serviceJobController.getCarIdForServiceJob(serviceId);
+                String carId = serviceJobController.getCarIdForServiceJob(serviceId);
                 Car car = carController.getCarById(carId);
                 
                 if (car != null) {
@@ -317,7 +317,7 @@ public class MenuService {
             
             if (serviceJobOpt.isPresent()) {
                 ServiceJob serviceJob = serviceJobOpt.get();
-                int carId = serviceJobController.getCarIdForServiceJob(serviceId);
+                String carId = serviceJobController.getCarIdForServiceJob(serviceId);
                 Car car = carController.getCarById(carId);
                 
                 if (car != null) {
@@ -396,13 +396,13 @@ public class MenuService {
                 menu.sendMessage((i + 1) + ". " + car.getBrand() + " " + car.getModel() + " (ID: " + car.getId() + ", Fahrzeug-Status: " + car.getCarStatus() + ")");
             }
             
-            int autoIndex = menu.getInt("Auto auswählen (Nummer eingeben):") - 1;
-            if (autoIndex < 0 || autoIndex >= cars.size()) {
+            int carIndex = menu.getInt("Auto auswählen (Nummer eingeben):") - 1;
+            if (carIndex < 0 || carIndex >= cars.size()) {
                 menu.throwError("Ungültige Auswahl.");
                 return;
             }
             
-            Car selectedCar = cars.get(autoIndex);
+            Car selectedCar = cars.get(carIndex);
             
             // Now get the service details
             String serviceInfo = menu.getServiceInfo();
@@ -490,7 +490,7 @@ public class MenuService {
 
     private void deleteCar() {
         try {
-            int carId = menu.getInt("Auto-ID eingeben:");
+            String carId = menu.getString("Auto-ID eingeben:");
             carController.deleteCarById(carId);
             menu.sendMessage("Auto wurde erfolgreich gelöscht.");
         } catch (Exception e) {
@@ -500,7 +500,7 @@ public class MenuService {
 
     private void findCarById() {
         try {
-            int carId = menu.getInt("Auto-ID eingeben:");
+            String carId = menu.getString("Auto-ID eingeben:");
             Car car = carController.getCarById(carId);
             if (car != null) {
                 menu.sendMessage("Auto gefunden:");
@@ -570,30 +570,30 @@ public class MenuService {
         try {
             // First, get the customer to add the car to
             menu.sendMessage("Für welchen Kunden soll das Auto hinzugefügt werden?");
-            List<Customer> kunden = customerController.getAllCustomers();
+            List<Customer> customer = customerController.getAllCustomers();
             
-            if (kunden.isEmpty()) {
+            if (customer.isEmpty()) {
                 menu.sendMessage("Es sind keine Kunden vorhanden. Bitte fügen Sie zuerst einen Kunden hinzu.");
                 return;
             }
             
-            for (int i = 0; i < kunden.size(); i++) {
-                menu.sendMessage((i + 1) + ". " + kunden.get(i).getName());
+            for (int i = 0; i < customer.size(); i++) {
+                menu.sendMessage((i + 1) + ". " + customer.get(i).getName());
             }
             
-            int kundeIndex = menu.getOption() - 1;
-            if (kundeIndex < 0 || kundeIndex >= kunden.size()) {
+            int customerIndex = menu.getOption() - 1;
+            if (customerIndex < 0 || customerIndex >= customer.size()) {
                 menu.throwError("Ungültige Auswahl.");
                 return;
             }
             
-            Customer selectedCustomer = kunden.get(kundeIndex);
+            Customer selectedCustomer = customer.get(customerIndex);
             
             // Now get the car details
-            String autoInfo = menu.getCarInfo();
-            String[] parts = autoInfo.split(",");
+            String carInfo = menu.getCarInfo();
+            String[] parts = carInfo.split(",");
             
-            int id = Integer.parseInt(parts[0]);
+            String id = parts[0];
             String brand = parts[1];
             String model = parts[2];
             String licensePlate = parts[3];
@@ -734,7 +734,7 @@ public class MenuService {
 
     private void updateCarStatus() {
         try {
-            int carId = menu.getInt("Auto-ID eingeben:");
+            String carId = menu.getString("Auto-ID eingeben:");
             Car car = carController.getCarById(carId);
             
             if (car == null) {

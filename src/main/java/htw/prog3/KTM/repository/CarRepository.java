@@ -38,7 +38,7 @@ public class CarRepository {
             DSLContext create = getDSLContext();
             
             create.execute("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
-                    COL_ID + " INTEGER PRIMARY KEY, " +
+                    COL_ID + " TEXT PRIMARY KEY, " +
                     COL_MODEL + " VARCHAR(100) NOT NULL, " +
                     COL_BRAND + " VARCHAR(100) NOT NULL, " +
                     COL_LICENSE_PLATE + " VARCHAR(100) NOT NULL, " +
@@ -92,7 +92,7 @@ public class CarRepository {
     }
 
 
-    public Optional<Car> findById(int id) {
+    public Optional<Car> findById(String id) {
         try {
             DSLContext create = getDSLContext();
             
@@ -106,7 +106,7 @@ public class CarRepository {
             }
             
             Car car = new Car(
-                Integer.parseInt(record.getValue(COL_ID).toString()),
+                record.getValue(COL_ID).toString(),
                 record.getValue(COL_MODEL).toString(),
                 record.getValue(COL_BRAND).toString(),
                 record.getValue(COL_LICENSE_PLATE).toString(),
@@ -121,7 +121,7 @@ public class CarRepository {
     }
 
 
-    public void deleteById(int id) {
+    public void deleteById(String id) {
         try {
             DSLContext create = getDSLContext();
             
