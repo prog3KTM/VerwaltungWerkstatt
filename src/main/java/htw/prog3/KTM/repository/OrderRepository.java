@@ -199,7 +199,7 @@ public class OrderRepository {
                 "status TEXT NOT NULL CHECK (status IN ('PENDING', 'PROCESSING', 'COMPLETED', 'CANCELLED')), " +
                 "order_date TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, " +
                 "service_list TEXT NOT NULL, " +
-                "FOREIGN KEY (customer_id) REFERENCES Customer(id) ON DELETE CASCADE " +
+                "FOREIGN KEY (customer_id) REFERENCES CUSTOMER(id) ON DELETE CASCADE " +
                 ");");
     }
 

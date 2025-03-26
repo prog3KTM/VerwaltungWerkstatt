@@ -15,7 +15,7 @@ import java.util.Optional;
 public class ServiceJobRepository {
 
     private final DatabaseManager databaseManager;
-    private static final String TABLE_NAME = "Service";
+    private static final String TABLE_NAME = "SERVICE";
     private static final String COL_JOB_ID = "JOB_ID";
     private static final String COL_CAR_ID = "CAR_ID";
     private static final String COL_JOB_NAME = "JOB_NAME";
