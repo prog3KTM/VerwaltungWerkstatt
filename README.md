@@ -29,7 +29,7 @@ Maven: *Version 3.8.1*
    > git clone https://github.com/prog3KTM/VerwaltungWerkstatt.git
 
 2. Dependencies installieren & Bauen
-   > cd VerwaltungsWerkstatt  
+   > cd VerwaltungWerkstatt  
    > mvn clean package
    
 3. Anwendung ausführen
