@@ -151,6 +151,23 @@ public class CarRepository {
             throw new RuntimeException("Error mapping record to Car: " + e.getMessage(), e);
         }
     }
+    public void update(Car car) {
+        try {
+            DSLContext create = getDSLContext();
+
+            create.update(DSL.table(TABLE_NAME))
+                    .set(DSL.field(COL_MODEL), car.getModel())
+                    .set(DSL.field(COL_BRAND), car.getBrand())
+                    .set(DSL.field(COL_LICENSE_PLATE), car.getLicensePlate())
+                    .set(DSL.field(COL_CAR_STATUS), car.getCarStatus().ordinal())
+                    .where(DSL.field(COL_ID).eq(car.getId()))
+                    .execute();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error updating the car with ID: " + car.getId(), e);
+        }
+    }
+
 
 
     private Car.CarStatus mapToCarStatus(String status) {

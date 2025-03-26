@@ -33,10 +33,7 @@ public class CarController {
     
     // Add a method to update a car
     public void updateCar(Car car) {
-        // First delete the existing car
-        deleteCarById(car.getId());
-        // Then add the updated car
-        addCar(car);
+      carRepository.update(car);
     }
 
 
