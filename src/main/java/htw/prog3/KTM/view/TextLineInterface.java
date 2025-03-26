@@ -208,7 +208,7 @@ public class TextLineInterface implements MenuInteractions {
 
     @Override
     public int getOption() {
-        System.out.println("Bitte wähle eine Option: ");
+        System.out.println("Bitte wähle eine Option (Die Zahl bitte eintippen): ");
         if(scanner.hasNextInt()) {
             int option = scanner.nextInt();
             scanner.nextLine(); 
