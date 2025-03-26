@@ -42,7 +42,8 @@ Wenn du die Option auswählst die WerkstattInformationen einzusehen, solltest du
 
 Wenn du einen Kunden anlegst solltest du eine ID als Antwort erhalten mit der du nach ihm suchen kannst.
 
-... (Mehr Beispiele einfügen)
+Einfaches Anwendungsbeispiel um eine Service anzulegen:
+....TODO!!!!!!
 
 ## Bekannte Fehler / Einschränkungen  
 Fehler hier einfügen (am ende)
