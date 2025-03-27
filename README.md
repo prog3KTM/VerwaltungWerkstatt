@@ -3,7 +3,7 @@
 
 WerkstattVerwaltung ist eine Software zur effizienten Verwaltung von Kunden, Fahrzeugen und Werkstattservices. Mit ihr können Werkstätten Kunden- und Fahrzeugdaten erfassen, Serviceaufträge erstellen und den Bearbeitungsstatus verfolgen. Die Anwendung erleichtert die Organisation von Wartungen, Reparaturen und Rechnungen, um den Arbeitsablauf zu optimieren.
 
-(Hier Menüeinführung einfügen)
+Zum Bedienen entweder einer der Optionen angeben (die Zahlen die links stehen zur Option) oder falls aufgefordert Zahlen und Wörter.
 
 ## Liste wichtigster Features und Funktionen  
 
