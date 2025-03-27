@@ -77,15 +77,15 @@ Wenn du einen Kunden anlegst solltest du eine ID als Antwort erhalten mit der du
    
 ![image](https://github.com/user-attachments/assets/a4aae0f1-2688-49ea-8bd2-343e90315933)
 
-7.Hier wählt man einfach die Option 3 aus:
+7. Hier wählt man einfach die Option 3 aus:
 
 ![image](https://github.com/user-attachments/assets/f10b068c-3005-4324-a0f6-7e017d62462e)
 
-8.Nun wird natürlich gefragt, für welchen Kunden das Auto hinzugefügt werden soll. Da wir den Kunden mit der ID 1 erstellt haben, wählen wir diesen aus:
+8. Nun wird natürlich gefragt, für welchen Kunden das Auto hinzugefügt werden soll. Da wir den Kunden mit der ID 1 erstellt haben, wählen wir diesen aus:
 
 ![image](https://github.com/user-attachments/assets/9ea53bed-8b40-4065-b154-30a9d3ee2f7f)
 
-9.Nun werden hier die Auto-ID, das Modell, die Marke und das Kennzeichen abgefragt:
+9. Nun werden hier die Auto-ID, das Modell, die Marke und das Kennzeichen abgefragt:
 
 ![image](https://github.com/user-attachments/assets/555cc6bd-be25-4b81-8a76-1a8b5daee7e7)
 
@@ -93,7 +93,7 @@ Wenn du einen Kunden anlegst solltest du eine ID als Antwort erhalten mit der du
 
 ![image](https://github.com/user-attachments/assets/9fb3d4ef-8bba-4d6e-8a91-ebe8a2f50ca0)
 
-11.Hier wählt man die Option 1, um einen neuen Service für das Auto hinzuzufügen. Zudem legt man fest, für welches Auto der Service erstellt werden soll:
+11. Hier wählt man die Option 1, um einen neuen Service für das Auto hinzuzufügen. Zudem legt man fest, für welches Auto der Service erstellt werden soll:
 
 ![image](https://github.com/user-attachments/assets/2ac81c7b-4a16-4c12-9781-c7855a0da9fe)
 
@@ -101,7 +101,7 @@ Wenn du einen Kunden anlegst solltest du eine ID als Antwort erhalten mit der du
     
 ![image](https://github.com/user-attachments/assets/5fb8644a-29d3-404e-ae48-57376dc5a8de)
 
-13.Hier gibt man nun die neue Service-ID an und wählt den Service-Typen „Reifenwechsel“ aus:
+13. Hier gibt man nun die neue Service-ID an und wählt den Service-Typen „Reifenwechsel“ aus:
 
 ![image](https://github.com/user-attachments/assets/f1c04247-010d-42d7-88c1-4eece979f08d)
 
