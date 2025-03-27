@@ -18,8 +18,8 @@ class CustomerTest {
     @BeforeEach
     void setUp() {
         customer = new Customer(1, "Max Mustermann", "Musterstraße 1", "0123456789");
-        car1 = new Car("1", "Model S", "Tesla", "ABC-123", "AVAILABLE");
-        car2 = new Car("2", "Golf", "Volkswagen", "XYZ-456", "IN_SERVICE");
+        car1 = new Car("1", "Model S", "Tesla", "ABC-123", "1");
+        car2 = new Car("2", "Golf", "Volkswagen", "XYZ-456", "2");
     }
 
     @Test

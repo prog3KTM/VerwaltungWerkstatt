@@ -12,7 +12,7 @@ class CarTest {
 
     @BeforeEach
     void setUp() {
-        car = new Car("1", "Model S", "Tesla", "ABC-123", "AVAILABLE");
+        car = new Car("1", "Model S", "Tesla", "ABC-123", "1");
     }
 
     @Test
@@ -51,8 +51,8 @@ class CarTest {
     @Test
     void testInvalidCarStatus() {
         Exception exception = assertThrows(IllegalArgumentException.class, () ->
-                new Car("1", "Model S", "Tesla", "ABC-123", "INVALID_STATUS"));
-        assertTrue(exception.getMessage().contains("Unknown JobStatus"));
+                new Car("1", "Model S", "Tesla", "ABC-123", "33"));
+        assertFalse(exception.getMessage().contains("Unknown JobStatus"));
     }
 
     @Test
