@@ -45,10 +45,12 @@ public class Car implements CarRepairComponent {
     }
 
     public enum CarStatus {
+        NONE,
         AVAILABLE,
         IN_SERVICE,
         SOLD;
 
+        /*
         public static CarStatus fromString(String status) {
             try {
                 return CarStatus.valueOf(status.toUpperCase());
@@ -56,11 +58,31 @@ public class Car implements CarRepairComponent {
                 throw new IllegalArgumentException("Unknown JobStatus: " + status);
             }
         }
+*/
+        public static CarStatus fromString(String status) {
+            return switch (status) {
+                case "0" -> CarStatus.NONE;
+                case "1" -> CarStatus.AVAILABLE;   // Corresponds to AVAILABLE
+                case "2" -> CarStatus.IN_SERVICE;  // Corresponds to IN_SERVICE
+                case "3" -> CarStatus.SOLD;        // Corresponds to SOLD
+                default -> throw new IllegalArgumentException("Invalid CarStatus string: " + status);
+            };
+        }
 
+        public static int toInt(CarStatus status) {
+            return switch (status) {
+                case AVAILABLE -> 1;  // 1 for AVAILABLE
+                case IN_SERVICE -> 2;  // 2 for IN_SERVICE
+                case SOLD -> 3;  // 3 for SOLD
+                default -> throw new IllegalArgumentException("Unknown CarStatus: " + status);
+            };
+        }
 
         public static String toString(CarStatus status) {
             return status.name();
         }
+
+
     }
 
 

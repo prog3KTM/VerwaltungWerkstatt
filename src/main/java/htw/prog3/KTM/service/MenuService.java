@@ -880,8 +880,8 @@ public class MenuService {
             String brand = parts[1];
             String model = parts[2];
             String licensePlate = parts[3];
-            
-            Car car = new Car(id, model, brand, licensePlate, CarStatus.AVAILABLE.toString());
+            // carStatus 1 = AVAILABLE
+            Car car = new Car(id, model, brand, licensePlate,"1");
             
             // Add the car to the customer and update in the database
             selectedCustomer.addCar(car);
