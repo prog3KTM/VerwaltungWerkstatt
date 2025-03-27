@@ -110,4 +110,4 @@ Wenn du einen Kunden anlegst solltest du eine ID als Antwort erhalten mit der du
 ![image](https://github.com/user-attachments/assets/a7dced85-db58-40b9-a5de-1846780af5f4)
 
 ## Bekannte Fehler / Einschränkungen  
-Fehler hier einfügen (am ende)
+1. Es können Fehler in der CLI
