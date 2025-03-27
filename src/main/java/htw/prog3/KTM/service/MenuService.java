@@ -143,6 +143,7 @@ public class MenuService {
             if(serviceJobController.getServiceJobById(serviceId).isPresent()
                 || repairJobController.getRepairJobById(serviceId).isPresent()) {
                 orderToUpdate.addService(serviceId);
+                menu.sendMessage("Service-ID wurde hinzugefügt");
             }else {
                 if(serviceId != 9999) {
                     menu.throwError("Diese ServiceJob existiert nicht.");
@@ -222,6 +223,7 @@ public class MenuService {
             if(repairJobController.getRepairJobById(serviceId).isPresent()
                     || serviceJobController.getServiceJobById(serviceId).isPresent()) {
                 services.add(serviceId);
+                menu.sendMessage("Service-ID wurde hinzugefügt");
             }else {
                 if(serviceId != 9999) {
                     menu.throwError("Dieser Service existiert nicht.");
