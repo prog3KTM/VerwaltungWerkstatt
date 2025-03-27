@@ -105,7 +105,7 @@ Wenn du einen Kunden anlegst solltest du eine ID als Antwort erhalten mit der du
 
 ![image](https://github.com/user-attachments/assets/f1c04247-010d-42d7-88c1-4eece979f08d)
 
-14. Nun kann man auch eine Beschreibung eingeben, falls nötig. Nachdem der Service erfolgreich hinzugefügt wurde, befindet man sich wieder im Hauptmenü.
+14. Nun kann man auch eine Beschreibung eingeben, falls nötig. Nachdem der Service erfolgreich hinzugefügt wurde, befindet man sich wieder im Hauptmenü:
 
 ![image](https://github.com/user-attachments/assets/a7dced85-db58-40b9-a5de-1846780af5f4)
 
