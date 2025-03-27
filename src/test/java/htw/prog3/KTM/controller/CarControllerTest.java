@@ -34,7 +34,7 @@ class CarControllerTest {
     }
     
     // Use string literals directly instead of enum.toString()
-    private static Car car_testdata = new Car("0", "Test Model", "Test Brand", "TEST-123", "AVAILABLE");
+    private static Car car_testdata = new Car("0", "Test Model", "Test Brand", "TEST-123", "1");
 
     @Test
     void addCar_ValidCar_CarAddedSuccessfully() {
@@ -45,7 +45,7 @@ class CarControllerTest {
         String uniqueId = String.valueOf(System.currentTimeMillis());
         Car testCar = new Car(uniqueId, "Test Model " + uniqueId, "Test Brand", 
                              "TEST-" + uniqueId.substring(uniqueId.length() - 4), 
-                             "AVAILABLE");
+                             "1");
         
         carController.addCar(testCar);
         
@@ -81,7 +81,7 @@ class CarControllerTest {
         String uniqueId = String.valueOf(System.currentTimeMillis());
         Car testCar = new Car(uniqueId, "Test Model " + uniqueId, "Test Brand", 
                              "TEST-" + uniqueId.substring(uniqueId.length() - 4), 
-                             "AVAILABLE");
+                             "1");
         
         carController.addCar(testCar);
         
@@ -113,7 +113,7 @@ class CarControllerTest {
         String uniqueId = String.valueOf(System.currentTimeMillis());
         Car testCar = new Car(uniqueId, "Test Model " + uniqueId, "Test Brand", 
                              "TEST-" + uniqueId.substring(uniqueId.length() - 4), 
-                             "AVAILABLE");
+                             "1");
         
         carController.addCar(testCar);
         

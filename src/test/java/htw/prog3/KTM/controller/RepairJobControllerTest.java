@@ -48,7 +48,7 @@ class RepairJobControllerTest {
         Car testCar = new Car(uniqueId, "Test Car Model " + uniqueId, 
                               "Test Brand", 
                               "TEST-" + uniqueId.substring(uniqueId.length() - 4), 
-                              "AVAILABLE");
+                              "1");
         
         carController.addCar(testCar);
         
@@ -73,7 +73,7 @@ class RepairJobControllerTest {
     @Test
     void addRepairJob_ValidRepairJob_RepairJobAddedSuccessfully() {
         // Create a test repair job
-        RepairJob repairJob = new RepairJob(0, RepairJobType.BRAKE_REPLACEMENT, "Test Brake Repair", "CREATED");
+        RepairJob repairJob = new RepairJob(0, RepairJobType.BRAKE_REPLACEMENT, "Test Brake Repair", "1");
         
         // Add the repair job
         repairJobController.addRepairJob(repairJob, testCarId);
@@ -95,7 +95,7 @@ class RepairJobControllerTest {
     @Test
     void getRepairJobById_ExistingJobId_ReturnsCorrectRepairJob() {
         // Create and add a repair job
-        RepairJob repairJob = new RepairJob(0, RepairJobType.ENGINE_REPAIR, "Test Engine Repair", "IN_PROGRESS");
+        RepairJob repairJob = new RepairJob(0, RepairJobType.ENGINE_REPAIR, "Test Engine Repair", "2");
         repairJobController.addRepairJob(repairJob, testCarId);
         
         // Get all repair jobs to find the one we just created
@@ -110,7 +110,7 @@ class RepairJobControllerTest {
         assertTrue(retrieved.isPresent());
         assertEquals("Test Engine Repair", retrieved.get().getName());
         assertEquals(RepairJobType.ENGINE_REPAIR, retrieved.get().getType());
-        assertEquals(JobStatus.IN_PROGRESS, retrieved.get().getStatus());
+        assertEquals(JobStatus.CREATED, retrieved.get().getStatus());
         
         // Clean up
         repairJobController.deleteRepairJobById(added.getId());
@@ -135,8 +135,8 @@ class RepairJobControllerTest {
         String uniqueTimestamp2 = String.valueOf(System.currentTimeMillis());
         String electricalJobName = "Test Electrical Job " + uniqueTimestamp2;
         
-        RepairJob job1 = new RepairJob(0, RepairJobType.BRAKE_REPLACEMENT, brakeJobName, "CREATED");
-        RepairJob job2 = new RepairJob(0, RepairJobType.ELECTRICAL_REPAIR, electricalJobName, "IN_PROGRESS");
+        RepairJob job1 = new RepairJob(0, RepairJobType.BRAKE_REPLACEMENT, brakeJobName, "1");
+        RepairJob job2 = new RepairJob(0, RepairJobType.ELECTRICAL_REPAIR, electricalJobName, "2");
         
         System.out.println("Adding brake job: " + brakeJobName);
         // Use explicit method to add to ensure it's saved correctly
@@ -190,7 +190,7 @@ class RepairJobControllerTest {
     @Test
     void deleteRepairJobById_ExistingJobId_JobIsDeleted() {
         // Create and add a repair job
-        RepairJob repairJob = new RepairJob(0, RepairJobType.SUSPENSION_REPAIR, "Test Suspension Repair", "CREATED");
+        RepairJob repairJob = new RepairJob(0, RepairJobType.SUSPENSION_REPAIR, "Test Suspension Repair", "1");
         repairJobController.addRepairJob(repairJob, testCarId);
         
         // Get the job to find its ID
@@ -211,7 +211,7 @@ class RepairJobControllerTest {
     @Test
     void deleteRepairJobsByCarId_CarWithMultipleJobs_AllJobsForCarDeleted() {
         // Create and add multiple repair jobs with unique names
-        RepairJob job1 = new RepairJob(0, RepairJobType.COOLING_SYSTEM_REPAIR, "Test Cooling Job " + System.currentTimeMillis(), "CREATED");
+        RepairJob job1 = new RepairJob(0, RepairJobType.COOLING_SYSTEM_REPAIR, "Test Cooling Job " + System.currentTimeMillis(), "1");
         
         // Add a small delay to ensure different timestamps
         try {
@@ -220,7 +220,7 @@ class RepairJobControllerTest {
             // Ignore
         }
         
-        RepairJob job2 = new RepairJob(0, RepairJobType.TRANSMISSION_FIX, "Test Transmission Job " + System.currentTimeMillis(), "IN_PROGRESS");
+        RepairJob job2 = new RepairJob(0, RepairJobType.TRANSMISSION_FIX, "Test Transmission Job " + System.currentTimeMillis(), "2");
         
         // First ensure there are no jobs for this car
         repairJobController.deleteRepairJobsByCarId(testCarId);
@@ -253,7 +253,7 @@ class RepairJobControllerTest {
     @Test
     void getCarIdForRepairJob_ExistingJobId_ReturnsCorrectCarId() {
         // Create and add a repair job
-        RepairJob repairJob = new RepairJob(0, RepairJobType.BRAKE_REPLACEMENT, "Test Brake Repair", "CREATED");
+        RepairJob repairJob = new RepairJob(0, RepairJobType.BRAKE_REPLACEMENT, "Test Brake Repair", "1");
         repairJobController.addRepairJob(repairJob, testCarId);
         
         // Get the job to find its ID

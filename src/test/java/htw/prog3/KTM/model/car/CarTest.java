@@ -9,7 +9,7 @@ class CarTest {
     @Test
     void testCarConstruction() {
         // Create a car with string status
-        Car car = new Car("1", "Test Model", "Test Brand", "TEST-123", "AVAILABLE");
+        Car car = new Car("1", "Test Model", "Test Brand", "TEST-123", "1");
         
         // Basic assertions
         assertEquals("1", car.getId());
@@ -22,7 +22,7 @@ class CarTest {
     @Test
     void testCarSetters() {
         // Create a car
-        Car car = new Car("1", "Test Model", "Test Brand", "TEST-123", "AVAILABLE");
+        Car car = new Car("1", "Test Model", "Test Brand", "TEST-123", "1");
         
         // Update values
         car.setId("2");
