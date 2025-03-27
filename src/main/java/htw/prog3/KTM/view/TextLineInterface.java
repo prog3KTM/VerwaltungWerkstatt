@@ -34,7 +34,7 @@ public class TextLineInterface implements MenuInteractions {
         System.out.println("5.  OrderMenü ansehen.");
         System.out.println("6.  KundenMenü ansehen.");
         System.out.println("7.  RepairMenü ansehen.");
-        System.out.println("8.  Lösche alle Daten.");
+        System.out.println("8.  Lösche alle Daten aus der Datenbank(Wird direkt ausgeführt).");
         System.out.println("99. Programm beenden.");
     }
 
